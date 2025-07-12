@@ -228,7 +228,7 @@ sections:
     items:
       - type: FeaturedItem
         subtitle: 'Experience:'
-        text: >
+        text: >+
           **2014-Current**
 
 
@@ -254,12 +254,6 @@ sections:
 
           *   Soldermask process engineer in a circuit board manufacturing plant
 
-
-          **2008**
-
-
-          *   Graduated B.Sc. in Chemical Engineering from the University of
-          Washington in Seattle
         styles:
           self:
             textAlign: left
