@@ -228,26 +228,38 @@ sections:
     items:
       - type: FeaturedItem
         subtitle: 'Experience:'
-        text: |-
-          **Current**
+        text: >
+          **2014-Current**
 
-          * freelance @freelance.me
 
-          **2018-2021**
+          *   Online math and science tutor for WyzAnt.com.  Currently
+          maintaining a 5.0/5.0 rating.
 
-          * fullstack at this startup
 
-          **2015**
+          **2012-2013**
 
-          * senior front-end at this place
 
-          **2013**
+          *   Implemented and maintained a simulated control system environment
+          for a military training program.
 
-          * intern developer at a big company
 
-          **2011**
+          **2009-2012**
 
-          * flipping burgers
+
+          *   Field service technician for Honeywell Process Solutions
+
+
+          **2008-2009**
+
+
+          *   Soldermask process engineer in a circuit board manufacturing plant
+
+
+          **2008**
+
+
+          *   Graduated B.Sc. in Chemical Engineering from the University of
+          Washington in Seattle
         styles:
           self:
             textAlign: left
