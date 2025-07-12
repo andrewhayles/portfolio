@@ -192,7 +192,7 @@ sections:
       - type: Label
         label: C# programming
       - type: Label
-        label: Swift
+        label: Microsoft Excel
   - type: DividerSection
     styles:
       self:
