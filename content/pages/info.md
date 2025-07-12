@@ -265,18 +265,15 @@ sections:
             textAlign: left
       - type: FeaturedItem
         subtitle: 'Education:'
-        text: |-
-          **2015-2018**
+        text: |+
+          **2025**
 
-          * ba computer sciense at a semi fancy school
+          *   Statistics with Python Coursera.org Certificate
 
-          **2014**
+          **2024**
 
-          * react certificate somewhere
+          *   CompTIA A+ Certificate (valid for three years)
 
-          **2011**
-
-          * my highschool
         styles:
           self:
             textAlign: left
