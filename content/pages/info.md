@@ -182,7 +182,7 @@ sections:
       - type: Label
         label: Python programming
       - type: Label
-        label: React
+        label: SQL programming
       - type: Label
         label: Microsoft Office
       - type: Label
