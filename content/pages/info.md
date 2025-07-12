@@ -193,6 +193,9 @@ sections:
         label: C# programming
       - type: Label
         label: Microsoft Excel
+      - type: Label
+        label: Math and Science
+        url: ''
   - type: DividerSection
     styles:
       self:
