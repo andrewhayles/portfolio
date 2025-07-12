@@ -1,6 +1,6 @@
 ---
 type: ProjectLayout
-title: Chess Rating Project
+title: Chess Database Analysis
 colors: colors-a
 date: '2025-07-12'
 client: ''
