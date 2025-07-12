@@ -265,14 +265,24 @@ sections:
             textAlign: left
       - type: FeaturedItem
         subtitle: 'Education:'
-        text: |+
+        text: >+
           **2025**
+
 
           *   Statistics with Python Coursera.org Certificate
 
+
           **2024**
 
-          *   CompTIA A+ Certificate (valid for three years)
+
+          *   CompTIA A+ Certificate (valid for three yearss
+
+
+          **2008**
+
+
+          *   B.Sc. Chemical Engineering from the University of Washington in
+          Seattle
 
         styles:
           self:
