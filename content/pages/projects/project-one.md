@@ -4,7 +4,9 @@ title: Chess Rating Project
 colors: colors-a
 date: '2025-07-12'
 client: ''
-description: This project was inspired by Hindemburg Mel
+description: >-
+  This project was inspired by a friend and analyzes a database of my personal
+  chess games using an interesting technique.
 featuredImage:
   type: ImageBlock
   url: /images/bg1.jpg
