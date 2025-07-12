@@ -190,7 +190,7 @@ sections:
       - type: Label
         label: Netlify
       - type: Label
-        label: C++
+        label: C# programming
       - type: Label
         label: Swift
   - type: DividerSection
