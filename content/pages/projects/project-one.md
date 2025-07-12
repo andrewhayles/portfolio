@@ -2,7 +2,7 @@
 type: ProjectLayout
 title: Chess Rating Project
 colors: colors-a
-date: '2025-07-15'
+date: '2025-07-12'
 client: Awesome client
 description: >-
   It’s hard to imagine that I’ve that I wrote all this code by myself, probably
