@@ -186,7 +186,7 @@ sections:
       - type: Label
         label: Microsoft Office
       - type: Label
-        label: Next.js
+        label: Data analysis
       - type: Label
         label: Netlify
       - type: Label
