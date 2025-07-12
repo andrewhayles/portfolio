@@ -5,9 +5,8 @@ colors: colors-a
 date: '2025-07-12'
 client: ''
 description: >-
-  It’s hard to imagine that I’ve that I wrote all this code by myself, probably
-  because I worked with an entire team :) but they definitely followed my lead
-  most of the time.
+  I created this project to analyze all of my test data that has been collected
+  over many years.
 featuredImage:
   type: ImageBlock
   url: /images/bg3.jpg
