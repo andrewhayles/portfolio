@@ -1,11 +1,12 @@
 ---
 type: ProjectLayout
-title: A very cool code project
+title: Chess Database Analysis
 colors: colors-a
-date: '2021-10-15'
-client: Awesome client
+date: '2025-07-12'
+client: ''
 description: >-
-  It’s hard to imagine that I’ve that I wrote all this code by myself, probably because I worked with an entire team :) but they definitely followed my lead most of the time.
+  This project was inspired by a friend and analyzes a database of my personal
+  chess games using an interesting technique.
 featuredImage:
   type: ImageBlock
   url: /images/bg1.jpg
