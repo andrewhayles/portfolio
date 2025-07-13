@@ -15,14 +15,132 @@ media:
   altText: Project image
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ante lorem, tincidunt ac leo efficitur, feugiat tempor odio. Curabitur at auctor sapien. Etiam at cursus enim. Suspendisse sed augue tortor. Nunc eu magna vitae lorem pellentesque fermentum. Sed in facilisis dui. Nulla molestie risus in mi dapibus, eget porta lorem semper. Donec sed facilisis nibh. Curabitur eget dui in libero euismod commodo nec sit amet est. Etiam id ipsum aliquam, vehicula erat sit amet, consequat tortor.
+I created this code to analyze my personal health data from my MorePro AIR2 Fitness Tracker watch and my body composition scale and my regular scale.  It is written in Python and it simply reads a CSV and performs some calculations and creates some visualizations.
 
-Etiam facilisis lacus nec pretium lobortis. Praesent dapibus justo non efficitur efficitur. Nullam viverra justo arcu, eget egestas tortor pretium id. Sed imperdiet mattis eleifend. Vivamus suscipit et neque imperdiet venenatis. In malesuada sed urna eget vehicula. Donec fermentum tortor sit amet nisl elementum fringilla. Pellentesque dapibus suscipit faucibus. Nullam malesuada sed urna quis rutrum. Donec facilisis lorem id maximus mattis. Vestibulum quis elit magna. Vestibulum accumsan blandit consequat. Phasellus quis posuere quam.
+```
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
 
-> “Everybody should learn to program a computer, because it teaches you how to think.”
+df = pd.read_csv("health.csv", usecols=['WEIGHT', 'BPAVGSYS',	'BPAVGDIA',	'BPMAXSYS',	'BPMAXDIA',	'BPMINSYS',	
+                                        'BPMINDIA',	'SLEEPTOTAL','DEEPSLEEP','LIGHTSLEEP','HRAVG','HRMAX','HRMIN',
+                                        'STRESSAVG','STRESSMAX','STRESSMIN'])
+                                        
+# Basic statistics
+summary = df.describe(percentiles=[.25, .5, .75]).T
+summary['IQR'] = summary['75%'] - summary['25%']
 
-Vestibulum ullamcorper risus auctor eleifend consequat. Vivamus mollis in tellus ac ullamcorper. Vestibulum sit amet bibendum ipsum, vitae rutrum ex. Nullam cursus, urna et dapibus aliquam, urna leo euismod metus, eu luctus justo mi eget mauris. Proin felis leo, volutpat et purus in, lacinia luctus eros. Pellentesque lobortis massa scelerisque lorem ullamcorper, sit amet elementum nulla scelerisque. In volutpat efficitur nulla, aliquam ornare lectus ultricies ac. Mauris sagittis ornare dictum. Nulla vel felis ut purus fermentum pretium. Sed id lectus ac diam aliquet venenatis. Etiam ac auctor enim. Nunc velit mauris, viverra vel orci ut, egestas rhoncus diam. Morbi scelerisque nibh tellus, vel varius urna malesuada sed. Etiam ultricies sem consequat, posuere urna non, maximus ex. Mauris gravida diam sed augue condimentum pulvinar vel ac dui. Integer vel convallis justo.
+# Add skewness and kurtosis
+summary['skewness'] = df.skew()
+summary['kurtosis'] = df.kurtosis()
 
-Nam rutrum magna sed pellentesque lobortis. Etiam quam mauris, iaculis eget ex ac, rutrum scelerisque nisl. Cras finibus dictum ex sed tincidunt. Morbi facilisis neque porta, blandit mauris quis, pharetra odio. Aliquam dictum quam quis elit auctor, at vestibulum ex pulvinar. Quisque lobortis a lectus quis faucibus. Nulla vitae pellentesque nibh, et fringilla erat. Praesent placerat ac est at tincidunt. Praesent ultricies a ex at ultrices. Etiam sed tincidunt elit. Nulla sagittis neque neque, ultrices dignissim sapien pellentesque faucibus. Donec tempor orci sed consectetur dictum. Ut viverra ut enim ac semper. Integer lacinia sem in arcu tempor faucibus eget non urna. Praesent vel nunc eu libero aliquet interdum non vitae elit. Maecenas pharetra ipsum dolor, et iaculis elit ornare ac.
+# Display key statistics
+print(summary[['mean', 'std', 'min', '50%', 'max', 'IQR', 'skewness', 'kurtosis']])
+               
+plt.figure(figsize=(16, 20))
+for i, col in enumerate(df.columns, 1):
+    plt.subplot(4, 4, i)
+    sns.histplot(df[col], kde=True, color='skyblue')
+    plt.title(f'Distribution: {col}')
+    plt.xlabel('')
+plt.tight_layout()
+plt.suptitle('Health Marker Distributions', y=1.02, fontsize=20)
+plt.show()
 
-Aenean scelerisque ullamcorper est aliquet blandit. Donec ac tellus enim. Vivamus quis leo mattis, varius arcu at, convallis diam. Donec ac leo at nunc viverra molestie ac viverra nisi. Proin interdum at turpis at varius. Nunc sit amet ex suscipit, convallis ligula eu, pretium turpis. Sed ultricies neque vel mi malesuada, et mollis risus lobortis. Sed condimentum venenatis mauris, id elementum dolor gravida ac. Sed sodales tempus neque, quis iaculis arcu tincidunt ut. Donec vitae faucibus dui. In hac habitasse platea dictumst. Donec erat ex, ullamcorper a massa a, porttitor porta ligula.
+plt.figure(figsize=(16, 10))
+sns.boxplot(data=df.melt(var_name='Marker'), 
+            x='Marker', 
+            y='value')
+plt.xticks(rotation=45)
+plt.title('Comparison of Health Markers')
+plt.ylabel('Value')
+plt.tight_layout()
+plt.show()
+
+# Normalize key statistics for visualization
+stats_to_show = summary[['mean', 'std', '50%', 'IQR']]
+normalized_stats = (stats_to_show - stats_to_show.min()) / (stats_to_show.max() - stats_to_show.min())
+
+plt.figure(figsize=(12, 8))
+sns.heatmap(normalized_stats.T, 
+            annot=stats_to_show.T,
+            fmt=".2f",
+            cmap='viridis',
+            cbar_kws={'label': 'Normalized Value'})
+plt.title('Normalized Summary Statistics Comparison')
+plt.xlabel('Health Markers')
+plt.tight_layout()
+plt.show()
+
+plt.figure(figsize=(16, 14))
+corr_matrix = df.corr()
+mask = np.triu(np.ones_like(corr_matrix, dtype=bool))
+
+sns.heatmap(corr_matrix, 
+            mask=mask,
+            annot=True, 
+            fmt=".2f", 
+            cmap='coolwarm',
+            center=0,
+            vmin=-1, vmax=1)
+plt.title('Health Marker Correlations')
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
+
+from tabulate import tabulate
+
+# Generate table data
+table_data = []
+for col in df.columns:
+    table_data.append([
+        col,
+        f"{summary.loc[col, 'mean']:.2f} ± {summary.loc[col, 'std']:.2f}",
+        f"{summary.loc[col, 'min']:.1f} - {summary.loc[col, 'max']:.1f}",
+        summary.loc[col, '50%'],
+        summary.loc[col, 'IQR'],
+        f"{summary.loc[col, 'skewness']:.2f}"
+    ])
+
+# Display as formatted table
+print(tabulate(table_data,
+               headers=['Marker', 'Mean ± SD', 'Range', 'Median', 'IQR', 'Skewness'],
+               tablefmt='github',
+               floatfmt=".2f"))
+               
+import plotly.express as px
+from plotly.subplots import make_subplots
+
+# Create interactive distributions
+fig = make_subplots(rows=4, cols=4, subplot_titles=df.columns)
+for i, col in enumerate(df.columns, 1):
+    row = (i-1)//4 + 1
+    col_pos = (i-1)%4 + 1
+    fig.add_trace(px.histogram(df, x=col, nbins=50).data[0], row=row, col=col_pos)
+fig.update_layout(height=900, width=1200, title_text="Health Marker Distributions")
+fig.show()
+
+# Interactive correlation matrix
+fig = px.imshow(corr_matrix, text_auto=".2f", color_continuous_scale='RdBu_r', zmin=-1, zmax=1)
+fig.update_layout(title="Health Marker Correlations", height=800, width=800)
+fig.show()
+```
+
+These are the visualizations it creates:
+
+![These are the overall distributions of the variables measured by me and by the watch](/images/overall_distributions.png)
+
+After this visual is closed, the next visual will be generated (the next line of code is executed in the Python script):
+
+![The colors are normalized by row based on the value inside the box (the highest numbers are yellow, the lowest numbers are dark blue)](/images/heatmap_normalized.png)
+
+Then the following is produced:
+
+![These are the correlations of the variables with each other, the more red the higher positive, the more blue the lower negative](/images/heatmap_correlations.png)
+
+Lastly, a table is produced with ranges of the variables and some other useful information:
+
+![These are the ranges of each variable.](/images/range_calculations.png)
+
+As can be seen, a simple CSV file can be read by the pandas library in Python and some statistical calculations can be made with the numpy library followed by visualizations prepared by the seaborn and matplotlib libraries.  
