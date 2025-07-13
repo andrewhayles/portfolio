@@ -289,16 +289,55 @@ plt.show()
 ```
 
 This script does a lot of things and I'm not going to talk about all of them right now but above all it produces some interesting visualizations which I think tell most of the story.  As they say, a picture speaks 1,000 words, and I believe this is true.  These pictures summarize the data well.  I will later add more analysis here and verbal discussion of the results.  For now, these are the visualizations:
+
+Histogram of timed/untimed scores superimposed on each other
+
 ![Histogram of timed/untimed scores superimposed on each other](/images/histogram_timed_untimed1.png)
+
+QQ plot of timed scores
+
 ![QQ plot of timed scores](/images/qqplot_timed2.png)
+
+QQ plot of untimed scores
+
 ![QQ plot of untimed scores](/images/qqplot_untimed3.png)
+
+Probability plot of timed scores
+
 ![Probability plot of timed scores](/images/probability_plot_timed4.png)
+
+Probability plot of untimed scores
+
 ![Probabliity plot of untimed scores](/images/probability_plot_untimed5.png)
+
+Boxplot of authors (visible are the ranges of scores for each author)
+
 ![Boxplot of authors (visible are the ranges of scores for each author)](/images/box_plot_author6.png)
+
+Boxplot of tests taken in hot months versus cold months
+
 ![Boxplot of tests taken in hot months versus cold months](/images/box_plot_hotcold7.png)
+
+Boxplot of timed versus untimed tests
+
 ![Boxplot of timed versus untimed tests](/images/box_plot_timeduntimed8.png)
+
+Boxplot of test types
+
 ![Boxplot of test types](/images/box_plot_testtype9.png)
+
+Violin plot of test types
+
 ![Violin plot of test types](/images/violin_plot10.png)
+
+Bell curve of scores
+
 ![Bell curve of scores](/images/bell_curve_of_scores11.png)
+
+Pie chart of test types
+
 ![Pie chart of test types](/images/piechart_testtype_12.png)
+
+Pie chart of authors
+
 ![Pie chart of authors](/images/piechart_author13.png)
