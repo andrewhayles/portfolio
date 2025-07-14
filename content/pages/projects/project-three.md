@@ -294,14 +294,6 @@ Histogram of timed/untimed scores superimposed on each other
 
 ![Histogram of timed/untimed scores superimposed on each other](/images/histogram_timed_untimed1.png)
 
-QQ plot of timed scores
-
-![QQ plot of timed scores](/images/qqplot_timed2.png)
-
-QQ plot of untimed scores
-
-![QQ plot of untimed scores](/images/qqplot_untimed3.png)
-
 Probability plot of timed scores
 
 ![Probability plot of timed scores](/images/probability_plot_timed4.png)
