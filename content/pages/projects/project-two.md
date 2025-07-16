@@ -25,7 +25,7 @@ After this visual is closed, the next visual will be generated (the next line of
 
 ![The colors are normalized by row based on the value inside the box (the highest numbers are yellow, the lowest numbers are dark blue)](/images/heatmap_normalized.png)
 
-Then the following is produced.  This a correlation table.  The the darker the red color, the higher the positive correlation.  The the darker the blue color, the lower the negative correlation.  As can be seen, there is a very strong positive correlation between heart rate, stress, and blood pressure.  These are apparently very tightly linked physiological indicators.  There is also a small negative correlation between sleep and stress levels:
+Then the following is produced.  This a correlation table.  The darker the red color, the higher the positive correlation.  The darker the blue color, the lower the negative correlation.  As can be seen, there is a very strong positive correlation between heart rate, stress, and blood pressure.  These are apparently very tightly linked physiological indicators.  There is also a small negative correlation between sleep and stress levels:
 
 ![These are the correlations of the variables with each other, the more red the higher positive, the more blue the lower negative](/images/heatmap_correlations.png)
 
