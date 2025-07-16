@@ -15,7 +15,28 @@ media:
   altText: Project image
 ---
 
-I created this code to analyze my personal health data from my MorePro AIR2 Fitness Tracker watch and my body composition scale and my regular scale.  It is written in Python and it simply reads a CSV and performs some calculations and creates some visualizations.
+This started with the question, "Am I in good health, and how do my personal health markers vary throughout the day, week, and month?"  To start answering this (in addition to seeking medical advice from a trained and licensed doctor), I purchased an affordable smart watch and I created this code to analyze my personal health data from my MorePro AIR2 Fitness Tracker watch and my body composition scale and my regular scale.  It is written in Python and it used the read_csv method to load the data into a memory location called a DataFrame in pandas and then creates several visualizations based on some statistical calculations using numpy for some of the more advanced calculations and seaborn for the visualizations.
+
+This is a plot of most of the variables I am tracking with histograms.  Most of the variables are in healthy ranges, although weight is an area of potential improvement:
+
+![These are the overall distributions of the variables measured by me and by the watch](/images/overall_distributions.png)
+
+After this visual is closed, the next visual will be generated (the next line of code is executed in the Python script).  The next step in solving my original problem is the following visualization.  This visual is colored based on row, so each row has a highest value and a lowest value, with a color scale defined on the right which shows the highest and lowest values (yellow corresponding to high values, dark blue corresponding to low values).  As can be seen, maximum heart rate (standard deviation and interquartile range) and maximum systolic blood pressure (mean and 50%) are the highest values:
+
+![The colors are normalized by row based on the value inside the box (the highest numbers are yellow, the lowest numbers are dark blue)](/images/heatmap_normalized.png)
+
+Then the following is produced.  This a correlation table.  The the darker the red color, the higher the positive correlation.  The the darker the blue color, the lower the negative correlation.  As can be seen, there is a very strong positive correlation between heart rate, stress, and blood pressure.  These are apparently very tightly linked physiological indicators.  There is also a small negative correlation between sleep and stress levels:
+
+![These are the correlations of the variables with each other, the more red the higher positive, the more blue the lower negative](/images/heatmap_correlations.png)
+
+Lastly, a table is produced with ranges of the variables (this tells me how my health markers vary somewhat) and some other useful information.  To get the variance throughout the day, actually looking at the data in the software application on my smart phone is necessary and predictable trends are manifest, stress rises when I wake up, reaches a peak, and decreases towards bed time.  Blood pressure and heart rate share a similar pattern.  If I get sick or have a night of poor sleep, stress, blood pressure, and heart rate tend to be higher:
+
+![These are the ranges of each variable.](/images/range_calculations.png)
+
+As can be seen, a simple CSV file can be read by the pandas library in Python and some statistical calculations can be made with the numpy library followed by visualizations prepared by the seaborn and matplotlib libraries.  In the future I'd like to analyze the data from my body composition scale as I collect enough data (I only use it twice per month because the measurement doesn't change much day-to-day and the battery dies rapidly if regularly used).  This project demonstrates the power of Python's data analysis libraries in transforming raw sensor data into actionable insights.
+
+The code used for this analysis is below:
+
 
 ```
 import pandas as pd
@@ -126,21 +147,3 @@ fig = px.imshow(corr_matrix, text_auto=".2f", color_continuous_scale='RdBu_r', z
 fig.update_layout(title="Health Marker Correlations", height=800, width=800)
 fig.show()
 ```
-
-These are the visualizations it creates:
-
-![These are the overall distributions of the variables measured by me and by the watch](/images/overall_distributions.png)
-
-After this visual is closed, the next visual will be generated (the next line of code is executed in the Python script):
-
-![The colors are normalized by row based on the value inside the box (the highest numbers are yellow, the lowest numbers are dark blue)](/images/heatmap_normalized.png)
-
-Then the following is produced:
-
-![These are the correlations of the variables with each other, the more red the higher positive, the more blue the lower negative](/images/heatmap_correlations.png)
-
-Lastly, a table is produced with ranges of the variables and some other useful information:
-
-![These are the ranges of each variable.](/images/range_calculations.png)
-
-As can be seen, a simple CSV file can be read by the pandas library in Python and some statistical calculations can be made with the numpy library followed by visualizations prepared by the seaborn and matplotlib libraries.  
