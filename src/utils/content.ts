@@ -88,23 +88,25 @@ function resolveReferences(content: types.ContentObject, fileToContent: Record<s
     }
 }
 
-function contentUrl(obj: types.ContentObject) {
+function contentUrl(obj: types.ContentObject): string | undefined {
+    const pagesBaseDir = 'content/pages';
     const fileName = obj.__metadata.id;
+
     if (!fileName.startsWith(pagesBaseDir)) {
-        return null;
+        console.warn('Content file', fileName, 'expected to be a page, but is not under', pagesBaseDir);
+        return undefined;
     }
-    // Use the title field for the slug, or fall back to the filename
-    const title = (obj as any).title || path.parse(fileName).name;
-    let url = '/' + slugify(title, { lower: true, strict: true });
-    
-    // Handle the index page specifically
-    if (path.parse(fileName).name === 'index') {
-        url = '/';
+
+    // remove the base directory and the file extension
+    let url = fileName.slice(pagesBaseDir.length).split('.')[0];
+
+    // if the url ends with '/index', remove it
+    if (url.endsWith('/index')) {
+        url = url.slice(0, -6) || '/';
     }
-    
+
     return url;
 }
-
 export function allContent(): types.ContentObject[] {
     let objects = contentFilesInPath(contentBaseDir).map((file) => readContent(file));
 
