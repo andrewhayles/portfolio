@@ -32,7 +32,7 @@ const Page: React.FC<PageComponentProps> = (props) => {
         </>
     );
 };
-
+/*
 export function getStaticPaths() {
     const allData = allContent();
     const paths = allData.map((obj) => obj.__metadata.urlPath).filter(Boolean);
@@ -45,5 +45,5 @@ export function getStaticProps({ params }) {
     const props = resolveStaticProps(urlPath, allData);
     return { props };
 }
-
+*/
 export default Page;
