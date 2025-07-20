@@ -28,8 +28,7 @@ sections:
     I am also currently studying theology, SQL programming, Python programming, chess, statistics (frequentist and Bayesian approaches), and I still enjoy taking experimental high range intelligence tests for the joy I get in solving the problems on them and remembering that God made me different from other people and that I need to work hard to share my unique abilities with others.
 	  
     Other things I am interested in include poetry, song-writing, gift-giving, personal health and fitness and nutrition, longevity, psychometrics in a general sense, investing, and learning other languages (although I will admit, this is not one of my strong abilities).
-	  
-	  
+
     styles:
       self:
         height: auto
