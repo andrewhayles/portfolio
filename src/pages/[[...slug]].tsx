@@ -7,8 +7,8 @@ import { seoGenerateMetaDescription, seoGenerateMetaTags, seoGenerateTitle } fro
 import { resolveStaticProps } from '@/utils/static-props-resolvers';
 
 const Page: React.FC<PageComponentProps> = (props) => {
-    const { global, ...page } = props;
-    const { site } = global;
+	const { global = {}, ...page } = props;
+	const { site } = global;
     const title = seoGenerateTitle(page, site);
     const metaTags = seoGenerateMetaTags(page, site);
     const metaDescription = seoGenerateMetaDescription(page, site);
@@ -32,7 +32,7 @@ const Page: React.FC<PageComponentProps> = (props) => {
         </>
     );
 };
-/*
+
 export function getStaticPaths() {
     const allData = allContent();
     const paths = allData.map((obj) => obj.__metadata.urlPath).filter(Boolean);
@@ -45,5 +45,5 @@ export function getStaticProps({ params }) {
     const props = resolveStaticProps(urlPath, allData);
     return { props };
 }
-*/
+
 export default Page;
