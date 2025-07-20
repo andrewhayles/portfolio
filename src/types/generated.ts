@@ -436,6 +436,7 @@ export type PageLayout = BaseContentObject & {
     type: 'PageLayout';
     title: string;
     sections?: SectionModels[];
+	markdownContent?: string;
     metaTitle?: string;
     metaDescription?: string;
     addTitleSuffix?: boolean;
