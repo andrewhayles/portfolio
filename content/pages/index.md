@@ -15,8 +15,7 @@ sections:
     backgroundSize: full
     title: Andrew Hayles
     subtitle: >-
-      I'm a technical person with a background in engineering, online tutoring,
-      programming, and data analysis.
+      I'm an aspiring data analyst with strong technical acumen in multiple domains including programming and mathematics.  I love extracting meaningful observations from data and unravelling the mysteries contained in a plethora of rows and columns or in any unstructured data set.
     styles:
       self:
         height: auto
@@ -62,46 +61,6 @@ sections:
           - pr-4
         textAlign: left
     subtitle: Projects
-  - type: ContactSection
-    colors: colors-f
-    backgroundSize: full
-    title: "Got an interesting project? Tell me more...\U0001F4AC"
-    form:
-      type: FormBlock
-      elementId: sign-up-form
-      fields:
-        - name: firstName
-          label: First Name
-          hideLabel: true
-          placeholder: First Name
-          isRequired: true
-          width: 1/2
-          type: TextFormControl
-        - name: lastName
-          label: Last Name
-          hideLabel: true
-          placeholder: Last Name
-          isRequired: false
-          width: 1/2
-          type: TextFormControl
-        - name: email
-          label: Email
-          hideLabel: true
-          placeholder: Email
-          isRequired: true
-          width: 1/2
-          type: EmailFormControl
-        - name: address
-          label: Address
-          hideLabel: true
-          placeholder: Address
-          isRequired: true
-          width: 1/2
-          type: TextFormControl
-      submitLabel: "Submit \U0001F680"
-      styles:
-        self:
-          textAlign: center
     styles:
       self:
         height: auto
