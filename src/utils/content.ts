@@ -94,7 +94,7 @@ function contentUrl(obj: types.ContentObject) {
         return null;
     }
     // Use the title field for the slug, or fall back to the filename
-    const title = obj.title || path.parse(fileName).name;
+    const title = (obj as any).title || path.parse(fileName).name;
     let url = '/' + slugify(title, { lower: true, strict: true });
     
     // Handle the index page specifically
