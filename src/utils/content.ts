@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import path from 'path';
 import glob from 'glob';
 import frontmatter from 'front-matter';
+import slugify from 'slugify';
 import { allModels } from '.stackbit/models';
 import * as types from '@/types';
 import { isDev } from './common';
@@ -90,15 +91,17 @@ function resolveReferences(content: types.ContentObject, fileToContent: Record<s
 function contentUrl(obj: types.ContentObject) {
     const fileName = obj.__metadata.id;
     if (!fileName.startsWith(pagesBaseDir)) {
-        console.warn('Content file', fileName, 'expected to be a page, but is not under', pagesBaseDir);
-        return;
+        return null;
     }
-
-    let url = fileName.slice(pagesBaseDir.length);
-    url = url.split('.')[0];
-    if (url.endsWith('/index')) {
-        url = url.slice(0, -6) || '/';
+    // Use the title field for the slug, or fall back to the filename
+    const title = obj.title || path.parse(fileName).name;
+    let url = '/' + slugify(title, { lower: true, strict: true });
+    
+    // Handle the index page specifically
+    if (path.parse(fileName).name === 'index') {
+        url = '/';
     }
+    
     return url;
 }
 
