@@ -7,7 +7,7 @@ import { seoGenerateMetaDescription, seoGenerateMetaTags, seoGenerateTitle } fro
 import { resolveStaticProps } from '@/utils/static-props-resolvers';
 
 const Page: React.FC<PageComponentProps> = (props) => {
-	const { global = {}, ...page } = props;
+	const { global = { site: null }, ...page } = props;
 	const { site } = global;
     const title = seoGenerateTitle(page, site);
     const metaTags = seoGenerateMetaTags(page, site);
