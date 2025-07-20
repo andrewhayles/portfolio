@@ -54,7 +54,7 @@ sections:
     actions:
       - type: Link
         label: Back home
-        url: /
+        url: content/pages/index.md
     showDate: false
     showDescription: true
     showFeaturedImage: true
