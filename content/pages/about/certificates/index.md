@@ -35,8 +35,8 @@ sections:
     actions: []
 ---
 
-[![IBM Course Certificate 1 - Introduction to Data Science](/images/ibm1.png)](images/whatisdatascience.pdf)
-[![IBM Course Certificate 2 - Tools in Data Science](/images/ibm2.png)](images/toolsfordatascience.pdf)
-[![IBM Course Certificate 3 - Data Science Methodology](/images/ibm3.png)](images/datasciencemethodology.pdf)
-[![University of Michigan Certificate - Statistics with Python](/images/statswithpython.png)](images/statswithpython.pdf)
-[![CompTIA A+ Certificate](/images/comptia.png)](images/comptiaAplus.pdf)
+[![IBM Course Certificate 1 - Introduction to Data Science](/images/ibm1.png)](/images/whatisdatascience.pdf)
+[![IBM Course Certificate 2 - Tools in Data Science](/images/ibm2.png)](/images/toolsfordatascience.pdf)
+[![IBM Course Certificate 3 - Data Science Methodology](/images/ibm3.png)](/images/datasciencemethodology.pdf)
+[![University of Michigan Certificate - Statistics with Python](/images/statswithpython.png)](/images/statswithpython.pdf)
+[![CompTIA A+ Certificate](/images/comptia.png)](/images/comptiaAplus.pdf)
