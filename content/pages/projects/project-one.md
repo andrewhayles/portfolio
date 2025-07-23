@@ -29,9 +29,17 @@ Here is the optimized graph for moves 10-14 only (inclusive). As can be seen, my
 
 ![Graph of hit count score versus rating for analysis for moves 10-14 only](/images/image2.png)
 
-I'm planning on putting this project in my portfolio to hopefully aid in demonstrating my data analysis, programming, and basic analytical skills for the purposes of changing jobs.  Hopefully I can convert this "hobby" of mine into a new career someday.
+Using SQL I applied a filter to my games to see if it made any difference in how long the game lasted on my win percentage.  It turns out it often seems to, but mostly doesn't matter.  However, since I found some interesting results in SQL I decided to do a more thorough analysis using Python and a statistical significance test called Chi-Square Test for Independence.  This is a good test for determining if there is indeed a relationship between categorical variables or not.  So I used Google Gemini to help build a script that would test different ranges of game-lengths for a statistically significant relationship.  This is what it found:
 
-If you’re interested in the script I used, here is an attached copy of it in text form:
+![Graph of p-values](/images/pvalues_chisquare.png)
+
+Essentially, there is no meaningful relationship between the length of the game and my percentage of wins except when one considers games that are between 0-49 plies (about 25 moves for both players) and games greater than or equal to 50 plies in length.  When you consider the specific win percentages for this range (see below):
+
+![Table of win percentages](/images/SQLoutput_chess_percentages.png)
+
+...one can easily see that when the games are shorter, I lose much more often, and when the games are longer, I normally win.  This could mean many things, like for example I am very skilled in the late middle-game to end game stages.  Or perhaps I am very poor in the opening.  I think what this truly reflects is that when I lose games it is normally as a result of making some foolish error in the early stages of the game which is already decisive by the 25th move, so that I normally resign or am checkmated in these games.  The vast majority of the games (over 2/3) that I don't make foolish mistakes in the opening and early middle-game in, I win.
+
+If you’re interested in the scripts I used, here is an attached copy of them in text form:
 ```
 import chess
 import chess.pgn
@@ -415,7 +423,7 @@ if __name__ == "__main__":
 ```
 
 The real_engines.csv file looks like this:
-
+```
 engine_name,path,rating,uci_options,executable_name
 maia_1100,"C:/Users/desja/Documents/Python_programs/chess_study/engines/leela_chess/m1100.bat",1100,"{}",m1100.bat
 maia_1200,"C:/Users/desja/Documents/Python_programs/chess_study/engines/leela_chess/m1200.bat",1200,"{}",m1200.bat
@@ -429,11 +437,146 @@ maia_1900,"C:/Users/desja/Documents/Python_programs/chess_study/engines/leela_ch
 dragon,C:/Users/desja/Documents/Python_programs/chess_study/engines/dragon - 3625/dragon_05e2a7/Windows/dragon-64bit.exe,3625,"{}",dragon-64bit.exe
 stockfish_full_test,C:/Users/desja/Documents/Python_programs/chess_study/engines/leela_chess/stockfish.exe,3644,"{""UCI_LimitStrength"": false}",stockfish.exe
 stockfish_full_1,C:/Users/desja/Documents/Python_programs/chess_study/engines/leela_chess/stockfish.exe,3644,"{""UCI_LimitStrength"": false}",stockfish.exe
-
+```
 
 The .BAT files look like this (example for Maia 1100 rating):
 ```
 @echo off
 C:\Users\desja\Documents\Python_programs\chess_study\engines\leela_chess\lc0.exe --backend=onnx-cpu --weights="C:\Users\desja\Documents\Python_programs\chess_study\engines\leela_chess\maia weights\m1100.pb"
 ```
+The SQL script looked like this:
+
+```
+SELECT
+    CASE
+        WHEN num_plies >= 0 AND num_plies < 50 THEN '0-49 plies'
+        WHEN num_plies >= 50 THEN '50+ plies'
+    END AS ply_range,
+    COUNT(*) AS number_of_games,
+	--This calculates the number of games won
+    SUM(CASE WHEN termination LIKE "Desjardins373 won%" THEN 1 ELSE 0 END) AS games_won,
+    -- This calculates the percentage
+    ROUND((SUM(CASE WHEN termination LIKE "Desjardins373 won%" THEN 1 ELSE 0 END) * 100.0 / COUNT(*)),2) AS win_percentage
+FROM
+    games
+GROUP BY
+    ply_range
+ORDER BY
+    num_plies;
+```
+
+The python script that I used to perform the statistical significance testing looked like this:
+
+```
+import pandas as pd
+import numpy as np
+from scipy.stats import chi2_contingency
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+def run_significance_tests_from_csv(csv_file_path):
+    """
+    This script loads game data from a CSV file, iterates through different ply
+    cutoffs, performs a Chi-Squared test for each, and visualizes the results.
+
+    Args:
+        csv_file_path (str): The path to the input CSV file.
+    """
+    # --- 1. Load Data from CSV ---
+    try:
+        print(f"Loading game data from '{csv_file_path}'...")
+        df = pd.read_csv(csv_file_path)
+        # Ensure 'result' and 'num_plies' columns exist
+        if 'result' not in df.columns or 'num_plies' not in df.columns:
+            print("Error: CSV must contain 'result' and 'num_plies' columns.")
+            return
+        print(f"Successfully loaded {len(df)} games.\n")
+    except FileNotFoundError:
+        print(f"Error: The file '{csv_file_path}' was not found.")
+        print("Please run the PGN to CSV converter script first.")
+        return
+    except Exception as e:
+        print(f"An error occurred while reading the CSV: {e}")
+        return
+
+    # --- 2. Define Cutoffs and Run Tests ---
+    # Define the ply values you want to use as cutoffs
+    cutoffs = range(30, 101, 10) # Test cutoffs 30, 40, 50, ..., 100
+    results = []
+
+    print("Running Chi-Squared tests for various ply cutoffs...")
+    for cutoff in cutoffs:
+        # Create two groups based on the cutoff
+        group_below = df[df['num_plies'] < cutoff]
+        group_above = df[df['num_plies'] >= cutoff]
+
+        # Create the 2x2 contingency table
+        #   Rows: Below Cutoff, Above Cutoff
+        #   Columns: Wins, Losses
+        # We filter out draws for this win/loss analysis
+        contingency_table = np.array([
+            [len(group_below[group_below['result'] == 'win']), len(group_below[group_below['result'] == 'loss'])],
+            [len(group_above[group_above['result'] == 'win']), len(group_above[group_above['result'] == 'loss'])]
+        ])
+
+        # Check if any group is empty to avoid errors with the test
+        if contingency_table.sum(axis=1).any() == 0:
+            print(f"Skipping cutoff {cutoff}: not enough data in one of the groups.")
+            continue
+
+        # Perform the Chi-Squared test
+        chi2, p_value, _, _ = chi2_contingency(contingency_table)
+
+        # Store the results
+        results.append({
+            'cutoff': f'<{cutoff} vs >={cutoff}',
+            'p_value': p_value,
+            'chi2_stat': chi2
+        })
+
+    # Convert results to a DataFrame for easy viewing
+    results_df = pd.DataFrame(results)
+
+    # --- 3. Display Final Results ---
+    print("\n--- Test Results ---")
+    print(results_df.to_string(index=False))
+
+    # --- 4. Visualize the P-Values ---
+    if not results_df.empty:
+        plt.style.use('seaborn-v0_8-whitegrid')
+        fig, ax = plt.subplots(figsize=(12, 7))
+
+        # Create the bar plot
+        colors = ['#2E86C1' if p < 0.05 else '#AED6F1' for p in results_df['p_value']]
+        bars = ax.bar(results_df['cutoff'], results_df['p_value'], color=colors)
+
+        # Add a line for the significance threshold (p=0.05)
+        ax.axhline(y=0.05, color='red', linestyle='--', linewidth=2, label='Significance Threshold (p=0.05)')
+
+        # Add labels and titles
+        ax.set_title('P-Values from Chi-Squared Tests at Different Ply Cutoffs', fontsize=16, pad=20)
+        ax.set_xlabel('Ply Range Cutoff', fontsize=12)
+        ax.set_ylabel('P-Value', fontsize=12)
+        ax.legend()
+
+        # Add p-value labels on top of each bar
+        for bar in bars:
+            yval = bar.get_height()
+            ax.text(bar.get_x() + bar.get_width()/2.0, yval + 0.01, f'{yval:.3f}', ha='center', va='bottom')
+
+        # Improve layout and show plot
+        plt.xticks(rotation=45, ha='right')
+        plt.tight_layout()
+        plt.show()
+    else:
+        print("\nNo results to visualize.")
+
+# --- Main execution block ---
+if __name__ == '__main__':
+    # The script now expects the CSV file generated by the PGN parser
+    games_csv_file = 'games_data.csv'
+    run_significance_tests_from_csv(games_csv_file)
+```
+
+
 Notice that the directory paths do not include spaces unless they also include quotes.  This was a point I had to learn the hard way.  I also utilized Google’s Gemini Deepmind to help me with the programming syntax (I am still a beginning Python programmer, myself) and to help get the Leela Chess Engine to host the various versions of the Maia engine weights.  I hope you enjoyed this analysis.  Please feel free to send any comments, suggestions, thoughts, criticisms or insights to andyhayles@gmail.com.
