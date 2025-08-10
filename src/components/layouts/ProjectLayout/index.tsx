@@ -63,7 +63,7 @@ const Component: React.FC<ComponentProps> = (props) => {
                         </Markdown>
                     ) : (
                         <p className="text-lg">
-						{"If you'd like to view the code for this project,"}
+						{"If you'd like to view the code for this project,"}{" "}
                             <button
                                 onClick={() => setIsCodeVisible(true)}
                                 className="text-blue-500 hover:underline focus:outline-none"
