@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import dayjs from 'dayjs';
 import Markdown from 'markdown-to-jsx';
 import * as React from 'react';
+import { useState } from 'react'; //added by me
 
 import { Annotated } from '@/components/Annotated';
 import Link from '@/components/atoms/Link';
@@ -24,13 +25,18 @@ const Component: React.FC<ComponentProps> = (props) => {
         client,
         description,
         markdownContent,
+		code,
         media,
         prevProject,
         nextProject,
         bottomSections = []
     } = props;
-    const dateTimeAttr = dayjs(date).format('YYYY-MM-DD HH:mm:ss');
-    const formattedDate = dayjs(date).format('YYYY-MM-DD');
+	
+	const [isCodeVisible, setIsCodeVisible] = useState(false); //added by me
+
+	
+    const dateTimeAttr = dayjs().format('YYYY-MM-DD HH:mm:ss'); //removed date inside of first parentheses
+    const formattedDate = dayjs().format('YYYY-MM-DD'); //removed date inside of first parentheses
 
     return (
         <BaseLayout {...props}>
@@ -44,22 +50,39 @@ const Component: React.FC<ComponentProps> = (props) => {
                         <h1 className="text-5xl sm:text-6xl md:max-w-2xl md:grow">{title}</h1>
                     </div>
                 </header>
-                {description && (
-                    <div className="max-w-3xl mx-auto mb-10 text-lg uppercase sm:text-xl sm:mb-14">{description}</div>
+                <div className="max-w-3xl mx-auto prose sm:prose-lg">
+                <Markdown options={{ forceBlock: true, overrides: { pre: HighlightedPreBlock } }}>
+                    {markdownContent.split('[CODE_HERE]')[0]}
+                </Markdown>
+
+                {code && (
+                    isCodeVisible ? (
+                        <Markdown options={{ forceBlock: true, overrides: { pre: HighlightedPreBlock } }}>
+                            {code}
+                        </Markdown>
+                    ) : (
+                        <p className="text-lg">
+                            If you'd like to view the code for this project,{" "}
+                            <button
+                                onClick={() => setIsCodeVisible(true)}
+                                className="text-blue-500 hover:underline focus:outline-none"
+                            >
+                                please click here
+                            </button>
+                            .
+                        </p>
+                    )
                 )}
-                {media && (
-                    <figure className="max-w-5xl mx-auto mb-10 sm:mb-14">
-                        <ProjectMedia media={media} />
-                    </figure>
-                )}
-                {markdownContent && (
-                    <Markdown
-                        options={{ forceBlock: true, overrides: { pre: HighlightedPreBlock } }}
-                        className="max-w-3xl mx-auto prose sm:prose-lg"
-                    >
-                        {markdownContent}
-                    </Markdown>
-                )}
+
+                <Markdown options={{ forceBlock: true, overrides: { pre: HighlightedPreBlock } }}>
+                    {markdownContent.split('[CODE_HERE]')[1]}
+                </Markdown>
+				</div>
+               
+				
+				{/* I added the following section */}
+				
+				
             </article>
             {(prevProject || nextProject) && (
                 <nav className="px-4 mt-12 mb-20">
