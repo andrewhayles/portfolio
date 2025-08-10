@@ -14,6 +14,7 @@ import BaseLayout from '../BaseLayout';
 
 type ComponentProps = PageComponentProps &
     ProjectLayout & {
+		code?: string; 
         prevProject?: ProjectLayout;
         nextProject?: ProjectLayout;
     };
