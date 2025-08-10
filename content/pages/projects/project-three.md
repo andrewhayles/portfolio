@@ -15,7 +15,7 @@ media:
   type: ImageBlock
   url: /images/bg3.jpg
   altText: Project image
-code:
+code: |
   ```
   # Import the libraries that we will be using
   import statsmodels.api as sm

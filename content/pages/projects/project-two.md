@@ -13,7 +13,7 @@ media:
   type: ImageBlock
   url: /images/bg2.jpg
   altText: Project image
-code:
+code: |
   ```
   import pandas as pd
   import matplotlib.pyplot as plt
@@ -145,6 +145,6 @@ Lastly, a table is produced with ranges of the variables (this tells me how my h
 
 As can be seen, a simple CSV file can be read by the pandas library in Python and some statistical calculations can be made with the numpy library followed by visualizations prepared by the seaborn and matplotlib libraries.  In the future I'd like to analyze the data from my body composition scale as I collect enough data (I only use it twice per month because the measurement doesn't change much day-to-day and the battery dies rapidly if regularly used).  This project demonstrates the power of Python's data analysis libraries in transforming raw sensor data into actionable insights.
 
-The code used for this analysis is below:
+The code used for this analysis is available below if you're interested in viewing it:
 
 [CODE_HERE]

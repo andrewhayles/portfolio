@@ -15,7 +15,7 @@ media:
   type: ImageBlock
   url: /images/bg1.jpg
   altText: Project image
-code:
+code: |
   ```
   import chess
   import chess.pgn
