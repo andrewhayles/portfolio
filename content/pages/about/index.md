@@ -45,7 +45,7 @@ In 2023 I found a lovely woman on a Christian dating site called Plenty of Fish.
 
 I am currently still working as an online tutor with WyzAnt.com. I have expanded the subject areas I tutor as I have expanded the subject areas I am capable of explaining well. I am not perfect but I do have a perfect rating on WyzAnt, 5.0/5 with hundreds of ratings and much positive feedback at [my WyzAnt tutoring profile](https://www.wyzant.com/match/tutor/85283819).
 
-I am also currently studying theology, SQL programming, Python programming, chess, statistics (frequentist and Bayesian approaches), and I still enjoy taking experimental high range intelligence tests for the joy I get in solving the problems on them and remembering that God made me different from other people and that I need to work hard to share my unique abilities with others.
+I am also currently studying theology, SQL programming, Python programming, chess, statistics (frequentist and Bayesian approaches), and I still enjoy taking experimental high-range intelligence tests; both for the joy I get from solving the problems and for the reminder that God made me differently, motivating me to work hard and share my unique abilities with others.
 
 Other things I am interested in include poetry, song-writing, gift-giving, personal health and fitness and nutrition, longevity, psychometrics in a general sense, investing, and learning other languages (although I will admit, this is not one of my strong abilities).
 
