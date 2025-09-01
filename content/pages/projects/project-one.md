@@ -1019,8 +1019,6 @@ time control, and the depth of the analysis engine.
 
 So, in contrast to many claims by friends and family that I am "...like a chess master" the true measurements don't bear this out, I fall significantly short of playing at this level of skill.
 
-If you’re interested in the scripts I used, here is an available copy of them in text form:
-
 [CODE_HERE]
 
 Notice that the directory paths do not include spaces unless they also include quotes.  This was a point I had to learn the hard way.  I also utilized Google’s Gemini Deepmind to help me with the programming syntax (I am still a beginning Python programmer, myself) and to help get the Leela Chess Engine to host the various versions of the Maia engine weights.  I hope you enjoyed this analysis.  Please feel free to send any comments, suggestions, thoughts, criticisms or insights to andyhayles@gmail.com.
