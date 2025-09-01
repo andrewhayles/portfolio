@@ -971,15 +971,20 @@ Upon analyzing my most recent chess games, I got a slightly higher estimate of m
 
 I decided to use a different metric called "average centipawn loss" to estimate my performance rating.  This is a widely accepted metric in the chess community and not nearly as controversial of a method to use for estimating one's performance.  I utilized Google Gemini to help build a script to analyze my games using the Stockfish engine for centipawn loss (CPL) and calculate an output file with my results.  This is what resulted:
 
-##ACPL (Average Centipawn Loss) Report for: Desjardins373
+####ACPL (Average Centipawn Loss) Report for: Desjardins373
+
+---
 
 Calculated ACPL: 54.09
 Analyzed Moves: 3683
 
 Estimated Skill Level: Expert / Club Player Level
 
+---
 
 What is ACPL?
+
+---
 
 Average Centipawn Loss (ACPL) is a metric used to measure the accuracy of chess moves.
 A "centipawn" is 1/100th of a pawn. ACPL represents the average number of centipawns
@@ -1010,6 +1015,7 @@ but they provide a useful reference point for self-assessment.
 Note: These ranges are approximate and can be affected by the complexity of the games,
 time control, and the depth of the analysis engine.
 
+---
 
 So, in contrast to many claims by friends and family that I am "...like a chess master" the true measurements don't bear this out, I fall significantly short of playing at this level of skill.
 
