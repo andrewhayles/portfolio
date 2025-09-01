@@ -995,26 +995,17 @@ Practical ACPL Tiers (Perspective):
 These ranges are approximations, particularly for games with faster time controls,
 but they provide a useful reference point for self-assessment.
 
-- 10-20:  Super Grandmaster (2700+ Elo): World-class precision, frequently dropping
-          into single digits in top-level matches.
+- 10-20:  Super Grandmaster (2700+ Elo): World-class precision, frequently dropping into single digits in top-level matches.
 
-- 20-25:  Grandmaster (2500-2700 Elo): Exceptional consistency and a low
-          frequency of significant errors.
+- 20-25:  Grandmaster (2500-2700 Elo): Exceptional consistency and a low frequency of significant errors.
 
-- 25-35:  Master (2200-2400 Elo): Strong, professional-level play, indicating
-          a solid performance.
+- 25-35:  Master (2200-2400 Elo): Strong, professional-level play, indicating a solid performance.
 
-- 30-60:  Expert / Club Player (1800-2200 Elo): Represents strong amateur and
-          tournament players. Averages in the 50s and 60s are common,
-          especially in faster time controls.
+- 30-60:  Expert / Club Player (1800-2200 Elo): Represents strong amateur and tournament players. Averages in the 50s and 60s are common, especially in faster time controls.
 
-- 60-120: Intermediate Player (1200-1800 Elo): A typical range for the large
-          cohort of intermediate players. Games are often decided by more
-          obvious tactical mistakes.
+- 60-120: Intermediate Player (1200-1800 Elo): A typical range for the large cohort of intermediate players. Games are often decided by more obvious tactical mistakes.
 
-- 100+:   Novice / Beginner (<1200 Elo): Fundamental blunders are common. Scores
-          of 150 or higher are commonplace. An ACPL over 300 suggests a player
-          is very new to the game.
+- 100+:   Novice / Beginner (<1200 Elo): Fundamental blunders are common. Scores of 150 or higher are commonplace. An ACPL over 300 suggests a player is very new to the game.
 
 Note: These ranges are approximate and can be affected by the complexity of the games,
 time control, and the depth of the analysis engine.
