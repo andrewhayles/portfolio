@@ -943,6 +943,7 @@ code: |
       main()
 
   ```
+  Notice that the directory paths do not include spaces unless they also include quotes.  This was a point I had to learn the hard way.  I also utilized Google’s Gemini Deepmind to help me with the programming syntax (I am still a beginning Python programmer, myself) and to help get the Leela Chess Engine to host the various versions of the Maia engine weights. 
 ---
 Brief Analysis of Personal Chess Database
 Andrew Hayles
@@ -1021,4 +1022,4 @@ So, in contrast to many claims by friends and family that I am "...like a chess 
 
 [CODE_HERE]
 
-Notice that the directory paths do not include spaces unless they also include quotes.  This was a point I had to learn the hard way.  I also utilized Google’s Gemini Deepmind to help me with the programming syntax (I am still a beginning Python programmer, myself) and to help get the Leela Chess Engine to host the various versions of the Maia engine weights.  I hope you enjoyed this analysis.  Please feel free to send any comments, suggestions, thoughts, criticisms or insights to andyhayles@gmail.com.
+I hope you enjoyed this analysis.  Please feel free to send any comments, suggestions, thoughts, criticisms or insights to andyhayles@gmail.com.
