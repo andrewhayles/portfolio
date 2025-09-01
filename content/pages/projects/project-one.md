@@ -971,8 +971,7 @@ Upon analyzing my most recent chess games, I got a slightly higher estimate of m
 
 I decided to use a different metric called "average centipawn loss" to estimate my performance rating.  This is a widely accepted metric in the chess community and not nearly as controversial of a method to use for estimating one's performance.  I utilized Google Gemini to help build a script to analyze my games using the Stockfish engine for centipawn loss (CPL) and calculate an output file with my results.  This is what resulted:
 
-ACPL (Average Centipawn Loss) Report for: Desjardins373
-=====================================================
+##ACPL (Average Centipawn Loss) Report for: Desjardins373
 
 Calculated ACPL: 54.09
 Analyzed Moves: 3683
