@@ -557,8 +557,6 @@ code: |
   Beginning of ACPL analysis script
   
   
-  
-  # -*- coding: utf-8 -*-
 """
 Stockfish PGN Analyzer (Overnight Version with ACPL Report)
 
