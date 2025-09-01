@@ -978,17 +978,20 @@ Analyzed Moves: 3683
 
 Estimated Skill Level: Expert / Club Player Level
 
----
+
 What is ACPL?
----
+
 Average Centipawn Loss (ACPL) is a metric used to measure the accuracy of chess moves.
 A "centipawn" is 1/100th of a pawn. ACPL represents the average number of centipawns
 you lost per move compared to the engine's best move. A lower ACPL means your moves
 were closer to the computer's top choices, indicating higher accuracy.
 
 ---
+
 Practical ACPL Tiers (Perspective):
+
 ---
+
 These ranges are approximations, particularly for games with faster time controls,
 but they provide a useful reference point for self-assessment.
 
