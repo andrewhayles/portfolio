@@ -41,4 +41,6 @@ sections:
 [![University of Michigan Certificate - Statistics with Python](/images/statswithpython.png)](/images/statswithpython.pdf)
 [![University of California Certificate - SQL for Data Science](/images/cert_sql_for_data_science.png)](/images/sql_for_data_science_cert.pdf)
 [![University of California Certificate - SQL Problem Solving](/images/sqlprobsolving.png)](/images/sqlprobsolving_cert.pdf)
+[![University of California Certificate - SQL Capstone Project](/images/sqlcapstoneproject.png)](/images/sqlcapstoneproject.pdf)
+[![University of California Certificate - SQL Data Science Specialization](/images/sql_datascience.png)](/images/sqlspecialization.pdf)
 [![CompTIA A+ Certificate](/images/comptia.png)](/images/comptiaAplus.pdf)
