@@ -50,7 +50,7 @@ sections:
       - content/pages/projects/health.md
       - content/pages/projects/iq.md
       - content/pages/projects/chess.md
-	  - content/pages/projects/yelp.md
+      - content/pages/projects/yelp.md
     styles:
       self:
         height: auto
