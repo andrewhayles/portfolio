@@ -5,7 +5,7 @@ colors: colors-a
 date: '2025-09-11'
 client: ''
 description: >-
-  I created this project to analyze the Yelp academic dataset.
+  I created this project to analyze the Yelp academic dataset as part of an SQL course online.
 featuredImage:
   type: ImageBlock
   url: /images/bg3.jpg
@@ -106,7 +106,7 @@ code: |
   );
   ```
   This is the Python code I used to import the data into the SQLite database tables that I created.  As is evident the SQLite3 library was imported into the script first.  The script is carefully designed to weed out any ghost entries in the tables, including reviews/tips/checkins by users that are not in the users table, reviews/tips/checkins of businesses that are not in the business table, etc.  This ensures data integrity.
-  ``
+  ```
   import sqlite3
   import json
   
@@ -388,11 +388,11 @@ By inspection of the JSON files that can be downloaded here: [https://business.y
 
 As can be seen, this JSON file "users.JSON" is a good candidate for a table, and each one of these variables in quotes followed by a colon is a good candidate for a column.  So there is an intuitive data structure built into this particular dataset that allows for smooth transitioning into a SQLite database.  This is not guaranteed by any means in a given dataset.  This is a very "nice" dataset for SQL analysis.
 
-After careful inspection of the files, careful coding for the SQL tables, I had a good sense of the data and the connections between the tables, and so I was in a good position to create an ERD (Entity-Relationship Diagram) using Microsoft Paint.   It looks like this:
+After careful inspection of the files and careful coding for the SQL tables, I had a good sense of the data and the connections between the tables, and so I was in a good position to create an ERD (Entity-Relationship Diagram) using Microsoft Paint.   It looks like this:
 
 ![ERD for Yelp academic dataset](/images/ERD-project.png)
 
-The primary purpose of the project was to get a sense of what it meant to be a 5 star business and what it meant to be a 1 star business.  To boil down the findings into their essence, I will simply say the best businesses had the highest frequency of positive words in the reviews and the worst businesses had the highest frequency of negative words in their reviews.  These words that were analyzed are linked to instrinsic properties of the object to which they are applied.  Words like excellence, and quality, and good, and kind, and words like lousy, poor, nasty, and rude are simple but they are strong differentiators between good businesses and bad businesses.
+The primary purpose of the project was to get a sense of what it meant to be a 5 star business and what it meant to be a 1 star business.  To boil down the findings into their essence, I will simply say the best businesses had the highest frequency of positive words in the reviews and the worst businesses had the highest frequency of negative words in their reviews.  These words that were analyzed are linked to instrinsic properties of the object to which they are applied.  Words like excellence, quality, good, and kind, and words like lousy, poor, nasty, and rude are simple but they are strong differentiators between good businesses and bad businesses.
 
 Statistical significance testing was done to confirm that there was indeed a significant difference in the number of occurrences of these words in the reviews of the best businesses versus the worst businesses based on the total number of reviews (Chi-squared testing).  When the negative words appeared in the best business reviews it was virtually always a "false positive" or perhaps better stated to be a false occurrence of a negative word (in other words, they weren't being accused of being the negative word, the negative word was being used in a different context to distinguish the good business from a bad business, so it was not being used in the normal context that it would be applied to an actually bad business).  When the positive words were found in the worst business reviews they were also almost always "false positives" or in other words the word "kind" showed up but it was in the context of, for example, "The customer service team was not kind to me."  So there was some noise in the data but even with the noise there was a very strongly significant difference in the frequency of the positive words when the best businesses were compared with the worst businesses as determined by their average rating on Yelp.
 
