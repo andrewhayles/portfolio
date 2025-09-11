@@ -15,7 +15,6 @@ media:
   url: /images/bg3.jpg
   altText: Project image
 code: |
-
   This is the first script I wrote in SQL for this particular project.  This script creates tables in the SQLite database for each of the indicated tables in the JSON files with a column for each indicated variable that has an object associated with it (whether it be some type of numerical value or a string or a boolean).
   
   ```
@@ -106,10 +105,8 @@ code: |
       FOREIGN KEY (business_id) REFERENCES businesses(business_id)
   );
   ```
-
   This is the Python code I used to import the data into the SQLite database tables that I created.  As is evident the SQLite3 library was imported into the script first.  The script is carefully designed to weed out any ghost entries in the tables, including reviews/tips/checkins by users that are not in the users table, reviews/tips/checkins of businesses that are not in the business table, etc.  This ensures data integrity.
-
-  ```
+  ``
   import sqlite3
   import json
   
@@ -259,10 +256,10 @@ code: |
   		OR text LIKE '%love%'
       );
   ```
-	
+  
   This SQL code searches the reviews of the top three most popular businesses for positive words
   ```
-  SELECT
+  LECT
   	date,
   	review_id,
       business_id,
