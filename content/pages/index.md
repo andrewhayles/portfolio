@@ -47,9 +47,10 @@ sections:
     showReadMoreLink: true
     variant: variant-b
     projects:
-      - content/pages/projects/project-two.md
-      - content/pages/projects/project-three.md
-      - content/pages/projects/project-one.md
+      - content/pages/projects/health.md
+      - content/pages/projects/iq.md
+      - content/pages/projects/chess.md
+	  - content/pages/projects/yelp.md
     styles:
       self:
         height: auto
