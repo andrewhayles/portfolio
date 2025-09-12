@@ -4,7 +4,7 @@ title: Home
 colors: colors-a
 backgroundImage:
   type: BackgroundImage
-  url: /images/bg1.jpg
+  url: <img src="/images/bg1.jpg" width="1518" height="1409" style="max-width: 100%; height: auto;">
   backgroundSize: cover
   backgroundPosition: center
   backgroundRepeat: no-repeat
