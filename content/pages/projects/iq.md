@@ -295,44 +295,44 @@ This script does a lot of things and I'm not going to talk about all of them rig
 
 Histogram of timed/untimed scores superimposed on each other
 
-![Histogram of timed/untimed scores superimposed on each other](/images/histogram_timed_untimed1.png)
+<img src="/images/histogram_timed_untimed1.png" alt="Histogram of timed/untimed scores superimposed on each other" width="640" height="480" style="max-width: 100%; height: auto;">
 
 Probability plot of timed scores
 
-![Probability plot of timed scores](/images/probability_plot_timed4.png)
+<img src="/images/probability_plot_timed4.png" alt="Probability plot of timed scores" width="640" height="480" style="max-width: 100%; height: auto;">
 
 Probability plot of untimed scores
 
-![Probabliity plot of untimed scores](/images/probability_plot_untimed5.png)
+<img src="/images/probability_plot_untimed5.png" alt="Probabliity plot of untimed scores" width="640" height="480" style="max-width: 100%; height: auto;">
 
 Boxplot of authors (visible are the ranges of scores for each author)
 
-![Boxplot of authors (visible are the ranges of scores for each author)](/images/box_plot_author6.png)
+<img src="/images/box_plot_author6.png" alt="Boxplot of authors (visible are the ranges of scores for each author)" width="1536" height="855" style="max-width: 100%; height: auto;">
 
 Boxplot of tests taken in hot months versus cold months
 
-![Boxplot of tests taken in hot months versus cold months](/images/box_plot_hotcold7.png)
+<img src="/images/box_plot_hotcold7.png" alt="Boxplot of tests taken in hot months versus cold months" width="1536" height="855" style="max-width: 100%; height: auto;">
 
 Boxplot of timed versus untimed tests
 
-![Boxplot of timed versus untimed tests](/images/box_plot_timeduntimed8.png)
+<img src="/images/box_plot_timeduntimed8.png" alt="Boxplot of timed versus untimed tests" width="640" height="480" style="max-width: 100%; height: auto;">
 
 Boxplot of test types
 
-![Boxplot of test types](/images/box_plot_testtype9.png)
+<img src="/images/box_plot_testtype9.png" alt="Boxplot of test types" width="640" height="480" style="max-width: 100%; height: auto;">
 
 Violin plot of test types
 
-![Violin plot of test types](/images/violin_plot10.png)
+<img src="/images/violin_plot10.png" alt="Violin plot of test types" width="1200" height="400" style="max-width: 100%; height: auto;">
 
 Bell curve of scores
 
-![Bell curve of scores](/images/bell_curve_of_scores11.png)
+<img src="/images/bell_curve_of_scores11.png" alt="Bell curve of scores" width="640" height="480" style="max-width: 100%; height: auto;">
 
 Pie chart of test types
 
-![Pie chart of test types](/images/piechart_testtype_12.png)
+<img src="/images/piechart_testtype_12.png" alt="Pie chart of test types" width="682" height="576" style="max-width: 100%; height: auto;">
 
 Pie chart of authors
 
-![Pie chart of authors](/images/piechart_author13.png)
+<img src="/images/piechart_author13.png" alt="Pie chart of authors" width="1536" height="855" style="max-width: 100%; height: auto;">
