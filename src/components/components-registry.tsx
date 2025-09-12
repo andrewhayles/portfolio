@@ -4,47 +4,14 @@ import { Annotated } from './Annotated';
 import { ContentObject, GlobalProps } from '@/types';
 
 /**
- * Since the layout of pages is dynamic (e.g. a page can have sections of different types, sections can have blocks of various types, etc.),
- * many of the components to render are resolved run-time based on the content type.
- * The <DynamicComponent> component accepts and ContentObject instance and returns an initialized component for that type.
- *
- * For example, when a page component iterates the section objects in its 'sections' content field,
- * it can create the actual component for each section using:
- *
- *     const component = <DynamicComponent {...section} />
- *
- * Another feature of DynamicComponent is automatically wrapping the actual component with a Stackbit annotation,
- * if such is found in the content object (see annotateContentObject() in src/utils/content.ts).
- * This replaces the need for manually typing in annotation throught the codebase.
- *
- * Note: component code is loaded via Next.js dynamic import, so that it's only fetched if actually used in a page.
+ * Note: The HeroSection is imported statically because it's critical for the
+ * initial page view ("above the fold"). This improves the Largest Contentful Paint (LCP) metric.
+ * All other components are loaded dynamically to reduce the initial JavaScript bundle size,
+ * which improves Total Blocking Time (TBT).
  */
+import HeroSection from './sections/HeroSection';
 
-type DynamicComponentProps = ContentObject & {
-    global?: GlobalProps;
-};
-
-export const DynamicComponent: React.FC<DynamicComponentProps> = (props) => {
-    const modelName = props.type;
-
-    // Resolve component by content type
-    if (!modelName) {
-        throw new Error(`Object does not have a 'type' property: ${JSON.stringify(props, null, 2)}`);
-    }
-
-    let Component = components[modelName] as ComponentType;
-    if (!Component) {
-        throw new Error(`No component matches type: '${modelName}'`);
-    }
-
-    return (
-        <Annotated content={props}>
-            <Component {...props} />
-        </Annotated>
-    );
-};
-
-const components = {
+const dynamicComponents = {
     CheckboxFormControl: dynamic(() => import('./molecules/FormBlock/CheckboxFormControl')),
     ContactSection: dynamic(() => import('./sections/ContactSection')),
     CtaSection: dynamic(() => import('./sections/CtaSection')),
@@ -55,7 +22,6 @@ const components = {
     FeaturedPostsSection: dynamic(() => import('./sections/FeaturedPostsSection')),
     FeaturedProjectsSection: dynamic(() => import('./sections/FeaturedProjectsSection')),
     FormBlock: dynamic(() => import('./molecules/FormBlock')),
-    HeroSection: dynamic(() => import('./sections/HeroSection')),
     ImageBlock: dynamic(() => import('./molecules/ImageBlock')),
     MediaGallerySection: dynamic(() => import('./sections/MediaGallerySection')),
     PostFeedSection: dynamic(() => import('./sections/PostFeedSection')),
@@ -75,4 +41,33 @@ const components = {
     PostFeedLayout: dynamic(() => import('./layouts/PostFeedLayout')),
     ProjectLayout: dynamic(() => import('./layouts/ProjectLayout')),
     ProjectFeedLayout: dynamic(() => import('./layouts/ProjectFeedLayout'))
+};
+
+type DynamicComponentProps = ContentObject & {
+    global?: GlobalProps;
+};
+
+// Combine the statically imported HeroSection with the rest of the dynamic components
+const components = {
+    HeroSection: HeroSection,
+    ...dynamicComponents
+};
+
+export const DynamicComponent: React.FC<DynamicComponentProps> = (props) => {
+    const modelName = props.type;
+
+    if (!modelName) {
+        throw new Error(`Object does not have a 'type' property: ${JSON.stringify(props, null, 2)}`);
+    }
+
+    const Component = components[modelName] as ComponentType;
+    if (!Component) {
+        throw new Error(`No component matches type: '${modelName}'`);
+    }
+
+    return (
+        <Annotated content={props}>
+            <Component {...props} />
+        </Annotated>
+    );
 };
