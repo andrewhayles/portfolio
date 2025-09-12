@@ -6,6 +6,11 @@
         "build": "next build",
         "start": "next start"
     },
+    "browserslist": [
+        "> 0.5%",
+        "not dead",
+        "not op_mini all"
+    ],	
     "dependencies": {
         "@stackbit/cms-git": "^1.0.35",
         "@tailwindcss/postcss": "^4.0.12",
