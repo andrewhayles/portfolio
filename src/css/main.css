@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Azeret+Mono:ital,wght@0,400;0,500;1,400;1,500&family=DM+Mono:ital,wght@0,400;0,500;1,400;1,500&display=swap')
 layer(base);
 
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
 
 @theme {
-    --font-body: var(--theme-font-body, monospace);
+    --font-body: var(--font-dm-mono);
+    --font-heading: var(--font-azeret-mono);
     --background-color-main: var(--theme-dark);
     --background-color-inverse: var(--theme-on-dark);
     --text-color-main: var(--theme-on-dark);
@@ -32,6 +32,7 @@ layer(base);
     h5,
     h6 {
         @apply break-words;
+		font-family: var(--font-heading);
         line-height: 1.15;
         font-weight: var(--theme-heading-weight);
         text-transform: var(--theme-heading-case);
