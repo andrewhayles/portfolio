@@ -15,7 +15,7 @@ sections:
     backgroundSize: full
     title: Andrew Hayles
     subtitle: >-
-      I'm an aspiring data analyst with strong technical acumen in multiple domains including programming and mathematics.  I love extracting meaningful observations from data and unravelling the mysteries contained in a plethora of rows and columns or in any unstructured data set.
+      I'm an aspiring data analyst with strong technical acumen in multiple domains including programming and mathematics.  I love extracting meaningful observations from data and unravelling the mysteries contained in a plethora of rows and columns or in any unstructured data set.  Please consider some of my recent projects below.
     styles:
       self:
         height: auto
