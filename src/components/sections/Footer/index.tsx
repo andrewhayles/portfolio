@@ -7,7 +7,13 @@ export default function Footer(props) {
     const { primaryLinks = [], contacts, copyrightText, styles = {} } = props;
     const footerWidth = styles.self?.width ?? 'narrow';
     return (
-        <footer className={classNames('relative', styles.self?.padding ?? 'py-16 px-4')}>
+        <footer
+            className={classNames(
+                'relative',
+                'min-h-[188px]', // Add this line!
+                styles.self?.padding ?? 'py-16 px-4'
+            )}
+        >
             <div
                 className={classNames('border-t-2 border-current pt-8', {
                     'max-w-7xl mx-auto': footerWidth === 'narrow',
