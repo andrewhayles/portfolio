@@ -42,10 +42,10 @@ export function getStaticPaths() {
 }
 
 // UPDATED: This now fetches data for a single page and excludes the 'code' field
-export function getStaticProps({ params }) {
+export async function getStaticProps({ params }) {
     const urlPath = '/' + (params.slug || []).join('/');
     // This now calls the fully optimized function we built in content.ts
-    const props = getPageProps(urlPath);
+    const props = await getPageProps(urlPath);
     return { props };
 }
 

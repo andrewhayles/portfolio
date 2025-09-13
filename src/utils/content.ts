@@ -8,6 +8,7 @@ import * as types from '@/types';
 import { isDev } from './common';
 import { PAGE_MODEL_NAMES, PageModelType } from '@/types/generated';
 import { resolveStaticProps } from './static-props-resolvers';
+import { highlightCode } from './shiki';
 
 
 const contentBaseDir = 'content';
@@ -115,41 +116,20 @@ export function getAllPagePaths() {
     return allData.map((obj) => obj.__metadata.urlPath).filter(Boolean);
 }
 
-export function getPageProps(urlPath: string) {
-    // 1. Get all content data just once.
+export async function getPageProps(urlPath: string) {
     const allData = allContent();
-    
-    // 2. Resolve the props for the specific page being built.
     const props = resolveStaticProps(urlPath, allData) as any;
 
-    // 3. Clean the data efficiently *after* it has been resolved for the page.
-    
-    // Remove 'code' from the main page object (for project pages)
+    // If this is a project page with a code block...
     if (props.code) {
+        // ...highlight the code and add it as a new prop.
+        props.highlightedCode = await highlightCode(props.code, 'javascript');
+        // Delete the original raw code so it's not sent to the browser
         delete props.code;
     }
-
-    // Trim the data for nested lists (for the homepage)
-    if (props.sections && Array.isArray(props.sections)) {
-        props.sections.forEach((section: any) => {
-            const projects = section.projects || section.posts || section.items;
-            if (projects && Array.isArray(projects)) {
-                // Create a new array of smaller "excerpt" objects.
-                const trimmedProjects = projects.map((project: any) => ({
-                    __metadata: project.__metadata,
-                    type: project.type,
-                    title: project.title,
-                    featuredImage: project.featuredImage,
-                    description: project.description?.substring(0, 150) + '...' || '',
-                }));
-                
-                // Replace the original array on the correct property.
-                if (section.projects) section.projects = trimmedProjects;
-                if (section.posts) section.posts = trimmedProjects;
-                if (section.items) section.items = trimmedProjects;
-            }
-        });
-    }
+    
+    // NOTE: The logic you added to trim 'bottomSections' for the homepage is no longer needed,
+    // as the API route handles fetching code on demand for those previews.
 
     return props;
 }

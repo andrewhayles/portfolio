@@ -21,21 +21,7 @@ type ComponentProps = PageComponentProps &
     };
 
 const Component: React.FC<ComponentProps> = (props) => {
-    const {
-        __metadata, // ADDED: We need this to get the slug for the API call
-        title,
-        date,
-        client,
-        description,
-        markdownContent,
-        // REMOVED: 'code' is no longer passed in props
-        media,
-        prevProject,
-        nextProject,
-        bottomSections = []
-    } = props;
-
-    // ADDED: New state to hold the fetched code and track loading
+    const { title, description, markdownContent, highlightedCode } = props;
     const [isCodeVisible, setIsCodeVisible] = useState(false);
     const [codeContent, setCodeContent] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -96,6 +82,25 @@ const Component: React.FC<ComponentProps> = (props) => {
                         {markdownContent.split('[CODE_HERE]')[1]}
                     </Markdown>
                 </div>
+				
+				{highlightedCode && (
+                    isCodeVisible ? (
+                        // Render the pre-highlighted HTML directly
+                        <div dangerouslySetInnerHTML={{ __html: highlightedCode }} />
+                    ) : (
+                        <p className="text-lg">
+                            If you'd like to view the code for this project,{' '}
+                            <button
+                                onClick={() => setIsCodeVisible(true)}
+                                className="text-blue-500 hover:underline focus:outline-none"
+                            >
+                                please click here
+                            </button>
+                            .
+                        </p>
+                    )
+                )}
+				
             </article>
 			
             {(prevProject || nextProject) && (
@@ -111,6 +116,10 @@ const Component: React.FC<ComponentProps> = (props) => {
             {bottomSections?.map((section, index) => {
                 return <DynamicComponent key={index} {...section} />;
             })}
+			
+			
+			
+			
         </BaseLayout>
     );
 };
