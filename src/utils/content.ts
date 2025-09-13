@@ -116,38 +116,21 @@ export function getAllPagePaths() {
 }
 
 export function getPageProps(urlPath: string) {
+    // This now uses the efficient function that never includes the 'code' field
+    const cleanData = allContentLight();
+    const props = resolveStaticProps(urlPath, cleanData);
+    return props;
+}
+
+export function allContentLight() {
     const allData = allContent();
     const cleanData = JSON.parse(JSON.stringify(allData));
-
-    // Remove the large 'code' field from every page's data first
     cleanData.forEach((item: any) => {
         if (item.code) {
             delete item.code;
         }
     });
-
-    const props = resolveStaticProps(urlPath, cleanData) as any;
-
-    // THE FINAL FIX: Target 'props.sections' which contains the homepage content
-    if (props.sections && Array.isArray(props.sections)) {
-        props.sections.forEach((section: any) => {
-            // Find sections that contain lists of projects or posts
-            const projects = section.projects || section.posts || section.items;
-            if (projects && Array.isArray(projects)) {
-                // Replace the full project data with smaller "excerpt" objects
-                section.projects = projects.map((project: any) => ({
-                    __metadata: project.__metadata,
-                    type: project.type,
-                    title: project.title,
-                    featuredImage: project.featuredImage,
-                    // Create a short excerpt instead of sending the full description
-                    description: project.description?.substring(0, 150) + '...' || ''
-                }));
-            }
-        });
-    }
-
-    return props;
+    return cleanData;
 }
 
 export function allContent(): types.ContentObject[] {
