@@ -9,6 +9,7 @@ import Link from '@/components/atoms/Link';
 import { DynamicComponent } from '@/components/components-registry';
 import ImageBlock from '@/components/molecules/ImageBlock';
 import { PageComponentProps, ProjectLayout } from '@/types';
+import { HighlightedPreBlock } from '@/components/CodeHighlighter';
 import HighlightedMarkdown from '@/utils/highlighted-markdown'; // Import the lazy-loading wrapper
 import BaseLayout from '../BaseLayout';
 

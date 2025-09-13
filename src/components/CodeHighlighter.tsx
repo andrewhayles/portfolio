@@ -20,7 +20,7 @@ const CodeBlock = ({ className, children }) => {
 };
 
 // markdown-to-jsx uses <pre><code/></pre> for code blocks.
-export default function HighlightedPreBlock({ children, ...rest }) {
+export function HighlightedPreBlock({ children, ...rest }) {
     if ('type' in children && children['type'] === 'code') {
         return CodeBlock(children['props']);
     }
