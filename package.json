@@ -6,12 +6,6 @@
         "build": "next build",
         "start": "next start"
     },
-    "browserslist": [
-        "last 2 Chrome versions",
-        "last 2 Firefox versions",
-        "last 2 Safari versions",
-        "last 2 Edge versions"
-    ],
     "dependencies": {
         "@stackbit/cms-git": "^1.0.35",
         "@tailwindcss/postcss": "^4.0.12",
