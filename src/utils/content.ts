@@ -117,19 +117,34 @@ export function getAllPagePaths() {
 
 export function getPageProps(urlPath: string) {
     const allData = allContent();
-
-    // 1. Create a "clean" deep copy of all data to avoid modifying the original.
     const cleanData = JSON.parse(JSON.stringify(allData));
 
-    // 2. Loop through the clean data and remove the 'code' field from EVERY item.
+    // Remove the 'code' field from every item first
     cleanData.forEach((item: any) => {
         if (item.code) {
             delete item.code;
         }
     });
 
-    // 3. Now, build the page props using ONLY the clean data.
-    const props = resolveStaticProps(urlPath, cleanData);
+    const props = resolveStaticProps(urlPath, cleanData) as any;
+
+    // FINAL OPTIMIZATION: Trim the data for nested project lists
+    if (props.bottomSections && Array.isArray(props.bottomSections)) {
+        props.bottomSections.forEach((section: any) => {
+            const projects = section.projects || section.posts || section.items;
+            if (projects && Array.isArray(projects)) {
+                // Replace the array of full project objects with an array of smaller, trimmed objects
+                section.projects = projects.map((project: any) => ({
+                    // Only include the fields you ACTUALLY NEED for the project card on the homepage
+                    __metadata: project.__metadata,
+                    type: project.type,
+                    title: project.title,
+                    description: project.description,
+                    featuredImage: project.featuredImage
+                }));
+            }
+        });
+    }
 
     return props;
 }
