@@ -10,35 +10,50 @@ import { DynamicComponent } from '@/components/components-registry';
 import ImageBlock from '@/components/molecules/ImageBlock';
 import { PageComponentProps, ProjectLayout } from '@/types';
 import { HighlightedPreBlock } from '@/components/CodeHighlighter';
-import HighlightedMarkdown from '@/utils/highlighted-markdown'; // Import the lazy-loading wrapper
+import HighlightedMarkdown from '@/utils/highlighted-markdown';
 import BaseLayout from '../BaseLayout';
 
 type ComponentProps = PageComponentProps &
     ProjectLayout & {
-        code?: string;
+        // CHANGED: The 'code' prop is removed, as we will fetch it on demand
         prevProject?: ProjectLayout;
         nextProject?: ProjectLayout;
     };
 
 const Component: React.FC<ComponentProps> = (props) => {
     const {
+        __metadata, // ADDED: We need this to get the slug for the API call
         title,
         date,
         client,
         description,
         markdownContent,
-        code,
+        // REMOVED: 'code' is no longer passed in props
         media,
         prevProject,
         nextProject,
         bottomSections = []
     } = props;
 
+    // ADDED: New state to hold the fetched code and track loading
     const [isCodeVisible, setIsCodeVisible] = useState(false);
+    const [codeContent, setCodeContent] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     // Date logic kept as requested
     const dateTimeAttr = dayjs().format('YYYY-MM-DD HH:mm:ss');
     const formattedDate = dayjs().format('YYYY-MM-DD');
+
+    // ADDED: This function now fetches the code from your API
+    const handleShowCodeClick = async () => {
+        setIsLoading(true);
+        // Assumes your slug is stored in __metadata.slug
+        const response = await fetch(`/api/code/${__metadata.slug}`); 
+        const data = await response.json();
+        setCodeContent(data.code);
+        setIsCodeVisible(true);
+        setIsLoading(false);
+    };
 
     return (
         <BaseLayout {...props}>
@@ -57,24 +72,24 @@ const Component: React.FC<ComponentProps> = (props) => {
                         {markdownContent.split('[CODE_HERE]')[0]}
                     </Markdown>
 
-                    {/* CORRECTED: This logic now correctly lazy-loads the code block on click */}
-                    {code &&
-                        (isCodeVisible ? (
-                            <HighlightedMarkdown language="javascript">
-                                {code}
-                            </HighlightedMarkdown>
-                        ) : (
-                            <p className="text-lg">
-                                {"If you'd like to view the code for this project,"}{" "}
-                                <button
-                                    onClick={() => setIsCodeVisible(true)}
-                                    className="text-blue-500 hover:underline focus:outline-none"
-                                >
-                                    please click here
-                                </button>
-                                {"."}
-                            </p>
-                        ))}
+                    {/* CHANGED: This logic is now updated to fetch data */}
+                    {isCodeVisible ? (
+                        <HighlightedMarkdown language="javascript">
+                            {codeContent}
+                        </HighlightedMarkdown>
+                    ) : (
+                        <p className="text-lg">
+                            {"If you'd like to view the code for this project,"}{" "}
+                            <button
+                                onClick={handleShowCodeClick}
+                                disabled={isLoading}
+                                className="text-blue-500 hover:underline focus:outline-none"
+                            >
+                                {isLoading ? 'loading...' : 'please click here'}
+                            </button>
+                            {"."}
+                        </p>
+                    )}
 
                     <Markdown options={{ forceBlock: true, overrides: { pre: HighlightedPreBlock } }}>
                         {markdownContent.split('[CODE_HERE]')[1]}
