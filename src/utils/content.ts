@@ -7,6 +7,7 @@ import { allModels } from '.stackbit/models';
 import * as types from '@/types';
 import { isDev } from './common';
 import { PAGE_MODEL_NAMES, PageModelType } from '@/types/generated';
+import { resolveStaticProps } from './static-props-resolvers';
 
 const contentBaseDir = 'content';
 const pagesBaseDir = contentBaseDir + '/pages';
