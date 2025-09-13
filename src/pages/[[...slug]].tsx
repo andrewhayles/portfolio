@@ -6,6 +6,7 @@ import { PageComponentProps } from '@/types';
 // Import new, more efficient functions
 import { getAllPagePaths, getPageProps } from '@/utils/content'; 
 import { seoGenerateMetaDescription, seoGenerateMetaTags, seoGenerateTitle } from '@/utils/seo-utils';
+import { resolveStaticProps } from '@/utils/static-props-resolvers';
 
 const Page: React.FC<PageComponentProps> = (props) => {
     // ... your Page component remains exactly the same ...
@@ -43,6 +44,7 @@ export function getStaticPaths() {
 // UPDATED: This now fetches data for a single page and excludes the 'code' field
 export function getStaticProps({ params }) {
     const urlPath = '/' + (params.slug || []).join('/');
+    // This now calls the fully optimized function we built in content.ts
     const props = getPageProps(urlPath);
     return { props };
 }
