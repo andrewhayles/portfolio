@@ -1,3 +1,5 @@
+// src/pages/api/code/[slug].js
+
 import { allContent } from '@/utils/content';
 
 export default function handler(req, res) {
