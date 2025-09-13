@@ -116,10 +116,9 @@ export function getAllPagePaths() {
 }
 
 export function getPageProps(urlPath: string) {
-    console.log(`\n--- [DEBUG] Starting getPageProps for path: ${urlPath} ---`);
-
     const allData = allContent();
     const cleanData = JSON.parse(JSON.stringify(allData));
+    
     cleanData.forEach((item: any) => {
         if (item.code) {
             delete item.code;
@@ -127,16 +126,12 @@ export function getPageProps(urlPath: string) {
     });
 
     const props = resolveStaticProps(urlPath, cleanData) as any;
-    console.log(`[DEBUG] Initial props for ${urlPath} resolved.`);
-
-    if (props.bottomSections && Array.isArray(props.bottomSections)) {
-        console.log(`[DEBUG] Found ${props.bottomSections.length} items in 'bottomSections'.`);
-        
-        props.bottomSections.forEach((section: any, index: number) => {
+    
+    // THE FINAL FIX IS HERE: Check for 'sections' instead of 'bottomSections'
+    if (props.sections && Array.isArray(props.sections)) {
+        props.sections.forEach((section: any) => {
             const projects = section.projects || section.posts || section.items;
             if (projects && Array.isArray(projects)) {
-                console.log(`[DEBUG] SUCCESS: Section ${index} (type: ${section.type}) has ${projects.length} projects. Trimming them now.`);
-                
                 section.projects = projects.map((project: any) => ({
                     __metadata: project.__metadata,
                     type: project.type,
@@ -144,16 +139,10 @@ export function getPageProps(urlPath: string) {
                     description: project.description?.substring(0, 150) + '...' || '',
                     featuredImage: project.featuredImage
                 }));
-            } else {
-                // This message will tell us if the structure is different than expected
-                console.log(`[DEBUG] INFO: Section ${index} (type: ${section.type}) was found, but it does NOT have a 'projects', 'posts', or 'items' array.`);
             }
         });
-    } else {
-        console.log(`[DEBUG] INFO: No 'bottomSections' array was found on the props for this page.`);
     }
 
-    console.log(`--- [DEBUG] Finished getPageProps for path: ${urlPath} ---\n`);
     return props;
 }
 
