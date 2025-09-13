@@ -117,31 +117,19 @@ export function getAllPagePaths() {
 
 export function getPageProps(urlPath: string) {
     const allData = allContent();
-    const props = resolveStaticProps(urlPath, allData);
 
-    // Temporarily treat props as 'any' to safely access and modify it
-    const pageProps = props as any;
+    // 1. Create a "clean" deep copy of all data to avoid modifying the original.
+    const cleanData = JSON.parse(JSON.stringify(allData));
 
-    // 1. Delete 'code' from the main page object (if it's a single project page)
-    if (pageProps.code) {
-        delete pageProps.code;
-    }
+    // 2. Loop through the clean data and remove the 'code' field from EVERY item.
+    cleanData.forEach((item: any) => {
+        if (item.code) {
+            delete item.code;
+        }
+    });
 
-    // 2. Loop through all sections on the page (e.g., on your homepage)
-    if (pageProps.bottomSections && Array.isArray(pageProps.bottomSections)) {
-        pageProps.bottomSections.forEach((section: any) => {
-            // 3. Find sections that list other projects
-            const projects = section.projects || section.posts || section.items;
-            if (projects && Array.isArray(projects)) {
-                // 4. Loop through each project in the section and delete its 'code' field
-                projects.forEach((project: any) => {
-                    if (project.code) {
-                        delete project.code;
-                    }
-                });
-            }
-        });
-    }
+    // 3. Now, build the page props using ONLY the clean data.
+    const props = resolveStaticProps(urlPath, cleanData);
 
     return props;
 }
