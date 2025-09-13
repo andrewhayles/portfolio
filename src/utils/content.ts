@@ -107,6 +107,24 @@ function contentUrl(obj: types.ContentObject): string | undefined {
 
     return url;
 }
+
+export function getAllPagePaths() {
+    const allData = allContent(); // You can keep using allContent here for simplicity
+    return allData.map((obj) => obj.__metadata.urlPath).filter(Boolean);
+}
+
+export function getPageProps(urlPath) {
+    const allData = allContent();
+    const props = resolveStaticProps(urlPath, allData);
+
+    // This is the critical step: delete the large 'code' field before returning
+    if (props.page?.code) {
+        delete props.page.code;
+    }
+
+    return props;
+}
+
 export function allContent(): types.ContentObject[] {
     let objects = contentFilesInPath(contentBaseDir).map((file) => readContent(file));
 
