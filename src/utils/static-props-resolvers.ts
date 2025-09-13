@@ -76,9 +76,7 @@ const PropsResolvers: Partial<Record<ContentObjectType, ResolverFunction>> = {
             items: allProjects
         };
     },
-    // THIS IS THE SECTION THAT GETS FIXED
     RecentProjectsSection: (props, allData) => {
-        // CHANGED: This now calls our new, efficient function to get only preview data
         const recentProjects = getProjectPreviews(allData).slice(
             0,
             (props as RecentProjectsSection).recentCount || 3
@@ -104,17 +102,15 @@ function getAllProjectsSorted(objects: ContentObject[]) {
     return sorted;
 }
 
-// ADDED: This new function gets only the data needed for project previews
-function getProjectPreviews(objects: ContentObject[]) {
+// FINAL FIX: This version satisfies the TypeScript type requirements
+function getProjectPreviews(objects: ContentObject[]): ProjectLayout[] {
     const allProjects = getAllProjectsSorted(objects);
     return allProjects.map((project) => {
-        // Create a smaller object with only the essential fields
         return {
-            __metadata: project.__metadata,
-            type: project.type,
-            title: project.title,
-            description: project.description?.substring(0, 150) + '...' || '',
-            featuredImage: project.featuredImage
+            ...project, // Keep all existing properties
+            description: project.description?.substring(0, 150) + '...' || '', // Create an excerpt
+            markdownContent: '', // Add markdownContent with an empty string to satisfy the type
+            code: ''             // Add code with an empty string to be safe
         };
     });
 }
