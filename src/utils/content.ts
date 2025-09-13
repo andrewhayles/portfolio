@@ -116,22 +116,25 @@ export function getAllPagePaths() {
 }
 
 export function getPageProps(urlPath: string) {
-    // 1. Get all content data (this is fast).
+    // 1. Get all content data just once.
     const allData = allContent();
+    
+    // 2. Resolve the props for the specific page being built.
     const props = resolveStaticProps(urlPath, allData) as any;
 
-    // 2. Remove the heavy 'code' field from the main page object.
+    // 3. Clean the data efficiently *after* it has been resolved for the page.
+    
+    // Remove 'code' from the main page object (for project pages)
     if (props.code) {
         delete props.code;
     }
 
-    // 3. Trim the data for nested lists (like on your homepage).
-    // This is the key step to get under the 128 kB limit.
+    // Trim the data for nested lists (for the homepage)
     if (props.sections && Array.isArray(props.sections)) {
         props.sections.forEach((section: any) => {
             const projects = section.projects || section.posts || section.items;
             if (projects && Array.isArray(projects)) {
-                // Create a new array of smaller, "excerpt" objects.
+                // Create a new array of smaller "excerpt" objects.
                 const trimmedProjects = projects.map((project: any) => ({
                     __metadata: project.__metadata,
                     type: project.type,
@@ -149,6 +152,23 @@ export function getPageProps(urlPath: string) {
     }
 
     return props;
+}
+
+export function getProjectPreviews() {
+    const allProjects = allContent().filter(
+        (content) => content.type === 'ProjectLayout'
+    );
+
+    // Create a new, smaller object for each project with only the fields you need
+    return allProjects.map((project: any) => {
+        return {
+            __metadata: project.__metadata,
+            type: project.type,
+            title: project.title,
+            description: project.description?.substring(0, 150) + '...' || '', // Create an excerpt
+            featuredImage: project.featuredImage
+        };
+    });
 }
 
 export function allContentLight() {
