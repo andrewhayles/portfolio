@@ -119,7 +119,6 @@ export function getPageProps(urlPath: string) {
     const allData = allContent();
     const cleanData = JSON.parse(JSON.stringify(allData));
 
-    // Remove the 'code' field from every item first
     cleanData.forEach((item: any) => {
         if (item.code) {
             delete item.code;
@@ -128,20 +127,24 @@ export function getPageProps(urlPath: string) {
 
     const props = resolveStaticProps(urlPath, cleanData) as any;
 
-    // FINAL OPTIMIZATION: Trim the data for nested project lists
     if (props.bottomSections && Array.isArray(props.bottomSections)) {
         props.bottomSections.forEach((section: any) => {
             const projects = section.projects || section.posts || section.items;
             if (projects && Array.isArray(projects)) {
-                // Replace the array of full project objects with an array of smaller, trimmed objects
-                section.projects = projects.map((project: any) => ({
-                    // Only include the fields you ACTUALLY NEED for the project card on the homepage
-                    __metadata: project.__metadata,
-                    type: project.type,
-                    title: project.title,
-                    description: project.description,
-                    featuredImage: project.featuredImage
-                }));
+                // THIS IS THE FINAL CHANGE
+                section.projects = projects.map((project: any) => {
+                    // Create a short excerpt of the description (e.g., first 150 characters)
+                    const excerpt = project.description?.substring(0, 150) + '...' || '';
+
+                    return {
+                        __metadata: project.__metadata,
+                        type: project.type,
+                        title: project.title,
+                        featuredImage: project.featuredImage,
+                        // Pass the short excerpt INSTEAD of the full description
+                        description: excerpt
+                    };
+                });
             }
         });
     }
