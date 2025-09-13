@@ -1,28 +1,15 @@
-import * as React from 'react';
-import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter';
-import js from 'react-syntax-highlighter/dist/cjs/languages/prism/javascript';
-import css from 'react-syntax-highlighter/dist/cjs/languages/prism/css';
-import { funky } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import dynamic from 'next/dynamic';
 
-SyntaxHighlighter.registerLanguage('javascript', js);
-SyntaxHighlighter.registerLanguage('css', css);
+// This dynamically imports your CodeHighlighter.
+// The heavy library will now be in its own separate JavaScript file.
+const LazyCodeHighlighter = dynamic(() => import('../components/CodeHighlighter'), {
+    // You can add a loading state for a better user experience
+    loading: () => <pre><code>Loading code...</code></pre>,
+});
 
-const CodeBlock = ({ className, children }) => {
-    let lang = 'text'; // default monospaced text
-    if (className && className.startsWith('lang-')) {
-        lang = className.replace('lang-', '');
-    }
-    return (
-        <SyntaxHighlighter language={lang} style={funky} wrapLongLines>
-            {children}
-        </SyntaxHighlighter>
-    );
+// Export a component that you can use in your pages
+const HighlightedMarkdown = ({ language, children }) => {
+    return <LazyCodeHighlighter language={language}>{children}</LazyCodeHighlighter>;
 };
 
-// markdown-to-jsx uses <pre><code/></pre> for code blocks.
-export default function HighlightedPreBlock({ children, ...rest }) {
-    if ('type' in children && children['type'] === 'code') {
-        return CodeBlock(children['props']);
-    }
-    return <pre {...rest}>{children}</pre>;
-}
+export default HighlightedMarkdown;

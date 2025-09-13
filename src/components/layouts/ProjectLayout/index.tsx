@@ -2,19 +2,19 @@ import classNames from 'classnames';
 import dayjs from 'dayjs';
 import Markdown from 'markdown-to-jsx';
 import * as React from 'react';
-import { useState } from 'react'; //added by me
+import { useState } from 'react';
 
 import { Annotated } from '@/components/Annotated';
 import Link from '@/components/atoms/Link';
 import { DynamicComponent } from '@/components/components-registry';
 import ImageBlock from '@/components/molecules/ImageBlock';
 import { PageComponentProps, ProjectLayout } from '@/types';
-import HighlightedPreBlock from '@/utils/highlighted-markdown';
+import HighlightedMarkdown from '@/utils/highlighted-markdown'; // Import the lazy-loading wrapper
 import BaseLayout from '../BaseLayout';
 
 type ComponentProps = PageComponentProps &
     ProjectLayout & {
-		code?: string; 
+        code?: string;
         prevProject?: ProjectLayout;
         nextProject?: ProjectLayout;
     };
@@ -26,18 +26,18 @@ const Component: React.FC<ComponentProps> = (props) => {
         client,
         description,
         markdownContent,
-		code,
+        code,
         media,
         prevProject,
         nextProject,
         bottomSections = []
     } = props;
-	
-	const [isCodeVisible, setIsCodeVisible] = useState(false); //added by me
 
-	
-    const dateTimeAttr = dayjs().format('YYYY-MM-DD HH:mm:ss'); //removed date inside of first parentheses
-    const formattedDate = dayjs().format('YYYY-MM-DD'); //removed date inside of first parentheses
+    const [isCodeVisible, setIsCodeVisible] = useState(false);
+
+    // Date logic kept as requested
+    const dateTimeAttr = dayjs().format('YYYY-MM-DD HH:mm:ss');
+    const formattedDate = dayjs().format('YYYY-MM-DD');
 
     return (
         <BaseLayout {...props}>
@@ -52,39 +52,35 @@ const Component: React.FC<ComponentProps> = (props) => {
                     </div>
                 </header>
                 <div className="max-w-3xl mx-auto prose sm:prose-lg">
-                <Markdown options={{ forceBlock: true, overrides: { pre: HighlightedPreBlock } }}>
-                    {markdownContent.split('[CODE_HERE]')[0]}
-                </Markdown>
+                    <Markdown options={{ forceBlock: true, overrides: { pre: HighlightedPreBlock } }}>
+                        {markdownContent.split('[CODE_HERE]')[0]}
+                    </Markdown>
 
-                {code && (
-                    isCodeVisible ? (
-                        <Markdown options={{ forceBlock: true, overrides: { pre: HighlightedPreBlock } }}>
-                            {code}
-                        </Markdown>
-                    ) : (
-                        <p className="text-lg">
-						{"If you'd like to view the code for this project,"}{" "}
-                            <button
-                                onClick={() => setIsCodeVisible(true)}
-                                className="text-blue-500 hover:underline focus:outline-none"
-                            >
-                                please click here
-                            </button>
-                            {"."}
-                        </p>
-                    )
-                )}
+                    {/* CORRECTED: This logic now correctly lazy-loads the code block on click */}
+                    {code &&
+                        (isCodeVisible ? (
+                            <HighlightedMarkdown language="javascript">
+                                {code}
+                            </HighlightedMarkdown>
+                        ) : (
+                            <p className="text-lg">
+                                {"If you'd like to view the code for this project,"}{" "}
+                                <button
+                                    onClick={() => setIsCodeVisible(true)}
+                                    className="text-blue-500 hover:underline focus:outline-none"
+                                >
+                                    please click here
+                                </button>
+                                {"."}
+                            </p>
+                        ))}
 
-                <Markdown options={{ forceBlock: true, overrides: { pre: HighlightedPreBlock } }}>
-                    {markdownContent.split('[CODE_HERE]')[1]}
-                </Markdown>
-				</div>
-               
-				
-				{/* I added the following section */}
-				
-				
+                    <Markdown options={{ forceBlock: true, overrides: { pre: HighlightedPreBlock } }}>
+                        {markdownContent.split('[CODE_HERE]')[1]}
+                    </Markdown>
+                </div>
             </article>
+			
             {(prevProject || nextProject) && (
                 <nav className="px-4 mt-12 mb-20">
                     <div className="grid max-w-5xl mx-auto gap-x-6 gap-y-12 sm:grid-cols-2 lg:gap-x-8">
