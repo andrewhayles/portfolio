@@ -7,11 +7,11 @@ client: ''
 description: I created this project to stay up-to-date with my basic health markers.
 featuredImage:
   type: ImageBlock
-  url: /images/bg2.jpg
+  url: /images/bg2_mini.webp
   altText: Project thumbnail image
 media:
   type: ImageBlock
-  url: /images/bg2.jpg
+  url: /images/bg2_mini.webp
   altText: Project image
 code: |
   ```

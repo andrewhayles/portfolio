@@ -8,7 +8,7 @@
                 "title": "Empty page",
                 "colors": "colors-a",
                 "backgroundImage": {
-                    "url": "/images/bg2.jpg",
+                    "url": "/images/bg2.webp",
                     "backgroundSize": "cover",
                     "backgroundPosition": "center",
                     "backgroundRepeat": "no-repeat",
@@ -40,7 +40,7 @@
                 "title": "Landing",
                 "colors": "colors-a",
                 "backgroundImage": {
-                    "url": "/images/bg1.jpg",
+                    "url": "/images/bg1.webp",
                     "backgroundSize": "cover",
                     "backgroundPosition": "center",
                     "backgroundRepeat": "no-repeat",
@@ -201,7 +201,7 @@
                 "title": "Info page",
                 "colors": "colors-a",
                 "backgroundImage": {
-                    "url": "/images/bg2.jpg",
+                    "url": "/images/bg2.webp",
                     "backgroundSize": "cover",
                     "backgroundPosition": "center",
                     "backgroundRepeat": "no-repeat",

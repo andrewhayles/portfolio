@@ -114,7 +114,7 @@ export const styleFields: Field[] = [
         models: ['BackgroundImage'],
         default: {
             type: 'BackgroundImage',
-            url: '/images/bg2.jpg'
+            url: '/images/bg2.webp'
         }
     }
 ];

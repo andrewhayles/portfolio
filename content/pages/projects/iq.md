@@ -9,11 +9,11 @@ description: >-
   over many years.
 featuredImage:
   type: ImageBlock
-  url: /images/bg3.jpg
+  url: /images/bg3_mini.webp
   altText: Project thumbnail image
 media:
   type: ImageBlock
-  url: /images/bg3.jpg
+  url: /images/bg3_mini.webp
   altText: Project image
 code: |
   ```

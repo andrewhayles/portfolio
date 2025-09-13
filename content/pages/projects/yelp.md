@@ -8,11 +8,11 @@ description: >-
   I created this project to analyze the Yelp academic dataset as part of an SQL course online.
 featuredImage:
   type: ImageBlock
-  url: /images/bg3.jpg
+  url: /images/bg3_mini.webp
   altText: Project thumbnail image
 media:
   type: ImageBlock
-  url: /images/bg3.jpg
+  url: /images/bg3_mini.webp
   altText: Project image
 code: |
   This is the first script I wrote in SQL for this particular project.  This script creates tables in the SQLite database for each of the indicated tables in the JSON files with a column for each indicated variable that has an object associated with it (whether it be some type of numerical value or a string or a boolean).

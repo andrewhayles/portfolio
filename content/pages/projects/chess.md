@@ -9,11 +9,11 @@ description: >-
   chess games using an interesting technique.
 featuredImage:
   type: ImageBlock
-  url: /images/bg1.jpg
+  url: /images/bg1_mini.webp
   altText: Project thumbnail image
 media:
   type: ImageBlock
-  url: /images/bg1.jpg
+  url: /images/bg1_mini.webp
   altText: Project image
 code: |
   ```
