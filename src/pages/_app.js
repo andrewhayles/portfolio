@@ -5,21 +5,20 @@ import { useEffect, useState } from 'react';
 import '../css/main.css';
 import { DM_Mono, Azeret_Mono } from 'next/font/google';
 
-// 1. CONFIGURE THE FONTS HERE
+// Configuration is correct!
 const dmMono = DM_Mono({
   subsets: ['latin'],
   weight: ['400', '500'],
   style: ['normal', 'italic'],
-  variable: '--font-dm-mono', // Creates a CSS variable
+  variable: '--font-dm-mono'
 });
 
 const azeretMono = Azeret_Mono({
   subsets: ['latin'],
   weight: ['400', '500'],
   style: ['normal', 'italic'],
-  variable: '--font-azeret-mono', // Creates another CSS variable
+  variable: '--font-azeret-mono'
 });
-
 
 export default function MyApp({ Component, pageProps }) {
     const { global, ...page } = pageProps;
@@ -34,8 +33,8 @@ export default function MyApp({ Component, pageProps }) {
     }, [page.colors]);
 
     return (
-        // 2. APPLY THE FONT VARIABLES TO A WRAPPING ELEMENT
-        <div className={`${dmMono.variable} ${azeretMono.variable}`}>
+        // Apply the variables AND a default font class (e.g., font-sans)
+        <div className={`${dmMono.variable} ${azeretMono.variable} font-sans`}>
             <style jsx global>{`
                 :root {
                     ${cssVars}
