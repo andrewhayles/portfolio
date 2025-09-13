@@ -13,6 +13,24 @@
 }
 
 @layer base {
+	 /* --- Add this @font-face block --- */
+    @font-face {
+        font-family: 'Azeret Mono';
+        src: url('/fonts/AzeretMono-VariableFont_wght.woff2') format('woff2'); /* Adjust path and filename */
+        font-weight: 400; /* Adjust weight if needed */
+        font-style: normal;
+        font-display: swap; /* This is the critical performance fix */
+    }
+
+    @font-face {
+        font-family: 'DM Mono';
+        src: url('/fonts/DMMono-Regular.woff2') format('woff2'); /* Adjust path and filename */
+        font-weight: 400; /* Adjust weight if needed */
+        font-style: normal;
+        font-display: swap; /* This is the critical performance fix */
+    }
+    /* --- End of new block --- */
+	
     html {
         @apply antialiased font-body;
     }
