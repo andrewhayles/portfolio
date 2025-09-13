@@ -119,9 +119,10 @@ export function getPageProps(urlPath) {
     const props = resolveStaticProps(urlPath, allData);
 
     // This is the critical step: delete the large 'code' field before returning
-	if (props.code) {
-        delete props.code;
+	if ((props as any).code) {
+        delete (props as any).code;
     }
+	
 
     return props;
 }
