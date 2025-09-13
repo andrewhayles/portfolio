@@ -10,7 +10,7 @@ export default function Footer(props) {
         <footer
             className={classNames(
                 'relative',
-                'min-h-[188px]', // Add this line!
+                'min-h-[222px]', // Add this line!
                 styles.self?.padding ?? 'py-16 px-4'
             )}
         >
