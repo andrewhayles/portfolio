@@ -48,7 +48,8 @@ const Component: React.FC<ComponentProps> = (props) => {
     const handleShowCodeClick = async () => {
         setIsLoading(true);
         // Assumes your slug is stored in __metadata.slug
-        const response = await fetch(`/api/code/${__metadata.slug}`); 
+        const slug = __metadata.urlPath.split('/').pop();
+        const response = await fetch(`/api/code/${slug}`);
         const data = await response.json();
         setCodeContent(data.code);
         setIsCodeVisible(true);
