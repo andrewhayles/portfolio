@@ -7,11 +7,11 @@
         "start": "next start"
     },
     "browserslist": [
-       "last 2 Chrome versions",
-       "last 2 Firefox versions",
-       "last 2 Safari versions",
-       "last 2 Edge versions"
-    ]	
+        "last 2 Chrome versions",
+        "last 2 Firefox versions",
+        "last 2 Safari versions",
+        "last 2 Edge versions"
+    ],
     "dependencies": {
         "@stackbit/cms-git": "^1.0.35",
         "@tailwindcss/postcss": "^4.0.12",
@@ -22,6 +22,7 @@
         "next": "^15.2.1",
         "react": "^19.0.0",
         "react-dom": "^19.0.0",
+        "react-intersection-observer": "^9.16.0",
         "react-syntax-highlighter": "^15.6.1",
         "slugify": "^1.6.6",
         "tailwindcss": "^4.0.12"

@@ -4,6 +4,7 @@ import Markdown from 'markdown-to-jsx';
 import { DynamicComponent } from '@/components/components-registry';
 import { PageComponentProps, PageLayout } from '@/types';
 import BaseLayout from '../BaseLayout';
+import { ViewportAware } from '../ViewportAware'; // 1. Import the wrapper
 
 type ComponentProps = PageComponentProps & PageLayout;
 
@@ -12,9 +13,15 @@ const Component: React.FC<ComponentProps> = (props) => {
 
     return (
         <BaseLayout {...props}>
-            {/* Render the sections (including the title) FIRST */}
-            {sections.map((section, index) => {
-                return <DynamicComponent key={index} {...section} />;
+            {/* Render the sections */}
+            {sections.map((section) => {
+                // 2. Wrap the DynamicComponent in ViewportAware
+                // Note: Using a unique ID like section._id for the key is better than index.
+                return (
+                    <ViewportAware key={section._id}>
+                        <DynamicComponent {...section} />
+                    </ViewportAware>
+                );
             })}
 
             {/* Render the main markdown content AFTER */}
