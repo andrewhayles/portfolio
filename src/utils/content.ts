@@ -118,7 +118,8 @@ export function getAllPagePaths() {
 export function getPageProps(urlPath: string) {
     const allData = allContent();
     const cleanData = JSON.parse(JSON.stringify(allData));
-    
+
+    // Remove the large 'code' field from every page's data first
     cleanData.forEach((item: any) => {
         if (item.code) {
             delete item.code;
@@ -126,18 +127,21 @@ export function getPageProps(urlPath: string) {
     });
 
     const props = resolveStaticProps(urlPath, cleanData) as any;
-    
-    // THE FINAL FIX IS HERE: Check for 'sections' instead of 'bottomSections'
+
+    // THE FINAL FIX: Target 'props.sections' which contains the homepage content
     if (props.sections && Array.isArray(props.sections)) {
         props.sections.forEach((section: any) => {
+            // Find sections that contain lists of projects or posts
             const projects = section.projects || section.posts || section.items;
             if (projects && Array.isArray(projects)) {
+                // Replace the full project data with smaller "excerpt" objects
                 section.projects = projects.map((project: any) => ({
                     __metadata: project.__metadata,
                     type: project.type,
                     title: project.title,
-                    description: project.description?.substring(0, 150) + '...' || '',
-                    featuredImage: project.featuredImage
+                    featuredImage: project.featuredImage,
+                    // Create a short excerpt instead of sending the full description
+                    description: project.description?.substring(0, 150) + '...' || ''
                 }));
             }
         });
