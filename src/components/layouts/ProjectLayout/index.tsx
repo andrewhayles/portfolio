@@ -114,7 +114,7 @@ const Component: React.FC<ComponentProps> = (props) => {
                         </div>
                     ) : (
                         <p className="text-lg">
-                            {"If you'd like to view the code for this project, "}
+                            {"If you&rsquo;d like to view the code for this project, "}
                             <button
                                 onClick={handleShowCodeClick}
                                 disabled={isLoading}
@@ -142,7 +142,7 @@ const Component: React.FC<ComponentProps> = (props) => {
                                 />
                             ) : (
                                 <p className="text-lg">
-                                    {"If you'd like to view the code for this project, "}
+                                    {"If you&rsquo;d like to view the code for this project, "}
                                     <button
                                         onClick={() => setIsCodeVisible(true)}
                                         className="text-blue-500 hover:underline focus:outline-none"
