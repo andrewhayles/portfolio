@@ -4,7 +4,7 @@ import Markdown from 'markdown-to-jsx';
 import { DynamicComponent } from '@/components/components-registry';
 import { PageComponentProps, PageLayout } from '@/types';
 import BaseLayout from '../BaseLayout';
-import { ViewportAware } from '../ViewportAware'; // 1. Import the wrapper
+import { ViewportAware } from '@/components/ViewportAware'; // 1. Import the wrapper
 
 type ComponentProps = PageComponentProps & PageLayout;
 
