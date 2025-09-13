@@ -116,9 +116,38 @@ export function getAllPagePaths() {
 }
 
 export function getPageProps(urlPath: string) {
-    // This now uses the efficient function that never includes the 'code' field
-    const cleanData = allContentLight();
-    const props = resolveStaticProps(urlPath, cleanData);
+    // 1. Get all content data (this is fast).
+    const allData = allContent();
+    const props = resolveStaticProps(urlPath, allData) as any;
+
+    // 2. Remove the heavy 'code' field from the main page object.
+    if (props.code) {
+        delete props.code;
+    }
+
+    // 3. Trim the data for nested lists (like on your homepage).
+    // This is the key step to get under the 128 kB limit.
+    if (props.sections && Array.isArray(props.sections)) {
+        props.sections.forEach((section: any) => {
+            const projects = section.projects || section.posts || section.items;
+            if (projects && Array.isArray(projects)) {
+                // Create a new array of smaller, "excerpt" objects.
+                const trimmedProjects = projects.map((project: any) => ({
+                    __metadata: project.__metadata,
+                    type: project.type,
+                    title: project.title,
+                    featuredImage: project.featuredImage,
+                    description: project.description?.substring(0, 150) + '...' || '',
+                }));
+                
+                // Replace the original array on the correct property.
+                if (section.projects) section.projects = trimmedProjects;
+                if (section.posts) section.posts = trimmedProjects;
+                if (section.items) section.items = trimmedProjects;
+            }
+        });
+    }
+
     return props;
 }
 
