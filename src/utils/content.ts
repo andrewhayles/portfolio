@@ -8,6 +8,8 @@ import * as types from '@/types';
 import { isDev } from './common';
 import { PAGE_MODEL_NAMES, PageModelType } from '@/types/generated';
 import { resolveStaticProps } from './static-props-resolvers';
+import { allContent } from './content'
+
 
 const contentBaseDir = 'content';
 const pagesBaseDir = contentBaseDir + '/pages';
@@ -114,15 +116,33 @@ export function getAllPagePaths() {
     return allData.map((obj) => obj.__metadata.urlPath).filter(Boolean);
 }
 
-export function getPageProps(urlPath) {
+export function getPageProps(urlPath: string) {
     const allData = allContent();
     const props = resolveStaticProps(urlPath, allData);
 
-    // This is the critical step: delete the large 'code' field before returning
-	if ((props as any).code) {
-        delete (props as any).code;
+    // Temporarily treat props as 'any' to safely access and modify it
+    const pageProps = props as any;
+
+    // 1. Delete 'code' from the main page object (if it's a single project page)
+    if (pageProps.code) {
+        delete pageProps.code;
     }
-	
+
+    // 2. Loop through all sections on the page (e.g., on your homepage)
+    if (pageProps.bottomSections && Array.isArray(pageProps.bottomSections)) {
+        pageProps.bottomSections.forEach((section: any) => {
+            // 3. Find sections that list other projects
+            const projects = section.projects || section.posts || section.items;
+            if (projects && Array.isArray(projects)) {
+                // 4. Loop through each project in the section and delete its 'code' field
+                projects.forEach((project: any) => {
+                    if (project.code) {
+                        delete project.code;
+                    }
+                });
+            }
+        });
+    }
 
     return props;
 }
