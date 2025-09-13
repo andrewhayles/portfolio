@@ -89,7 +89,7 @@ const Component: React.FC<ComponentProps> = (props) => {
                         <div dangerouslySetInnerHTML={{ __html: highlightedCode }} />
                     ) : (
                         <p className="text-lg">
-                            If you'd like to view the code for this project,{' '}
+						 {"If you&apos;d like to view the code for this project,"}{' '}
                             <button
                                 onClick={() => setIsCodeVisible(true)}
                                 className="text-blue-500 hover:underline focus:outline-none"
