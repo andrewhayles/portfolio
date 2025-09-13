@@ -68,7 +68,7 @@ const Component: React.FC<ComponentProps> = (props) => {
             const data = await res.json();
             setCodeContent(String(data?.code ?? ''));
             setIsCodeVisible(true);
-        } catch (err) {
+          catch (err) {
             // eslint-disable-next-line no-console
             console.error('Failed to fetch code for project:', err);
             // Keep UI usable: open the code block but show failure message
