@@ -5,7 +5,7 @@ import * as React from 'react';
 
 import { DynamicComponent } from '@/components/components-registry';
 import { PageComponentProps, PostLayout } from '@/types';
-import { highlightCode } from '/src/utils/shiki';
+import { highlightCode } from '@/utils/shiki';
 import BaseLayout from '../BaseLayout';
 
 type ComponentProps = PageComponentProps & PostLayout;
