@@ -5,7 +5,7 @@ import * as React from 'react';
 
 import { DynamicComponent } from '@/components/components-registry';
 import { PageComponentProps, PostLayout } from '@/types';
-import HighlightedPreBlock from '@/utils/highlighted-markdown';
+import { highlightCode } from './shiki';
 import BaseLayout from '../BaseLayout';
 
 type ComponentProps = PageComponentProps & PostLayout;
@@ -37,7 +37,7 @@ const Component: React.FC<ComponentProps> = (props) => {
                 )}
                 {markdownContent && (
                     <Markdown
-                        options={{ forceBlock: true, overrides: { pre: HighlightedPreBlock } }}
+                        options={{ forceBlock: true, overrides: { pre: highlightCode } }}
                         className="max-w-3xl mx-auto prose sm:prose-lg"
                     >
                         {markdownContent}
