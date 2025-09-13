@@ -7,6 +7,12 @@
         "start": "next start",
 		"analyze": "cross-env ANALYZE=true next build"
     },
+	"browserslist": [
+         "> 0.5%",
+         "not dead",
+         "not op_mini all",
+         "not IE 11"
+    ],
     "dependencies": {
         "@next/bundle-analyzer": "^15.5.3",
         "@stackbit/cms-git": "^1.0.35",

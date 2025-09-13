@@ -76,8 +76,10 @@ const PropsResolvers: Partial<Record<ContentObjectType, ResolverFunction>> = {
             items: allProjects
         };
     },
+    // THIS IS THE SECTION THAT GETS FIXED
     RecentProjectsSection: (props, allData) => {
-        const recentProjects = getAllProjectsSorted(allData).slice(
+        // CHANGED: This now calls our new, efficient function to get only preview data
+        const recentProjects = getProjectPreviews(allData).slice(
             0,
             (props as RecentProjectsSection).recentCount || 3
         );
@@ -100,4 +102,19 @@ function getAllProjectsSorted(objects: ContentObject[]) {
         (projectA, projectB) => new Date(projectB.date).getTime() - new Date(projectA.date).getTime()
     );
     return sorted;
+}
+
+// ADDED: This new function gets only the data needed for project previews
+function getProjectPreviews(objects: ContentObject[]) {
+    const allProjects = getAllProjectsSorted(objects);
+    return allProjects.map((project) => {
+        // Create a smaller object with only the essential fields
+        return {
+            __metadata: project.__metadata,
+            type: project.type,
+            title: project.title,
+            description: project.description?.substring(0, 150) + '...' || '',
+            featuredImage: project.featuredImage
+        };
+    });
 }
