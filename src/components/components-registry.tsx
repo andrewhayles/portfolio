@@ -35,7 +35,6 @@ const dynamicComponents = {
     TextareaFormControl: dynamic(() => import('./molecules/FormBlock/TextareaFormControl')),
     TextFormControl: dynamic(() => import('./molecules/FormBlock/TextFormControl')),
     TextSection: dynamic(() => import('./sections/TextSection')),
-    VideoBlock: dynamic(() => import('./molecules/VideoBlock')),
     PageLayout: dynamic(() => import('./layouts/PageLayout')),
     PostLayout: dynamic(() => import('./layouts/PostLayout')),
     PostFeedLayout: dynamic(() => import('./layouts/PostFeedLayout')),
