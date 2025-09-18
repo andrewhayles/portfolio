@@ -1,5 +1,5 @@
-// src/components/layout/Header/index.tsx
-import React, { useEffect, useState, useCallback } from 'react';
+// src/components/sections/Header/index.tsx
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
@@ -15,7 +15,10 @@ const ImageBlock = dynamic(() => import('@/components/molecules/ImageBlock'), {
   loading: () => null
 });
 
-export default function Header(props) {
+type LinkItem = any; // keep as any to match your existing link shapes
+type SocialItem = any;
+
+export default function Header(props: any) {
   const { isSticky, styles = {}, ...rest } = props;
   const headerWidth = styles.self?.width ?? 'narrow';
   return (
@@ -36,7 +39,7 @@ export default function Header(props) {
   );
 }
 
-function HeaderVariants(props) {
+function HeaderVariants(props: any) {
   const { headerVariant = 'variant-a', ...rest } = props;
   switch (headerVariant) {
     case 'variant-b':
@@ -48,19 +51,19 @@ function HeaderVariants(props) {
   }
 }
 
-function HeaderVariantA(props) {
+function HeaderVariantA(props: any) {
   const { primaryLinks = [], socialLinks = [], ...logoProps } = props;
   return (
     <div className="relative flex items-stretch">
       <SiteLogoLink {...logoProps} />
       {primaryLinks.length > 0 && (
         <ul className="hidden border-r border-current divide-x divide-current lg:flex">
-          <ListOfLinks links={primaryLinks} inMobileMenu={false} />
+          <ListOfLinksMemo links={primaryLinks} inMobileMenu={false} />
         </ul>
       )}
       {socialLinks.length > 0 && (
         <ul className="hidden ml-auto border-l border-current lg:flex">
-          <ListOfSocialLinks links={socialLinks} inMobileMenu={false} />
+          <ListOfSocialLinksMemo links={socialLinks} inMobileMenu={false} />
         </ul>
       )}
       {(primaryLinks.length > 0 || socialLinks.length > 0) && <MobileMenu {...props} />}
@@ -68,14 +71,14 @@ function HeaderVariantA(props) {
   );
 }
 
-function HeaderVariantB(props) {
+function HeaderVariantB(props: any) {
   const { primaryLinks = [], socialLinks = [], ...logoProps } = props;
   return (
     <div className="relative flex items-stretch">
       <SiteLogoLink {...logoProps} />
       {primaryLinks.length > 0 && (
         <ul className="hidden ml-auto border-l border-current divide-x divide-current lg:flex">
-          <ListOfLinks links={primaryLinks} inMobileMenu={false} />
+          <ListOfLinksMemo links={primaryLinks} inMobileMenu={false} />
         </ul>
       )}
       {socialLinks.length > 0 && (
@@ -84,7 +87,7 @@ function HeaderVariantB(props) {
             'ml-auto': primaryLinks.length === 0
           })}
         >
-          <ListOfSocialLinks links={socialLinks} inMobileMenu={false} />
+          <ListOfSocialLinksMemo links={socialLinks} inMobileMenu={false} />
         </ul>
       )}
       {(primaryLinks.length > 0 || socialLinks.length > 0) && <MobileMenu {...props} />}
@@ -92,14 +95,14 @@ function HeaderVariantB(props) {
   );
 }
 
-function HeaderVariantC(props) {
+function HeaderVariantC(props: any) {
   const { primaryLinks = [], socialLinks = [], ...logoProps } = props;
   return (
     <div className="relative flex items-stretch">
       <SiteLogoLink {...logoProps} />
       {socialLinks.length > 0 && (
         <ul className="hidden ml-auto border-l border-current lg:flex">
-          <ListOfSocialLinks links={socialLinks} inMobileMenu={false} />
+          <ListOfSocialLinksMemo links={socialLinks} inMobileMenu={false} />
         </ul>
       )}
       {primaryLinks.length > 0 && (
@@ -108,7 +111,7 @@ function HeaderVariantC(props) {
             'ml-auto': primaryLinks.length === 0
           })}
         >
-          <ListOfLinks links={primaryLinks} inMobileMenu={false} />
+          <ListOfLinksMemo links={primaryLinks} inMobileMenu={false} />
         </ul>
       )}
       {(primaryLinks.length > 0 || socialLinks.length > 0) && <MobileMenu {...props} />}
@@ -116,7 +119,7 @@ function HeaderVariantC(props) {
   );
 }
 
-function MobileMenu(props) {
+function MobileMenu(props: any) {
   const { primaryLinks = [], socialLinks = [], ...logoProps } = props;
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
@@ -161,12 +164,12 @@ function MobileMenu(props) {
               <div className="flex flex-col items-center justify-center px-4 py-20 space-y-12 grow">
                 {primaryLinks.length > 0 && (
                   <ul className="space-y-6">
-                    <ListOfLinks links={primaryLinks} inMobileMenu={true} />
+                    <ListOfLinksMemo links={primaryLinks} inMobileMenu={true} />
                   </ul>
                 )}
                 {socialLinks.length > 0 && (
                   <ul className="flex flex-wrap justify-center border border-current divide-x divide-current">
-                    <ListOfSocialLinks links={socialLinks} inMobileMenu={true} />
+                    <ListOfSocialLinksMemo links={socialLinks} inMobileMenu={true} />
                   </ul>
                 )}
               </div>
@@ -178,7 +181,7 @@ function MobileMenu(props) {
   );
 }
 
-function SiteLogoLink({ title, isTitleVisible, logo }) {
+function SiteLogoLink({ title, isTitleVisible, logo }: { title?: string; isTitleVisible?: boolean; logo?: any }) {
   if (!(logo || (title && isTitleVisible))) {
     return null;
   }
@@ -192,21 +195,48 @@ function SiteLogoLink({ title, isTitleVisible, logo }) {
   );
 }
 
-const ListOfLinks = React.memo(function ListOfLinks({ links, inMobileMenu }) {
-  return links.map((link, index) => (
-    <li key={index} className={classNames(inMobileMenu ? 'text-center w-full' : 'inline-flex items-stretch')}>
-      <HeaderLink
-        {...link}
-        className={classNames(inMobileMenu ? 'text-xl bottom-shadow-1 hover:bottom-shadow-5' : 'p-4 link-fill')}
-      />
-    </li>
-  ));
-});
+/* -----------------------
+   ListOfLinks + ListOfSocialLinks
+   explicit prop types so TS knows what they accept
+   ----------------------- */
 
-const ListOfSocialLinks = React.memo(function ListOfSocialLinks({ links, inMobileMenu = false }) {
-  return links.map((link, index) => (
-    <li key={index} className="inline-flex items-stretch">
-      <Social {...link} className={classNames('text-lg link-fill', inMobileMenu ? 'p-5' : 'p-4')} />
-    </li>
-  ));
-});
+type ListOfLinksProps = {
+  links: LinkItem[];
+  inMobileMenu?: boolean;
+};
+
+function ListOfLinks({ links, inMobileMenu }: ListOfLinksProps) {
+  return (
+    <>
+      {links.map((link: LinkItem, index: number) => (
+        <li key={index} className={classNames(inMobileMenu ? 'text-center w-full' : 'inline-flex items-stretch')}>
+          <HeaderLink
+            {...link}
+            className={classNames(inMobileMenu ? 'text-xl bottom-shadow-1 hover:bottom-shadow-5' : 'p-4 link-fill')}
+          />
+        </li>
+      ))}
+    </>
+  );
+}
+
+const ListOfLinksMemo: React.NamedExoticComponent<ListOfLinksProps> = React.memo(ListOfLinks);
+
+type ListOfSocialLinksProps = {
+  links: SocialItem[];
+  inMobileMenu?: boolean;
+};
+
+function ListOfSocialLinks({ links, inMobileMenu = false }: ListOfSocialLinksProps) {
+  return (
+    <>
+      {links.map((link: SocialItem, index: number) => (
+        <li key={index} className="inline-flex items-stretch">
+          <Social {...link} className={classNames('text-lg link-fill', inMobileMenu ? 'p-5' : 'p-4')} />
+        </li>
+      ))}
+    </>
+  );
+}
+
+const ListOfSocialLinksMemo: React.NamedExoticComponent<ListOfSocialLinksProps> = React.memo(ListOfSocialLinks);
