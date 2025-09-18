@@ -554,6 +554,7 @@ export type ProjectLayout = BaseContentObject & {
     colors?: 'colors-a' | 'colors-b' | 'colors-c' | 'colors-d' | 'colors-e';
     backgroundImage?: BackgroundImage;
     markdownContent: string;
+	highlightedCode?: string;
 };
 
 export type QuoteSection = BaseContentObject & {
