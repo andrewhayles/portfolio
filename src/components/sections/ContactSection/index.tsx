@@ -14,21 +14,22 @@ const FormBlockLazy = dynamic(() => import('@/components/molecules/FormBlock'), 
 import { mapStylesToClassNames as mapStyles } from '@/utils/map-styles-to-class-names';
 import Section from '../Section';
 
-export default function ContactSection(props) {
+type ContactSectionProps = any;
+
+export default function ContactSection(props: ContactSectionProps) {
   const { elementId, colors, backgroundSize, title, text, form, media, styles = {} } = props;
   const sectionAlign = styles.self?.textAlign ?? 'left';
 
   // track whether the user explicitly requested the form (click) or it entered viewport
   const [showForm, setShowForm] = useState(false);
-  const formRef = useRef<HTMLElement | null>(null);
+  const formRef = useRef<HTMLDivElement | null>(null);
 
   // for lazy-mounting media
   const [showMedia, setShowMedia] = useState(false);
   const mediaRef = useRef<HTMLDivElement | null>(null);
 
-  // local in-view hook usage
+  // local in-view hook usage (passes ref objects)
   useInView(formRef, () => {
-    // when the form container becomes visible, mount the form
     setShowForm(true);
   });
 
@@ -39,7 +40,6 @@ export default function ContactSection(props) {
   // also allow quick user-trigger to load the form (fast path)
   function handleShowForm() {
     setShowForm(true);
-    // scroll into view if desired (optional)
     try {
       formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     } catch (e) {}
@@ -71,7 +71,7 @@ export default function ContactSection(props) {
           )}
 
           {/* Form area: placeholder button (quick) + viewport-triggered mount */}
-          <div ref={(el) => (formRef.current = el)}>
+          <div ref={formRef}>
             {!showForm ? (
               <div className={classNames({ 'mt-12': title || text })}>
                 <button
@@ -93,7 +93,7 @@ export default function ContactSection(props) {
 
         {media && (
           <div
-            ref={(el) => (mediaRef.current = el)}
+            ref={mediaRef}
             className={classNames('flex flex-1 w-full', {
               'justify-center': sectionAlign === 'center',
               'justify-end': sectionAlign === 'right'
@@ -108,7 +108,7 @@ export default function ContactSection(props) {
   );
 }
 
-function ContactMedia({ media }) {
+function ContactMedia({ media }: { media: any }) {
   return <DynamicComponent {...media} />;
 }
 
@@ -116,10 +116,19 @@ function ContactMedia({ media }) {
  * Small hook: calls callback once when the given ref's element intersects viewport.
  * Uses IntersectionObserver if available, otherwise triggers immediately (safe fallback).
  */
-function useInView<T extends HTMLElement = HTMLElement>(ref: { current: T | null }, cb: () => void, options = { rootMargin: '200px' }) {
+function useInView<T extends HTMLElement = HTMLElement>(
+  ref: React.RefObject<T>,
+  cb: () => void,
+  options = { rootMargin: '200px' }
+) {
   useEffect(() => {
-    const el = ref.current;
+    const el = ref?.current;
     if (!el) return;
+
+    if (typeof window === 'undefined') {
+      // server: nothing to observe
+      return;
+    }
 
     // If IntersectionObserver is unsupported, behave conservatively and trigger mount
     if (!('IntersectionObserver' in window)) {
@@ -134,7 +143,9 @@ function useInView<T extends HTMLElement = HTMLElement>(ref: { current: T | null
           if (entry.isIntersecting && !didTrigger) {
             didTrigger = true;
             cb();
-            io.disconnect();
+            try {
+              io.disconnect();
+            } catch (e) {}
           }
         });
       },
@@ -147,6 +158,7 @@ function useInView<T extends HTMLElement = HTMLElement>(ref: { current: T | null
         io.disconnect();
       } catch (e) {}
     };
+    // We intentionally do not add cb to deps since it is stable in this usage pattern
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ref.current]);
 }
