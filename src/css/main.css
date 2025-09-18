@@ -155,6 +155,11 @@
             content: none;
         }
     }
+	
+	.prose pre {
+        white-space: pre-wrap !important; /* This makes the text wrap */
+        word-break: break-word !important;   /* This helps break long words/strings */
+    }
 }
 
 @utility bottom-shadow-* {

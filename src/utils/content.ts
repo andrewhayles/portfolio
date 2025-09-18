@@ -123,7 +123,8 @@ export async function getPageProps(urlPath: string) {
     // If this is a project page with a code block...
     if (props.code) {
         // ...highlight the code and add it as a new prop.
-        props.highlightedCode = await highlightCode(props.code, 'javascript');
+        const lang = props.code.match(/^```(\w+)\n/)?.[1] || 'text';
+        props.highlightedCode = await highlightCode(props.code, lang);
         // Delete the original raw code so it's not sent to the browser
         delete props.code;
     }
