@@ -281,8 +281,7 @@ code: |
                       "Joshi", "Dorsey", "Predavec", "Jouve", "Kutle",
                       "Prousalis", "Scillitani", "Udriste", "Other"])
   
-  plt.pie(mypiearray,labels = mylabel,autopct='%.0f%%', explode = (0.1, 0.1, 0.1, 0.1, 0.1, 0.6, 0.6, 0.6, 0.6, 0.6,
-                                                                   0.6, 0.6, 0.6, 0.1), startangle = 90)
+  plt.pie(mypiearray,labels = mylabel,autopct='%.0f%%', explode = (0.1, 0.1, 0.1, 0.1, 0.1, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.1), startangle = 90)
   
   plt.show()
   ```
