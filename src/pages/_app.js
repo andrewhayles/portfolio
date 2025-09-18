@@ -77,9 +77,11 @@ function createLoadScriptLazy(runWhenIdleFn) {
       const existing = document.getElementById(id);
       if (existing) {
         // If the script tag already finished loading, resolve immediately
-        if ((existing as HTMLScriptElement).getAttribute('data-loaded') === 'true') {
+        // --- FIX IS HERE: Removed "as HTMLScriptElement" ---
+        if (existing.getAttribute('data-loaded') === 'true') {
           return Promise.resolve();
         }
+        // --------------------------------------------------
         // Otherwise attach to load/error (rare)
         return new Promise((resolve, reject) => {
           existing.addEventListener('load', resolve, { once: true });
@@ -103,15 +105,23 @@ function createLoadScriptLazy(runWhenIdleFn) {
               s.setAttribute(k, String(attrs[k]));
             } catch (e) {}
           });
-          s.addEventListener('load', () => {
-            try {
-              s.setAttribute('data-loaded', 'true');
-            } catch (e) {}
-            resolve();
-          }, { once: true });
-          s.addEventListener('error', () => {
-            reject(new Error('failed to load script'));
-          }, { once: true });
+          s.addEventListener(
+            'load',
+            () => {
+              try {
+                s.setAttribute('data-loaded', 'true');
+              } catch (e) {}
+              resolve();
+            },
+            { once: true }
+          );
+          s.addEventListener(
+            'error',
+            () => {
+              reject(new Error('failed to load script'));
+            },
+            { once: true }
+          );
           // append to body so it doesn't block head parsing
           (document.body || document.head || document.documentElement).appendChild(s);
         } catch (e) {
