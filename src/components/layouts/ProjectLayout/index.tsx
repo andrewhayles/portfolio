@@ -53,31 +53,31 @@ const Component: React.FC<ComponentProps> = (props) => {
                 </header>
                 <div className="max-w-3xl mx-auto prose sm:prose-lg">
                 <Markdown options={{ forceBlock: true, overrides: { pre: HighlightedPreBlock } }}>
-					{markdownContent.split('[CODE_HERE]')[0]}
-				</Markdown>
+                     {markdownContent.split('[CODE_HERE]')[0]}
+                </Markdown>
 
-				{/* Check for the highlightedCode prop instead */}
-				{highlightedCode && (
-					isCodeVisible ? (
+                {/* Check for the highlightedCode prop instead */}
+                {highlightedCode && (
+                    isCodeVisible ? (
 						// Render the highlightedCode as HTML
-						<div dangerouslySetInnerHTML={{ __html: highlightedCode }} />
-					) : (
-						<p className="text-lg">
-							{"If you'd like to view the code for this project,"}{" "}
-							<button
-								onClick={() => setIsCodeVisible(true)}
-								className="text-blue-500 hover:underline focus:outline-none"
-							>		
-								please click here
-							</button>
-							{"."}
-						</p>
-					)
-				)}
+                        <div dangerouslySetInnerHTML={{ __html: highlightedCode }} />
+                    ) : (
+                        <p className="text-lg">
+                            {"If you'd like to view the code for this project,"}{" "}
+                            <button
+                                onClick={() => setIsCodeVisible(true)}
+                                className="text-blue-500 hover:underline focus:outline-none"
+                            >		
+                                please click here
+                            </button>
+                            {"."}
+                        </p>
+                    )
+                )}
 
-				<Markdown options={{ forceBlock: true, overrides: { pre: HighlightedPreBlock } }}>
-					{markdownContent.split('[CODE_HERE]')[1]}
-				</Markdown>
+                <Markdown options={{ forceBlock: true, overrides: { pre: HighlightedPreBlock } }}>
+                    {markdownContent.split('[CODE_HERE]')[1]}
+                </Markdown>
 				</div>
                
 				
