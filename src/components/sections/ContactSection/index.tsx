@@ -5,14 +5,18 @@ import Markdown from 'markdown-to-jsx';
 import dynamic from 'next/dynamic';
 
 import { DynamicComponent } from '@/components/components-registry';
-// FormBlock is now dynamically imported to avoid bundling it into the initial client bundle
-const FormBlockLazy = dynamic(() => import('@/components/molecules/FormBlock'), {
-  ssr: false,
-  loading: () => null
-});
-
 import { mapStylesToClassNames as mapStyles } from '@/utils/map-styles-to-class-names';
 import Section from '../Section';
+
+// --- CHANGE #1: Both heavy components are now dynamically imported ---
+const FormBlockLazy = dynamic(() => import('@/components/molecules/FormBlock'), {
+  ssr: false
+});
+
+const ContactMediaLazy = dynamic(() => import('@/components/components-registry').then((mod) => mod.DynamicComponent), {
+  ssr: false
+});
+// --------------------------------------------------------------------
 
 type ContactSectionProps = any;
 
@@ -61,9 +65,7 @@ export default function ContactSection(props: ContactSectionProps) {
               className={classNames(
                 'max-w-none prose sm:prose-lg',
                 mapStyles({ textAlign: sectionAlign }),
-                {
-                  'mt-4': title
-                }
+                { 'mt-4': title }
               )}
             >
               {text}
@@ -84,7 +86,6 @@ export default function ContactSection(props: ContactSectionProps) {
               </div>
             ) : (
               <div className={classNames({ 'mt-12': title || text })}>
-                {/* now mount the (lazy) FormBlock */}
                 <FormBlockLazy {...form} />
               </div>
             )}
@@ -99,8 +100,9 @@ export default function ContactSection(props: ContactSectionProps) {
               'justify-end': sectionAlign === 'right'
             })}
           >
-            {/* only mount the heavy media component when in view */}
-            {showMedia ? <ContactMedia media={media} /> : null}
+            {/* --- CHANGE #2: Use the new lazy component --- */}
+            {showMedia ? <ContactMediaLazy {...media} /> : null}
+            {/* ------------------------------------------- */}
           </div>
         )}
       </div>
@@ -108,9 +110,11 @@ export default function ContactSection(props: ContactSectionProps) {
   );
 }
 
-function ContactMedia({ media }: { media: any }) {
-  return <DynamicComponent {...media} />;
-}
+// --- CHANGE #3: This function is no longer needed here ---
+// function ContactMedia({ media }: { media: any }) {
+//  return <DynamicComponent {...media} />;
+// }
+// --------------------------------------------------------
 
 /**
  * Small hook: calls callback once when the given ref's element intersects viewport.
@@ -126,11 +130,9 @@ function useInView<T extends HTMLElement = HTMLElement>(
     if (!el) return;
 
     if (typeof window === 'undefined') {
-      // server: nothing to observe
       return;
     }
 
-    // If IntersectionObserver is unsupported, behave conservatively and trigger mount
     if (!('IntersectionObserver' in window)) {
       cb();
       return;
@@ -158,7 +160,6 @@ function useInView<T extends HTMLElement = HTMLElement>(
         io.disconnect();
       } catch (e) {}
     };
-    // We intentionally do not add cb to deps since it is stable in this usage pattern
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ref.current]);
 }
