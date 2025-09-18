@@ -952,19 +952,19 @@ A similar methodology to that which is used in this report is employed in the bo
 
 This is based on an analysis of 84 chess games of mine on chess.com from recent months. I analyzed all the games from move 5 onward (this produces 2,569 positions) with a very strong stockfish engine on its maximum strength setting with a large analysis depth and generous time limit to find the "perfect" move in each position of each game. Then I analyzed the hit count of each of these lesser strength engines and then applied optimized weights to the hits (1st best move gets a 1, 2nd best move gets a 1, third best move gets a 0.55). In this particular analysis I suppressed the performance of the stockfish 1950 - 2050 rated engines (three engines) by reducing the depth of their analysis of each move and I removed the highest rated stockfish engine (3644 ELO) because it wasn't performing as well as it should. This rating estimate for me based on my personal hit count (adjusted with weights) is approximately what my rating is right now on chess.com. So this suggests that my performance is reflected accurately in my rating. I am not performing at a much higher level than my rating suggests, or lower level. Extremely interesting is when I run the analysis on only moves 10-14. My rating is very low. I don't tend to make the right moves at this stage of the game. I need to work on that.
 
-<img src="/images/image1.webp" alt="Graph of hit count score versus rating for analysis over all moves from move 5" width="1043" height="689" style="max-width: 100%; height: auto;">
+<img src="/images/image1.webp" alt="Graph of hit count score versus rating for analysis over all moves from move 5" width="1043" height="689" style="max-width: 100%; height: auto;" loading="lazy">
 
 Here is the optimized graph for moves 10-14 only (inclusive). As can be seen, my rating is lower than the lowest rated engine. Suggesting I am very poor at selecting the "best" move at this stage of the game.
 
-<img src="/images/image2.webp" alt="Graph of hit count score versus rating for analysis for moves 10-14 only" width="1038" height="692" style="max-width: 100%; height: auto;">
+<img src="/images/image2.webp" alt="Graph of hit count score versus rating for analysis for moves 10-14 only" width="1038" height="692" style="max-width: 100%; height: auto;" loading="lazy">
 
 Using SQL I applied a filter to my games to see if it made any difference in how long the game lasted on my win percentage.  It turns out it often seems to, but mostly doesn't matter.  However, since I found some interesting results in SQL I decided to do a more thorough analysis using Python and a statistical significance test called Chi-Square Test for Independence.  This is a good test for determining if there is indeed a relationship between categorical variables or not.  So I used Google Gemini to help build a script that would test different ranges of game-lengths for a statistically significant relationship.  This is what it found:
 
-<img src="/images/pvalues_chisquare.webp" alt="Graph of p-values" width="1200" height="700" style="max-width: 100%; height: auto;">
+<img src="/images/pvalues_chisquare.webp" alt="Graph of p-values" width="1200" height="700" style="max-width: 100%; height: auto;" loading="lazy">
 
 Essentially, there is no meaningful relationship between the length of the game and my percentage of wins except when one considers games that are between 0-49 plies (about 25 moves for both players) and games greater than or equal to 50 plies in length.  When you consider the specific win percentages for this range (see below):
 
-<img src="/images/SQLoutput_chess_percentages.png" alt="Table of win percentages" width="482" height="91" style="max-width: 100%; height: auto;">
+<img src="/images/SQLoutput_chess_percentages.png" alt="Table of win percentages" width="482" height="91" style="max-width: 100%; height: auto;" loading="lazy">
 
 ...one can easily see that when the games are shorter, I lose much more often, and when the games are longer, I normally win.  This could mean many things, like for example I am very skilled in the late middle-game to end game stages.  Or perhaps I am very poor in the opening.  I think what this truly reflects is that when I lose games it is normally as a result of making some foolish error in the early stages of the game which is already decisive by the 25th move, so that I normally resign or am checkmated in these games.  The vast majority of the games (over 2/3) that I don't make foolish mistakes in the opening and early middle-game in, I win.
 

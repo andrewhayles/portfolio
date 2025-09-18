@@ -294,44 +294,44 @@ This script does a lot of things and I'm not going to talk about all of them rig
 
 Histogram of timed/untimed scores superimposed on each other
 
-<img src="/images/histogram_timed_untimed1.webp" alt="Histogram of timed/untimed scores superimposed on each other" width="640" height="480" style="max-width: 100%; height: auto;">
+<img src="/images/histogram_timed_untimed1.webp" alt="Histogram of timed/untimed scores superimposed on each other" width="640" height="480" style="max-width: 100%; height: auto;" loading="lazy">
 
 Probability plot of timed scores
 
-<img src="/images/probability_plot_timed4.webp" alt="Probability plot of timed scores" width="640" height="480" style="max-width: 100%; height: auto;">
+<img src="/images/probability_plot_timed4.webp" alt="Probability plot of timed scores" width="640" height="480" style="max-width: 100%; height: auto;" loading="lazy">
 
 Probability plot of untimed scores
 
-<img src="/images/probability_plot_untimed5.webp" alt="Probabliity plot of untimed scores" width="640" height="480" style="max-width: 100%; height: auto;">
+<img src="/images/probability_plot_untimed5.webp" alt="Probabliity plot of untimed scores" width="640" height="480" style="max-width: 100%; height: auto;" loading="lazy">
 
 Boxplot of authors (visible are the ranges of scores for each author)
 
-<img src="/images/box_plot_author6.webp" alt="Boxplot of authors (visible are the ranges of scores for each author)" width="1536" height="855" style="max-width: 100%; height: auto;">
+<img src="/images/box_plot_author6.webp" alt="Boxplot of authors (visible are the ranges of scores for each author)" width="1536" height="855" style="max-width: 100%; height: auto;" loading="lazy">
 
 Boxplot of tests taken in hot months versus cold months
 
-<img src="/images/box_plot_hotcold7.webp" alt="Boxplot of tests taken in hot months versus cold months" width="1536" height="855" style="max-width: 100%; height: auto;">
+<img src="/images/box_plot_hotcold7.webp" alt="Boxplot of tests taken in hot months versus cold months" width="1536" height="855" style="max-width: 100%; height: auto;" loading="lazy">
 
 Boxplot of timed versus untimed tests
 
-<img src="/images/box_plot_timeduntimed8.webp" alt="Boxplot of timed versus untimed tests" width="640" height="480" style="max-width: 100%; height: auto;">
+<img src="/images/box_plot_timeduntimed8.webp" alt="Boxplot of timed versus untimed tests" width="640" height="480" style="max-width: 100%; height: auto;" loading="lazy">
 
 Boxplot of test types
 
-<img src="/images/box_plot_testtype9.webp" alt="Boxplot of test types" width="640" height="480" style="max-width: 100%; height: auto;">
+<img src="/images/box_plot_testtype9.webp" alt="Boxplot of test types" width="640" height="480" style="max-width: 100%; height: auto;" loading="lazy">
 
 Violin plot of test types
 
-<img src="/images/violin_plot10.webp" alt="Violin plot of test types" width="1200" height="400" style="max-width: 100%; height: auto;">
+<img src="/images/violin_plot10.webp" alt="Violin plot of test types" width="1200" height="400" style="max-width: 100%; height: auto;" loading="lazy">
 
 Bell curve of scores
 
-<img src="/images/bell_curve_of_scores11.webp" alt="Bell curve of scores" width="640" height="480" style="max-width: 100%; height: auto;">
+<img src="/images/bell_curve_of_scores11.webp" alt="Bell curve of scores" width="640" height="480" style="max-width: 100%; height: auto;" loading="lazy">
 
 Pie chart of test types
 
-<img src="/images/piechart_testtype_12.webp" alt="Pie chart of test types" width="682" height="576" style="max-width: 100%; height: auto;">
+<img src="/images/piechart_testtype_12.webp" alt="Pie chart of test types" width="682" height="576" style="max-width: 100%; height: auto;" loading="lazy">
 
 Pie chart of authors
 
-<img src="/images/piechart_author13.webp" alt="Pie chart of authors" width="1536" height="855" style="max-width: 100%; height: auto;">
+<img src="/images/piechart_author13.webp" alt="Pie chart of authors" width="1536" height="855" style="max-width: 100%; height: auto;" loading="lazy">
