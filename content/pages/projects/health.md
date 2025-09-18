@@ -20,9 +20,7 @@ code: |
   import seaborn as sns
   import numpy as np
   
-  df = pd.read_csv("health.csv", usecols=['WEIGHT', 'BPAVGSYS',	'BPAVGDIA',	'BPMAXSYS',	'BPMAXDIA',	'BPMINSYS',	
-                                          'BPMINDIA',	'SLEEPTOTAL','DEEPSLEEP','LIGHTSLEEP','HRAVG','HRMAX','HRMIN',
-                                          'STRESSAVG','STRESSMAX','STRESSMIN'])
+  df = pd.read_csv("health.csv", usecols=['WEIGHT', 'BPAVGSYS',	'BPAVGDIA',	'BPMAXSYS',	'BPMAXDIA',	'BPMINSYS',	'BPMINDIA',	'SLEEPTOTAL','DEEPSLEEP','LIGHTSLEEP','HRAVG','HRMAX','HRMIN', 'STRESSAVG','STRESSMAX','STRESSMIN'])
                                           
   # Basic statistics
   summary = df.describe(percentiles=[.25, .5, .75]).T
