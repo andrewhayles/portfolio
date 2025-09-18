@@ -18,6 +18,7 @@ export default function ImageBlock(props) {
                     alt={altText}
                     layout="fill"
                     objectFit="cover"
+					strategy="lazyOnLoad"
                 />
             </div>
         </Annotated>
