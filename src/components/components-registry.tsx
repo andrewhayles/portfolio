@@ -1,27 +1,22 @@
-// components-registry.tsx
+// src/components/components-registry.tsx
 import dynamic from 'next/dynamic';
 import { ComponentType } from 'react';
 import { Annotated } from './Annotated';
 import { ContentObject, GlobalProps } from '@/types';
 
-/**
- * HeroSection is statically imported to be part of the initial chunk, optimizing LCP.
- */
+// Statically import HeroSection to optimize LCP.
 import HeroSection from './sections/HeroSection';
 
-// LOADER 1: For critical components that should be server-rendered (SSR).
-// This helps TBT and ensures important content is in the initial HTML.
+// LOADER 1: For critical components that must be server-rendered (SSR).
 const dyn = (importer: () => Promise<any>) =>
   dynamic(importer, {loading: () => null });
 
-// LOADER 2 (NEW): For non-critical, "below-the-fold" components.
-// Using ssr: false defers their rendering to the client, speeding up the initial server response.
+// LOADER 2: For non-critical components deferred to the client-side (CSR).
 const dynSsrFalse = (importer: () => Promise<any>) =>
   dynamic(importer, { ssr: false, loading: () => null });
 
 const dynamicComponents = {
   // --- CRITICAL & LAYOUT COMPONENTS (Server-Rendered) ---
-  // These are essential for the page structure and initial view.
   FeaturedProjectsSection: dyn(() => import('./sections/FeaturedProjectsSection')),
   ImageBlock: dyn(() => import('./molecules/ImageBlock')),
   ProjectFeedSection: dyn(() => import('./sections/ProjectFeedSection')),
@@ -33,8 +28,6 @@ const dynamicComponents = {
   ProjectFeedLayout: dyn(() => import('./layouts/ProjectFeedLayout')),
 
   // --- DEFERRED COMPONENTS (Client-Side Rendered) ---
-  // These components are typically "below the fold" and not needed immediately.
-  // Deferring them makes the initial page load faster.
   ContactSection: dynSsrFalse(() => import('./sections/ContactSection')),
   CtaSection: dynSsrFalse(() => import('./sections/CtaSection')),
   DividerSection: dynSsrFalse(() => import('./sections/DividerSection')),
@@ -47,7 +40,6 @@ type DynamicComponentProps = ContentObject & {
   global?: GlobalProps;
 };
 
-// This part of the logic remains the same
 const components = {
   HeroSection,
   ...dynamicComponents
