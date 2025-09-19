@@ -1,25 +1,37 @@
+// src/components/molecules/ImageBlock/index.tsx
+
 import { Annotated } from '@/components/Annotated';
+import { ImageBlock as ImageBlockProps } from '@/types'; // Import the specific type
 import Image from 'next/image';
 
-export default function ImageBlock(props) {
+type ComponentProps = ImageBlockProps & {
+    className?: string;
+};
+
+export default function ImageBlock(props: ComponentProps) {
     const { elementId, className, url, altText = '' } = props;
     if (!url) {
         return null;
     }
 
+    // Set default dimensions. These are critical for aspect ratio and preventing CLS.
+    // Next.js uses these props to serve correctly sized, optimized images.
+    const width = props.width || 1200;
+    const height = props.height || 800;
+
     return (
         <Annotated content={props}>
-            {/* The parent div is now used to control the image size */}
-            <div className="relative w-full h-64"> {/* You can adjust h-64 as needed */}
+            <figure className={className}>
                 <Image
-                    id={elementId || null}
-                    className={className}
+                    id={elementId}
                     src={url}
                     alt={altText}
-                    layout="fill"
-                    objectFit="cover"
+                    width={width}
+                    height={height}
+                    // These classes make the image responsive while maintaining its aspect ratio
+                    className="w-full h-auto object-cover"
                 />
-            </div>
+            </figure>
         </Annotated>
     );
 }
