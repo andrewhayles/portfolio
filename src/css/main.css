@@ -13,24 +13,22 @@
 }
 
 @layer base {
-	 /* --- Add this @font-face block --- */
     @font-face {
         font-family: 'Azeret Mono';
-        src: url('/fonts/AzeretMono-VariableFont_wght.woff2') format('woff2'); /* Adjust path and filename */
-        font-weight: 400; /* Adjust weight if needed */
+        src: url('/fonts/AzeretMono-VariableFont_wght.woff2') format('woff2');
+        font-weight: 400;
         font-style: normal;
-        font-display: swap; /* This is the critical performance fix */
+        font-display: swap;
     }
 
     @font-face {
         font-family: 'DM Mono';
-        src: url('/fonts/DMMono-Regular.woff2') format('woff2'); /* Adjust path and filename */
-        font-weight: 400; /* Adjust weight if needed */
+        src: url('/fonts/DMMono-Regular.woff2') format('woff2');
+        font-weight: 400;
         font-style: normal;
-        font-display: swap; /* This is the critical performance fix */
+        font-display: swap;
     }
-    /* --- End of new block --- */
-	
+
     html {
         @apply antialiased font-body;
     }
@@ -75,7 +73,6 @@
         color: initial;
     }
 
-    /* Color themes */
     :where([data-theme='colors-b']) {
         --background-color-main: var(--theme-light);
         --background-color-inverse: var(--theme-on-light);
@@ -104,7 +101,6 @@
         @apply bg-main text-main;
     }
 
-    /* Fixing issues caused by data wrapper added via auto annotations */
     form data:has([class*='sm:col-span-2']) {
         @apply sm:col-span-2;
     }
@@ -114,8 +110,9 @@
     li data:has([class*='link-fill']) {
         @apply inline-flex;
     }
-	.sb-component-section {
+    .sb-component-section {
         min-height: 20vh;
+    }
 }
 
 @layer utilities {
@@ -159,10 +156,10 @@
     }
 	
 	.prose pre {
-        white-space: pre-wrap !important; /* This makes the text wrap */
-        word-break: break-word !important;   /* This helps break long words/strings */
+        white-space: pre-wrap !important;
+        word-break: break-word !important;
     }
-}
+} /* <-- THIS IS THE MISSING BRACE THAT CLOSES '@layer utilities' */
 
 @utility bottom-shadow-* {
     box-shadow: 0 calc(--value(integer) * 1px) 0 0 currentColor;
