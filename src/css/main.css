@@ -114,6 +114,8 @@
     li data:has([class*='link-fill']) {
         @apply inline-flex;
     }
+	.sb-component-section {
+        min-height: 20vh;
 }
 
 @layer utilities {

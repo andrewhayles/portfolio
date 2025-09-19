@@ -99,3 +99,18 @@ function mapFlexDirectionStyles(flexDirection?: 'row' | 'row-reverse' | 'col' | 
             return 'flex-col lg:flex-row lg:items-center';
     }
 }
+
+
+function HeroMedia({ media }: { media: ImageBlock }) {
+    return (
+        <Image
+            src={media.url}
+            alt={media.altText || ''}
+            width={1000} 
+            height={750}  // Adjusted height to match a 4/3 aspect ratio
+            priority={true}
+            // Add aspect-ratio to reserve space and prevent layout shift
+            className="w-full h-auto object-contain aspect-[4/3]"
+        />
+    );
+}
