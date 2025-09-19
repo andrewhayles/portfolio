@@ -25,7 +25,7 @@ const ProjectCard: React.FC<{ project: ProjectLayout }> = ({ project }) => {
                     </div>
                 )}
                 <div className="mt-4">
-                    <h3 className="text-xl font-medium">{project.title}</h3>
+                    <h2 className="text-xl font-medium">{project.title}</h2>
                     {project.date && (
                         <p className="text-sm text-gray-500 mt-1">
                             {dayjs(project.date).format('MMMM D, YYYY')}
