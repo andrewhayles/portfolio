@@ -1,8 +1,10 @@
+// src/components/layouts/ProjectLayout/index.tsx
+
+import { useState } from 'react';
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import Markdown from 'markdown-to-jsx';
 import * as React from 'react';
-import { useState } from 'react'; //added by me
 
 import { Annotated } from '@/components/Annotated';
 import Link from '@/components/atoms/Link';
@@ -14,7 +16,6 @@ import BaseLayout from '../BaseLayout';
 
 type ComponentProps = PageComponentProps &
     ProjectLayout & {
-		code?: string; 
         prevProject?: ProjectLayout;
         nextProject?: ProjectLayout;
     };
@@ -26,65 +27,77 @@ const Component: React.FC<ComponentProps> = (props) => {
         client,
         description,
         markdownContent,
-		highlightedCode,
-        media,
+        __metadata, // We'll get the slug from here to identify the project
         prevProject,
         nextProject,
         bottomSections = []
     } = props;
-	
-	const [isCodeVisible, setIsCodeVisible] = useState(false); //added by me
 
-	
-    const dateTimeAttr = dayjs().format('YYYY-MM-DD HH:mm:ss'); //removed date inside of first parentheses
-    const formattedDate = dayjs().format('YYYY-MM-DD'); //removed date inside of first parentheses
+    // State for managing the fetched code
+    const [highlightedCode, setHighlightedCode] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
+    const handleFetchCode = async () => {
+        setIsLoading(true);
+        setError(null);
+        // Assumes your slug is the 'id' in metadata. Adjust if needed.
+        const slug = __metadata.id; 
+
+        try {
+            const response = await fetch(`/api/getCode?slug=${slug}`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch code from server.');
+            }
+            const codeHtml = await response.text();
+            setHighlightedCode(codeHtml);
+        } catch (err) {
+            setError('Could not load the code. Please try again later.');
+            console.error(err);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const dateTimeAttr = dayjs(date).format('YYYY-MM-DD HH:mm:ss');
+    const formattedDate = dayjs(date).format('MMMM D, YYYY');
 
     return (
         <BaseLayout {...props}>
             <article className="px-4 py-14 lg:py-20">
                 <header className="max-w-5xl mx-auto mb-10 sm:mb-14">
-                    {client && <div className="text-lg uppercase md:mb-6">{client}</div>}
-                    <div className="flex flex-col gap-6 md:flex-row md:justify-between">
-                        <time className="text-lg md:order-last" dateTime={dateTimeAttr}>
-                            {formattedDate}
-                        </time>
-                        <h1 className="text-5xl sm:text-6xl md:max-w-2xl md:grow">{title}</h1>
-                    </div>
+                    {/* Header content like title, date, etc. */}
                 </header>
-                <div className="max-w-3xl mx-auto prose sm:prose-lg">
-                <Markdown options={{ forceBlock: true, overrides: { pre: HighlightedPreBlock } }}>
-                     {markdownContent.split('[CODE_HERE]')[0]}
-                </Markdown>
 
-                {/* Check for the highlightedCode prop instead */}
-                {highlightedCode && (
-                    isCodeVisible ? (
-						// Render the highlightedCode as HTML
+                <div className="max-w-3xl mx-auto prose sm:prose-lg">
+                    <Markdown options={{ forceBlock: true, overrides: { pre: HighlightedPreBlock } }}>
+                        {markdownContent.split('[CODE_HERE]')[0]}
+                    </Markdown>
+
+                    {/* Renders the button or the fetched code */}
+                    {highlightedCode ? (
                         <div dangerouslySetInnerHTML={{ __html: highlightedCode }} />
                     ) : (
                         <p className="text-lg">
                             {"If you'd like to view the code for this project,"}{" "}
                             <button
-                                onClick={() => setIsCodeVisible(true)}
-                                className="text-blue-500 hover:underline focus:outline-none"
-                            >		
-                                please click here
+                                onClick={handleFetchCode}
+                                disabled={isLoading}
+                                className="text-blue-500 hover:underline focus:outline-none disabled:text-gray-400 disabled:cursor-wait"
+                            >
+                                {isLoading ? 'Loading...' : 'please click here'}
                             </button>
                             {"."}
                         </p>
-                    )
-                )}
+                    )}
+                    {error && <p className="text-red-500">{error}</p>}
 
-                <Markdown options={{ forceBlock: true, overrides: { pre: HighlightedPreBlock } }}>
-                    {markdownContent.split('[CODE_HERE]')[1]}
-                </Markdown>
-				</div>
-               
-				
-				{/* I added the following section */}
-				
-				
+                    <Markdown options={{ forceBlock: true, overrides: { pre: HighlightedPreBlock } }}>
+                        {markdownContent.split('[CODE_HERE]')[1]}
+                    </Markdown>
+                </div>
             </article>
+
             {(prevProject || nextProject) && (
                 <nav className="px-4 mt-12 mb-20">
                     <div className="grid max-w-5xl mx-auto gap-x-6 gap-y-12 sm:grid-cols-2 lg:gap-x-8">
@@ -101,11 +114,9 @@ const Component: React.FC<ComponentProps> = (props) => {
         </BaseLayout>
     );
 };
-export default Component;
 
-function ProjectMedia({ media }) {
-    return <DynamicComponent {...media} className={classNames({ 'w-full': media.type === 'ImageBlock' })} />;
-}
+export default Component;
+// ... (Your ProjectNavItem and other helper functions remain the same)
 
 function ProjectNavItem({ project, className }) {
     return (
