@@ -3,14 +3,12 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import classNames from 'classnames';
 import { Annotated } from '@/components/Annotated';
 import { Action } from '@/components/atoms';
 import { ProjectFeedSection as ProjectFeedSectionProps, ProjectLayout } from '@/types';
 import dayjs from 'dayjs';
 
 // Helper component for a single project card
-// CRITICAL FIX: Ensures each project's thumbnail image has width and height.
 const ProjectCard: React.FC<{ project: ProjectLayout }> = ({ project }) => {
     return (
         <Annotated content={project}>
@@ -20,7 +18,6 @@ const ProjectCard: React.FC<{ project: ProjectLayout }> = ({ project }) => {
                         <Image
                             src={project.featuredImage.url}
                             alt={project.featuredImage.altText || ''}
-                            // These width and height props are essential for preventing CLS.
                             width={project.featuredImage.width || 400}
                             height={project.featuredImage.height || 300}
                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
