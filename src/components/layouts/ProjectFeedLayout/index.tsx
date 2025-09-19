@@ -15,7 +15,7 @@ const Component: React.FC<ComponentProps> = (props) => {
             {topSections?.map((section, index) => {
                 return <DynamicComponent key={index} {...section} />;
             })}
-            <ProjectFeedSection {...projectFeed} projects={items} />
+            <ProjectFeedSection {...projectFeed} />
             {bottomSections?.map((section, index) => {
                 return <DynamicComponent key={index} {...section} />;
             })}
