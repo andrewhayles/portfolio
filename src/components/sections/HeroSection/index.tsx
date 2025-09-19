@@ -1,28 +1,28 @@
+// src/components/sections/HeroSection/index.tsx
+
 import classNames from 'classnames';
 import Markdown from 'markdown-to-jsx';
+import Image from 'next/image'; // Import the Next.js Image component
 
 import { AnnotatedField } from '@/components/Annotated';
 import { Action } from '@/components/atoms';
 import { DynamicComponent } from '@/components/components-registry';
-import { HeroSection } from '@/types';
+import { HeroSection, ImageBlock, VideoBlock } from '@/types'; // Import specific media types
 import { mapStylesToClassNames as mapStyles } from '@/utils/map-styles-to-class-names';
 import Section from '../Section';
 
-/*
- This is the only component in this codebase which has a few Stackbit annotations for specific primitive
- field. These are added by the <AnnotatedField> helper.
- The motivation for these annotations: allowing the content editor to edit styles at the field level.
- */
 export default function Component(props: HeroSection) {
     const { elementId, colors, backgroundSize, title, subtitle, text, media, actions = [], styles = {} } = props;
     const sectionFlexDirection = styles.self?.flexDirection ?? 'row';
     const sectionAlign = styles.self?.textAlign ?? 'left';
+
     return (
         <Section elementId={elementId} colors={colors} backgroundSize={backgroundSize} styles={styles.self}>
             <div className={classNames('flex gap-8', mapFlexDirectionStyles(sectionFlexDirection))}>
                 <div className={classNames('flex-1 w-full', mapStyles({ textAlign: sectionAlign }))}>
                     {title && (
                         <AnnotatedField path=".title">
+                            {/* No change needed for text, it's already fast */}
                             <h1 className="text-5xl sm:text-6xl">{title}</h1>
                         </AnnotatedField>
                     )}
@@ -64,6 +64,7 @@ export default function Component(props: HeroSection) {
                             'justify-end': sectionAlign === 'right'
                         })}
                     >
+                        {/* The HeroMedia component is now optimized */}
                         <HeroMedia media={media} />
                     </div>
                 )}
@@ -72,10 +73,27 @@ export default function Component(props: HeroSection) {
     );
 }
 
-function HeroMedia({ media }) {
+// ⚠️ MAJOR PERFORMANCE IMPROVEMENT HERE
+function HeroMedia({ media }: { media: ImageBlock | VideoBlock }) {
+    // Check if the media is an ImageBlock
+    if (media.type === 'ImageBlock') {
+        return (
+            <Image
+                src={media.url}
+                alt={media.altText || ''}
+                width={1000} // A reasonable default width, adjust as needed
+                height={800} // A reasonable default height, adjust as needed
+                priority={true} // This is the most critical change!
+                className="w-full h-auto object-contain"
+            />
+        );
+    }
+    
+    // Fallback for other media types like VideoBlock or other components
     return <DynamicComponent {...media} />;
 }
 
+// No changes to this function
 function mapFlexDirectionStyles(flexDirection?: 'row' | 'row-reverse' | 'col' | 'col-reverse') {
     switch (flexDirection) {
         case 'row-reverse':
