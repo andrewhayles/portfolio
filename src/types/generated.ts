@@ -329,7 +329,7 @@ export type HeroSection = BaseContentObject & {
     subtitle?: string;
     text?: string;
     actions?: (Button | Link)[];
-    media?: FormBlock | ImageBlock | VideoBlock;
+    media?: ImageBlock;
     colors?: 'colors-a' | 'colors-b' | 'colors-c' | 'colors-d' | 'colors-e' | 'colors-f';
     backgroundSize?: 'full' | 'inset';
     elementId?: string;

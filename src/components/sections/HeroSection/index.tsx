@@ -6,8 +6,7 @@ import Image from 'next/image'; // Import the Next.js Image component
 
 import { AnnotatedField } from '@/components/Annotated';
 import { Action } from '@/components/atoms';
-import { DynamicComponent } from '@/components/components-registry';
-import { HeroSection, ImageBlock } from '@/types'; // Import specific media types
+import { HeroSection, ImageBlock } from '@/types'; // VideoBlock is no longer needed here
 import { mapStylesToClassNames as mapStyles } from '@/utils/map-styles-to-class-names';
 import Section from '../Section';
 
@@ -20,9 +19,9 @@ export default function Component(props: HeroSection) {
         <Section elementId={elementId} colors={colors} backgroundSize={backgroundSize} styles={styles.self}>
             <div className={classNames('flex gap-8', mapFlexDirectionStyles(sectionFlexDirection))}>
                 <div className={classNames('flex-1 w-full', mapStyles({ textAlign: sectionAlign }))}>
+                    {/* All the text and action rendering is the same */}
                     {title && (
                         <AnnotatedField path=".title">
-                            {/* No change needed for text, it's already fast */}
                             <h1 className="text-5xl sm:text-6xl">{title}</h1>
                         </AnnotatedField>
                     )}
@@ -64,7 +63,6 @@ export default function Component(props: HeroSection) {
                             'justify-end': sectionAlign === 'right'
                         })}
                     >
-                        {/* The HeroMedia component is now optimized */}
                         <HeroMedia media={media} />
                     </div>
                 )}
@@ -73,24 +71,19 @@ export default function Component(props: HeroSection) {
     );
 }
 
-// ⚠️ MAJOR PERFORMANCE IMPROVEMENT HERE
+// SIMPLIFIED HeroMedia component
 function HeroMedia({ media }: { media: ImageBlock }) {
-    // Check if the media is an ImageBlock
-    if (media.type === 'ImageBlock') {
-        return (
-            <Image
-                src={media.url}
-                alt={media.altText || ''}
-                width={1000} // A reasonable default width, adjust as needed
-                height={800} // A reasonable default height, adjust as needed
-                priority={true} // This is the most critical change!
-                className="w-full h-auto object-contain"
-            />
-        );
-    }
-    
-    // Fallback for other media types like VideoBlock or other components
-    return <DynamicComponent {...media} />;
+    // We no longer need to check the media type, since it can only be an ImageBlock
+    return (
+        <Image
+            src={media.url}
+            alt={media.altText || ''}
+            width={1000} 
+            height={800} 
+            priority={true} // Still the most critical part for performance!
+            className="w-full h-auto object-contain"
+        />
+    );
 }
 
 // No changes to this function
