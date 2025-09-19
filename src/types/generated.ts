@@ -342,6 +342,8 @@ export type ImageBlock = BaseContentObject & {
     altText?: string;
     caption?: string;
     elementId?: string;
+	width?: number;
+	height?: number;
 };
 
 export type Label = BaseContentObject & {

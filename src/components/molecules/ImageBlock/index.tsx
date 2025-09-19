@@ -15,7 +15,6 @@ export default function ImageBlock(props: ComponentProps) {
     }
 
     // Set default dimensions. These are critical for aspect ratio and preventing CLS.
-    // Next.js uses these props to serve correctly sized, optimized images.
     const width = props.width || 1200;
     const height = props.height || 800;
 
@@ -28,7 +27,6 @@ export default function ImageBlock(props: ComponentProps) {
                     alt={altText}
                     width={width}
                     height={height}
-                    // These classes make the image responsive while maintaining its aspect ratio
                     className="w-full h-auto object-cover"
                 />
             </figure>
