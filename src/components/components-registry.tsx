@@ -5,35 +5,49 @@ import { Annotated } from './Annotated';
 import { ContentObject, GlobalProps } from '@/types';
 
 /**
- * HeroSection remains static for LCP. Other components are dynamic/client-only where appropriate.
+ * HeroSection is statically imported to be part of the initial chunk, optimizing LCP.
  */
 import HeroSection from './sections/HeroSection';
 
+// LOADER 1: For critical components that should be server-rendered (SSR).
+// This helps TBT and ensures important content is in the initial HTML.
 const dyn = (importer: () => Promise<any>) =>
   dynamic(importer, {loading: () => null });
 
+// LOADER 2 (NEW): For non-critical, "below-the-fold" components.
+// Using ssr: false defers their rendering to the client, speeding up the initial server response.
+const dynSsrFalse = (importer: () => Promise<any>) =>
+  dynamic(importer, { ssr: false, loading: () => null });
+
 const dynamicComponents = {
-  ContactSection: dyn(() => import('./sections/ContactSection')),
-  CtaSection: dyn(() => import('./sections/CtaSection')),
-  DividerSection: dyn(() => import('./sections/DividerSection')),
-  EmailFormControl: dyn(() => import('./molecules/FormBlock/EmailFormControl')),
+  // --- CRITICAL & LAYOUT COMPONENTS (Server-Rendered) ---
+  // These are essential for the page structure and initial view.
   FeaturedProjectsSection: dyn(() => import('./sections/FeaturedProjectsSection')),
-  FormBlock: dyn(() => import('./molecules/FormBlock')),
   ImageBlock: dyn(() => import('./molecules/ImageBlock')),
   ProjectFeedSection: dyn(() => import('./sections/ProjectFeedSection')),
-  LabelsSection: dyn(() => import('./sections/LabelsSection')),
   TextSection: dyn(() => import('./sections/TextSection')),
   PageLayout: dyn(() => import('./layouts/PageLayout')),
   PostLayout: dyn(() => import('./layouts/PostLayout')),
   PostFeedLayout: dyn(() => import('./layouts/PostFeedLayout')),
   ProjectLayout: dyn(() => import('./layouts/ProjectLayout')),
-  ProjectFeedLayout: dyn(() => import('./layouts/ProjectFeedLayout'))
+  ProjectFeedLayout: dyn(() => import('./layouts/ProjectFeedLayout')),
+
+  // --- DEFERRED COMPONENTS (Client-Side Rendered) ---
+  // These components are typically "below the fold" and not needed immediately.
+  // Deferring them makes the initial page load faster.
+  ContactSection: dynSsrFalse(() => import('./sections/ContactSection')),
+  CtaSection: dynSsrFalse(() => import('./sections/CtaSection')),
+  DividerSection: dynSsrFalse(() => import('./sections/DividerSection')),
+  FormBlock: dynSsrFalse(() => import('./molecules/FormBlock')),
+  EmailFormControl: dynSsrFalse(() => import('./molecules/FormBlock/EmailFormControl')),
+  LabelsSection: dynSsrFalse(() => import('./sections/LabelsSection')),
 };
 
 type DynamicComponentProps = ContentObject & {
   global?: GlobalProps;
 };
 
+// This part of the logic remains the same
 const components = {
   HeroSection,
   ...dynamicComponents
