@@ -529,6 +529,7 @@ export type ProjectFeedSection = BaseContentObject & {
     title?: string;
     subtitle?: string;
     actions?: (Button | Link)[];
+    projects?: ProjectLayout[]; // Add this line
     colors?: 'colors-a' | 'colors-b' | 'colors-c' | 'colors-d' | 'colors-e' | 'colors-f';
     variant: 'variant-a' | 'variant-b' | 'variant-c' | 'variant-d';
     elementId?: string;
