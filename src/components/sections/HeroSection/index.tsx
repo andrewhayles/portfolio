@@ -7,7 +7,7 @@ import Image from 'next/image'; // Import the Next.js Image component
 import { AnnotatedField } from '@/components/Annotated';
 import { Action } from '@/components/atoms';
 import { DynamicComponent } from '@/components/components-registry';
-import { HeroSection, ImageBlock, VideoBlock } from '@/types'; // Import specific media types
+import { HeroSection, ImageBlock } from '@/types'; // Import specific media types
 import { mapStylesToClassNames as mapStyles } from '@/utils/map-styles-to-class-names';
 import Section from '../Section';
 
@@ -74,7 +74,7 @@ export default function Component(props: HeroSection) {
 }
 
 // ⚠️ MAJOR PERFORMANCE IMPROVEMENT HERE
-function HeroMedia({ media }: { media: ImageBlock | VideoBlock }) {
+function HeroMedia({ media }: { media: ImageBlock }) {
     // Check if the media is an ImageBlock
     if (media.type === 'ImageBlock') {
         return (
