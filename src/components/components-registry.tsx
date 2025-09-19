@@ -10,7 +10,7 @@ import { ContentObject, GlobalProps } from '@/types';
 import HeroSection from './sections/HeroSection';
 
 const dyn = (importer: () => Promise<any>) =>
-  dynamic(importer, { ssr: false, loading: () => null });
+  dynamic(importer, {loading: () => null });
 
 const dynamicComponents = {
   ContactSection: dyn(() => import('./sections/ContactSection')),
