@@ -2,11 +2,11 @@
 
 import classNames from 'classnames';
 import Markdown from 'markdown-to-jsx';
-import Image from 'next/image'; // Import the Next.js Image component
+import Image from 'next/image';
 
 import { AnnotatedField } from '@/components/Annotated';
 import { Action } from '@/components/atoms';
-import { HeroSection, ImageBlock } from '@/types'; // VideoBlock is no longer needed here
+import { HeroSection, ImageBlock } from '@/types';
 import { mapStylesToClassNames as mapStyles } from '@/utils/map-styles-to-class-names';
 import Section from '../Section';
 
@@ -19,7 +19,6 @@ export default function Component(props: HeroSection) {
         <Section elementId={elementId} colors={colors} backgroundSize={backgroundSize} styles={styles.self}>
             <div className={classNames('flex gap-8', mapFlexDirectionStyles(sectionFlexDirection))}>
                 <div className={classNames('flex-1 w-full', mapStyles({ textAlign: sectionAlign }))}>
-                    {/* All the text and action rendering is the same */}
                     {title && (
                         <AnnotatedField path=".title">
                             <h1 className="text-5xl sm:text-6xl">{title}</h1>
@@ -71,22 +70,20 @@ export default function Component(props: HeroSection) {
     );
 }
 
-// SIMPLIFIED HeroMedia component
+// Ensure this is the ONLY HeroMedia function in the file
 function HeroMedia({ media }: { media: ImageBlock }) {
-    // We no longer need to check the media type, since it can only be an ImageBlock
     return (
         <Image
             src={media.url}
             alt={media.altText || ''}
-            width={1000} 
-            height={800} 
-            priority={true} // Still the most critical part for performance!
-            className="w-full h-auto object-contain"
+            width={1000}
+            height={750}
+            priority={true}
+            className="w-full h-auto object-contain aspect-[4/3]"
         />
     );
 }
 
-// No changes to this function
 function mapFlexDirectionStyles(flexDirection?: 'row' | 'row-reverse' | 'col' | 'col-reverse') {
     switch (flexDirection) {
         case 'row-reverse':
@@ -98,19 +95,4 @@ function mapFlexDirectionStyles(flexDirection?: 'row' | 'row-reverse' | 'col' | 
         default:
             return 'flex-col lg:flex-row lg:items-center';
     }
-}
-
-
-function HeroMedia({ media }: { media: ImageBlock }) {
-    return (
-        <Image
-            src={media.url}
-            alt={media.altText || ''}
-            width={1000} 
-            height={750}  // Adjusted height to match a 4/3 aspect ratio
-            priority={true}
-            // Add aspect-ratio to reserve space and prevent layout shift
-            className="w-full h-auto object-contain aspect-[4/3]"
-        />
-    );
 }
