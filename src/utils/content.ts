@@ -132,7 +132,7 @@ export async function getPageProps(urlPath: string) {
     
     // Define which page layouts are considered "feeds" that need pruning.
     // *** ACTION REQUIRED: Make sure your homepage's layout type is in this list! ***
-    const feedLayouts = ['PostFeedLayout', 'ProjectFeedLayout']; 
+    const feedLayouts = ['PostFeedLayout', 'ProjectFeedLayout', 'PageLayout']; 
 
     // Check if the current page is a feed layout.
     if (feedLayouts.includes(leanProps.type)) {
