@@ -117,22 +117,42 @@ export function getAllPagePaths() {
 }
 
 export async function getPageProps(urlPath: string) {
+    // 1. Get all content data as before. This is okay on the server during build.
     const allData = allContent();
     const props = resolveStaticProps(urlPath, allData) as any;
 
-    // If this is a project page with a code block...
-    if (props.code) {
-        // ...highlight the code and add it as a new prop.
-        const lang = props.code.match(/^```(\w+)\n/)?.[1] || 'text';
-        props.highlightedCode = await highlightCode(props.code, lang);
-        // Delete the original raw code so it's not sent to the browser
-        delete props.code;
+    if (!props) {
+        return null;
     }
-    
-    // NOTE: The logic you added to trim 'bottomSections' for the homepage is no longer needed,
-    // as the API route handles fetching code on demand for those previews.
 
-    return props;
+    // 2. Create a safe, deep copy of the props to avoid modifying the original data.
+    const leanProps = JSON.parse(JSON.stringify(props));
+
+    // 3. Intelligently prune heavy, nested data.
+    //    Here, we find any project feeds and replace the full project data
+    //    with lightweight previews using your OWN getProjectPreviews() function.
+    if (leanProps.sections) {
+        leanProps.sections.forEach((section: any) => {
+            if (section.type === 'ProjectFeedSection' && section.projects) {
+                // Replace the list of full project objects with a list of smaller preview objects.
+                const projectPreviews = getProjectPreviews();
+                section.projects = section.projects.map((project: any) => 
+                    projectPreviews.find(p => p.__metadata.id === project.__metadata.id) || project
+                );
+            }
+        });
+    }
+
+    // 4. Handle code highlighting as before, but on the new 'lean' object.
+    if (leanProps.code) {
+        const lang = leanProps.code.match(/^```(\w+)\n/)?.[1] || 'text';
+        leanProps.highlightedCode = await highlightCode(leanProps.code, lang);
+        // Delete the original raw code so it's not sent to the browser.
+        delete leanProps.code;
+    }
+
+    // 5. Return the new, lightweight props object to the browser.
+    return leanProps;
 }
 
 export function getProjectPreviews() {

@@ -3,7 +3,6 @@ import React from 'react';
 import Head from 'next/head';
 import { DynamicComponent } from '@/components/components-registry';
 import { PageComponentProps } from '@/types';
-// Import more efficient server-side helpers
 import { getAllPagePaths, getPageProps } from '@/utils/content';
 import {
   seoGenerateMetaDescription,
@@ -18,8 +17,7 @@ type StaticPropsShape = PageComponentProps & {
 };
 
 const Page: React.FC<StaticPropsShape> = (props) => {
-  // The heavy SEO work was moved into getStaticProps, so the client just renders values.
-  const { global, ...page } = props;
+  const { global, page } = props; // We expect 'page' and 'global' props
   const { site } = global || {};
 
   const title = props.title ?? '';
@@ -48,67 +46,46 @@ const Page: React.FC<StaticPropsShape> = (props) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         {site?.favicon && <link rel="icon" href={site.favicon} />}
       </Head>
+      {/* Pass the correct props down to the component registry */}
       <DynamicComponent {...props} />
     </>
   );
 };
 
-// Build-time generation of paths (unchanged)
+// This function provides all the possible page URLs to Next.js at build time.
 export function getStaticPaths() {
   const paths = getAllPagePaths();
   return { paths, fallback: false };
 }
 
-import { pick } from 'lodash'; // A helpful utility, or you can write your own
-
+// This function runs for EACH page at build time.
 export async function getStaticProps({ params }: { params?: { slug?: string[] } }) {
-    const urlPath = '/' + (params?.slug || []).join('/');
-    const props = await getPageProps(urlPath); // This fetches all the data (e.g., 254 kB)
+  const urlPath = '/' + (params?.slug || []).join('/');
 
-    const safeProps = props || {};
+  // 1. Fetch the data for ONLY this specific page.
+  //    This assumes your getPageProps function in 'utils/content.js' is now fixed
+  //    to only return the data for the given urlPath.
+  const props = await getPageProps(urlPath);
+  
+  // 2. Separate the global data from the specific page data.
+  const { global, ...pageData } = props || {};
+  
+  // 3. Generate SEO metadata from the fetched data.
+  const site = global?.site || {};
+  const title = seoGenerateTitle(pageData, site) || '';
+  const metaTags = seoGenerateMetaTags(pageData, site) || [];
+  const metaDescription = seoGenerateMetaDescription(pageData, site) || '';
 
-    // Destructure the full page object to work with its parts
-    const { global, ...pageData } = safeProps;
-
-    // *** THE SOLUTION ***
-    // Create a new, lean page object with ONLY the essential props.
-    // Customize this list based on the actual props your layouts and sections use.
-    const pageProps = pick(pageData, [
-        'type',
-        'title',
-        'sections',
-        'date',
-        'author'
-        // Add any other top-level fields your page layouts need here
-    ]);
-
-    // Compute SEO metadata using the full data object
-    try {
-        const site = global?.site || {};
-        const title = seoGenerateTitle(pageData, site) || '';
-        const metaTags = seoGenerateMetaTags(pageData, site) || [];
-        const metaDescription = seoGenerateMetaDescription(pageData, site) || '';
-
-        // Finally, return the LEAN data to the client
-        return {
-            props: {
-                ...safeProps, // Temporarily return everything
-                title,
-                metaTags,
-                metaDescription
-            }
-		};
-    } catch (err) {
-        // ... your existing catch block
-        return {
-            props: {
-                global,
-                page: pageProps,
-                title: '',
-                metaTags: [],
-                metaDescription: '',
-            },
-        };
-    }
+  // 4. Return a clean, lean props object to the Page component.
+  return {
+    props: {
+      global,
+      page: pageData, // The data for this specific page
+      title,
+      metaTags,
+      metaDescription,
+    },
+  };
 }
+
 export default Page;
