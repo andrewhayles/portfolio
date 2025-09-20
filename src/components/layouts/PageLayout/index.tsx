@@ -1,10 +1,10 @@
 import * as React from 'react';
 import Markdown from 'markdown-to-jsx';
+import LazyHydrate from 'react-lazy-hydration'; // Import the library
 
 import { DynamicComponent } from '@/components/components-registry';
 import { PageComponentProps, PageLayout } from '@/types';
 import BaseLayout from '../BaseLayout';
-import { ViewportAware } from '@/components/ViewportAware';
 
 type ComponentProps = PageComponentProps & PageLayout;
 
@@ -13,12 +13,18 @@ const Component: React.FC<ComponentProps> = (props) => {
 
     return (
         <BaseLayout {...props}>
-            {sections.map((section) => {
-                // Change the key from section._id to the Stackbit object ID
+            {sections.map((section, index) => {
+                // The first section (index 0) is critical and above the fold.
+                // We hydrate it immediately.
+                if (index === 0) {
+                    return <DynamicComponent key={section['data-sb-object-id']} {...section} />;
+                }
+                
+                // For all other sections, we defer hydration until they are visible.
                 return (
-                    <ViewportAware key={section['data-sb-object-id']}>
+                    <LazyHydrate whenVisible key={section['data-sb-object-id']}>
                         <DynamicComponent {...section} />
-                    </ViewportAware>
+                    </LazyHydrate>
                 );
             })}
 
