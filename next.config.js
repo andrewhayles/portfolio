@@ -4,6 +4,8 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
 
+// You were missing this line and the opening curly brace
+const nextConfig = {
   // Keep all your other configurations
   env: {
     stackbitPreview: process.env.STACKBIT_PREVIEW
