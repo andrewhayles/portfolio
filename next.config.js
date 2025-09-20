@@ -4,13 +4,6 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  // Add the experimental flag for Partytown/workers here
-  experimental: {
-    nextScriptWorkers: true,
-  },
-
   // Keep all your other configurations
   env: {
     stackbitPreview: process.env.STACKBIT_PREVIEW
