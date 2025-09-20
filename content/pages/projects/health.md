@@ -9,6 +9,7 @@ featuredImage:
   type: ImageBlock
   url: /images/bg2_mini.webp
   altText: Project thumbnail image
+  priority: true
 media:
   type: ImageBlock
   url: /images/bg2_mini.webp

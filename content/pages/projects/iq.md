@@ -11,6 +11,7 @@ featuredImage:
   type: ImageBlock
   url: /images/bg3_mini.webp
   altText: Project thumbnail image
+  priority: true
 media:
   type: ImageBlock
   url: /images/bg3_mini.webp

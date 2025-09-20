@@ -9,7 +9,7 @@ type ComponentProps = ImageBlockProps & {
 };
 
 export default function ImageBlock(props: ComponentProps) {
-    const { elementId, className, url, altText = '' } = props;
+    const { elementId, className, url, altText = '', priority = false } = props;
     if (!url) {
         return null;
     }
@@ -27,6 +27,7 @@ export default function ImageBlock(props: ComponentProps) {
                     alt={altText}
                     width={width}
                     height={height}
+					priority={priority}
                     className="w-full h-auto object-cover"
                 />
             </figure>
