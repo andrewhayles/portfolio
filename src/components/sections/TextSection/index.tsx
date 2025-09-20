@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import Markdown from 'markdown-to-jsx';
+import React from 'react';
 
 import { mapStylesToClassNames as mapStyles } from '@/utils/map-styles-to-class-names';
 import Section from '../Section';
