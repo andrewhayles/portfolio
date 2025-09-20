@@ -92,11 +92,12 @@ export async function getStaticProps({ params }: { params?: { slug?: string[] } 
         // Finally, return the LEAN data to the client
         return {
             props: {
-        ...safeProps, // Temporarily return everything
-        title,
-        metaTags,
-        metaDescription
-        };
+                ...safeProps, // Temporarily return everything
+                title,
+                metaTags,
+                metaDescription
+            }
+		};
     } catch (err) {
         // ... your existing catch block
         return {
