@@ -95,7 +95,7 @@ export async function getStaticProps({ params }: { params?: { slug?: string[] } 
         ...safeProps, // Temporarily return everything
         title,
         metaTags,
-        metaDescription,
+        metaDescription
         };
     } catch (err) {
         // ... your existing catch block
