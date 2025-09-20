@@ -17,23 +17,24 @@ const dynSsrFalse = (importer: () => Promise<any>) =>
 
 const dynamicComponents = {
   // --- CRITICAL & LAYOUT COMPONENTS (Server-Rendered) ---
-  FeaturedProjectsSection: dyn(() => import('./sections/FeaturedProjectsSection')),
-  ImageBlock: dyn(() => import('./molecules/ImageBlock')),
-  ProjectFeedSection: dyn(() => import('./sections/ProjectFeedSection')),
+
   TextSection: dyn(() => import('./sections/TextSection')),
   PageLayout: dyn(() => import('./layouts/PageLayout')),
   PostLayout: dyn(() => import('./layouts/PostLayout')),
   PostFeedLayout: dyn(() => import('./layouts/PostFeedLayout')),
-  ProjectLayout: dyn(() => import('./layouts/ProjectLayout')),
-  ProjectFeedLayout: dyn(() => import('./layouts/ProjectFeedLayout')),
 
   // --- DEFERRED COMPONENTS (Client-Side Rendered) ---
+  FeaturedProjectsSection: dynSsrFalse(() => import('./sections/FeaturedProjectsSection')),
+  ImageBlock: dynSsrFalse(() => import('./molecules/ImageBlock')),
+  ProjectFeedSection: dynSsrFalse(() => import('./sections/ProjectFeedSection')),
   ContactSection: dynSsrFalse(() => import('./sections/ContactSection')),
   CtaSection: dynSsrFalse(() => import('./sections/CtaSection')),
   DividerSection: dynSsrFalse(() => import('./sections/DividerSection')),
   FormBlock: dynSsrFalse(() => import('./molecules/FormBlock')),
   EmailFormControl: dynSsrFalse(() => import('./molecules/FormBlock/EmailFormControl')),
   LabelsSection: dynSsrFalse(() => import('./sections/LabelsSection')),
+  ProjectLayout: dynSsrFalse(() => import('./layouts/ProjectLayout')),
+  ProjectFeedLayout: dynSsrFalse(() => import('./layouts/ProjectFeedLayout')),
 };
 
 type DynamicComponentProps = ContentObject & {
