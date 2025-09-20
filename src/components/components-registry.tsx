@@ -1,4 +1,4 @@
-// src/components/components-registry.tsx
+
 import dynamic from 'next/dynamic';
 import { ComponentType } from 'react';
 import { Annotated } from './Annotated';
