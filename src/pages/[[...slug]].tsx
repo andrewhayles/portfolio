@@ -10,7 +10,9 @@ import {
   seoGenerateTitle,
 } from '@/utils/seo-utils';
 
-type StaticPropsShape = PageComponentProps & {
+type StaticPropsShape = {
+  global: any; // Or a more specific GlobalProps type
+  page: PageComponentProps;
   title?: string;
   metaTags?: Array<{ property: string; content: string; format?: string }>;
   metaDescription?: string;
