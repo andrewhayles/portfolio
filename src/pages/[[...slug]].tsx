@@ -49,7 +49,7 @@ const Page: React.FC<StaticPropsShape> = (props) => {
         {site?.favicon && <link rel="icon" href={site.favicon} />}
       </Head>
       {/* Pass the correct props down to the component registry */}
-      <DynamicComponent {...props} />
+      <DynamicComponent {...page} global={global} />
     </>
   );
 };
