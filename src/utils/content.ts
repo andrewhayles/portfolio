@@ -117,6 +117,7 @@ export function getAllPagePaths() {
 }
 
 export async function getPageProps(urlPath: string) {
+    // 1. Get all content data ONCE.
     const allData = allContent();
     const props = resolveStaticProps(urlPath, allData) as any;
 
@@ -124,47 +125,34 @@ export async function getPageProps(urlPath: string) {
         return null;
     }
 
+    // 2. Create a safe, deep copy to work with.
     const leanProps = JSON.parse(JSON.stringify(props));
-    const heavyFieldsToRemove = ['markdownContent', 'code'];
-    const feedLayouts = ['PostFeedLayout', 'ProjectFeedLayout', 'PageLayout']; // Ensure your homepage type is here
 
-    if (feedLayouts.includes(leanProps.type)) {
-        if (leanProps.sections) {
-            leanProps.sections.forEach((section: any) => {
-                const itemLists = Object.values(section).filter(val => Array.isArray(val) && val[0]?.type);
-                itemLists.forEach((itemList: any) => {
-                    itemList.forEach((item: any) => {
-                        heavyFieldsToRemove.forEach(fieldName => {
-                            delete item[fieldName];
-                        });
-                    });
-                });
-            });
-        }
+    // 3. TARGETED PRUNING:
+    //    Find the oversized 'FeaturedProjectsSection' and replace its heavy projects
+    //    with the lightweight previews from your getProjectPreviews function.
+    if (leanProps.sections) {
+        // We get the complete list of previews once.
+        const allProjectPreviews = getProjectPreviews(allData);
+
+        leanProps.sections.forEach((section: any) => {
+            if (section.type === 'FeaturedProjectsSection' && section.projects) {
+                // For each full project in the section, find its matching lightweight preview.
+                section.projects = section.projects.map((project: any) => 
+                    allProjectPreviews.find(p => p.__metadata.id === project.__metadata.id) || project
+                );
+            }
+        });
     }
 
-    // --- START: New Debug Logic ---
-    if (urlPath === '/') { // Only run this debug log for the homepage
-        console.log('\n--- Homepage Data Size Debug ---');
-        let totalSize = 0;
-        if (leanProps.sections) {
-            leanProps.sections.forEach((section: any, index: number) => {
-                const sectionSize = JSON.stringify(section).length;
-                totalSize += sectionSize;
-                console.log(`Section ${index} (type: ${section.type}): ${sectionSize} bytes`);
-            });
-        }
-        console.log(`Total sections size: ${totalSize} bytes`);
-        console.log('------------------------------\n');
-    }
-    // --- END: New Debug Logic ---
-
+    // 4. Handle code highlighting for single-page content.
     if (leanProps.code) {
         const lang = leanProps.code.match(/^```(\w+)\n/)?.[1] || 'text';
         leanProps.highlightedCode = await highlightCode(leanProps.code, lang);
         delete leanProps.code;
     }
 
+    // 5. Return the final, fixed props object.
     return leanProps;
 }
 
