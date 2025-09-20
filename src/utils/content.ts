@@ -117,7 +117,6 @@ export function getAllPagePaths() {
 }
 
 export async function getPageProps(urlPath: string) {
-    // 1. Get all content data ONCE at the beginning.
     const allData = allContent();
     const props = resolveStaticProps(urlPath, allData) as any;
 
@@ -125,30 +124,45 @@ export async function getPageProps(urlPath: string) {
         return null;
     }
 
-    // 2. Create a safe, deep copy to work with.
+    // Create a safe, deep copy to work with.
     const leanProps = JSON.parse(JSON.stringify(props));
+    
+    // Define the heavy fields we want to remove from list pages.
+    const heavyFieldsToRemove = ['markdownContent', 'code'];
+    
+    // Define which page layouts are considered "feeds" that need pruning.
+    // *** ACTION REQUIRED: Make sure your homepage's layout type is in this list! ***
+    const feedLayouts = ['PostFeedLayout', 'ProjectFeedLayout']; 
 
-    // 3. Intelligently prune heavy, nested data.
-    if (leanProps.sections) {
-        leanProps.sections.forEach((section: any) => {
-            if (section.type === 'ProjectFeedSection' && section.projects) {
-                // Pass the already-loaded allData to our efficient helper function.
-                const projectPreviews = getProjectPreviews(allData);
-                section.projects = section.projects.map((project: any) => 
-                    projectPreviews.find(p => p.__metadata.id === project.__metadata.id) || project
-                );
-            }
-        });
+    // Check if the current page is a feed layout.
+    if (feedLayouts.includes(leanProps.type)) {
+        // If it is, go through all its sections...
+        if (leanProps.sections) {
+            leanProps.sections.forEach((section: any) => {
+                // Find any list of items within a section (e.g., projects, posts, etc.)
+                const itemLists = Object.values(section).filter(val => Array.isArray(val) && val[0]?.type);
+                
+                itemLists.forEach((itemList: any) => {
+                    // For each item in the list...
+                    itemList.forEach((item: any) => {
+                        // ...delete the heavy fields.
+                        heavyFieldsToRemove.forEach(fieldName => {
+                            delete item[fieldName];
+                        });
+                    });
+                });
+            });
+        }
     }
 
-    // 4. Handle code highlighting.
+    // Handle code highlighting for single-page content.
     if (leanProps.code) {
         const lang = leanProps.code.match(/^```(\w+)\n/)?.[1] || 'text';
         leanProps.highlightedCode = await highlightCode(leanProps.code, lang);
         delete leanProps.code;
     }
 
-    // 5. Return the final, lightweight props object.
+    // Return the final, aggressively pruned props object.
     return leanProps;
 }
 
