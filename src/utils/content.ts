@@ -124,28 +124,16 @@ export async function getPageProps(urlPath: string) {
         return null;
     }
 
-    // Create a safe, deep copy to work with.
     const leanProps = JSON.parse(JSON.stringify(props));
-    
-    // Define the heavy fields we want to remove from list pages.
     const heavyFieldsToRemove = ['markdownContent', 'code'];
-    
-    // Define which page layouts are considered "feeds" that need pruning.
-    // *** ACTION REQUIRED: Make sure your homepage's layout type is in this list! ***
-    const feedLayouts = ['PostFeedLayout', 'ProjectFeedLayout', 'PageLayout']; 
+    const feedLayouts = ['PostFeedLayout', 'ProjectFeedLayout', 'PageLayout']; // Ensure your homepage type is here
 
-    // Check if the current page is a feed layout.
     if (feedLayouts.includes(leanProps.type)) {
-        // If it is, go through all its sections...
         if (leanProps.sections) {
             leanProps.sections.forEach((section: any) => {
-                // Find any list of items within a section (e.g., projects, posts, etc.)
                 const itemLists = Object.values(section).filter(val => Array.isArray(val) && val[0]?.type);
-                
                 itemLists.forEach((itemList: any) => {
-                    // For each item in the list...
                     itemList.forEach((item: any) => {
-                        // ...delete the heavy fields.
                         heavyFieldsToRemove.forEach(fieldName => {
                             delete item[fieldName];
                         });
@@ -155,14 +143,28 @@ export async function getPageProps(urlPath: string) {
         }
     }
 
-    // Handle code highlighting for single-page content.
+    // --- START: New Debug Logic ---
+    if (urlPath === '/') { // Only run this debug log for the homepage
+        console.log('\n--- Homepage Data Size Debug ---');
+        let totalSize = 0;
+        if (leanProps.sections) {
+            leanProps.sections.forEach((section: any, index: number) => {
+                const sectionSize = JSON.stringify(section).length;
+                totalSize += sectionSize;
+                console.log(`Section ${index} (type: ${section.type}): ${sectionSize} bytes`);
+            });
+        }
+        console.log(`Total sections size: ${totalSize} bytes`);
+        console.log('------------------------------\n');
+    }
+    // --- END: New Debug Logic ---
+
     if (leanProps.code) {
         const lang = leanProps.code.match(/^```(\w+)\n/)?.[1] || 'text';
         leanProps.highlightedCode = await highlightCode(leanProps.code, lang);
         delete leanProps.code;
     }
 
-    // Return the final, aggressively pruned props object.
     return leanProps;
 }
 
