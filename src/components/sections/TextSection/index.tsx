@@ -4,7 +4,7 @@ import Markdown from 'markdown-to-jsx';
 import { mapStylesToClassNames as mapStyles } from '@/utils/map-styles-to-class-names';
 import Section from '../Section';
 
-export default function TextSection(props) {
+function TextSection(props) {
     const { elementId, colors, variant = 'variant-a', styles = {}, ...rest } = props;
     const sectionAlign = styles.self?.textAlign ?? 'left';
     return (
@@ -61,3 +61,5 @@ function TextTwoCol(props) {
         </div>
     );
 }
+
+export default React.memo(TextSection)
