@@ -3,12 +3,13 @@
 import { Annotated } from '@/components/Annotated';
 import { ImageBlock as ImageBlockProps } from '@/types'; // Import the specific type
 import Image from 'next/image';
+import React from 'react';
 
 type ComponentProps = ImageBlockProps & {
     className?: string;
 };
 
-export default function ImageBlock(props: ComponentProps) {
+function ImageBlock(props: ComponentProps) {
     const { elementId, className, url, altText = '', priority = false } = props;
     if (!url) {
         return null;
@@ -34,3 +35,5 @@ export default function ImageBlock(props: ComponentProps) {
         </Annotated>
     );
 }
+
+export default React.memo(ImageBlock)

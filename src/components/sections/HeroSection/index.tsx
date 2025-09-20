@@ -3,6 +3,7 @@
 import classNames from 'classnames';
 import Markdown from 'markdown-to-jsx';
 import Image from 'next/image';
+import React from 'react';
 
 import { AnnotatedField } from '@/components/Annotated';
 import { Action } from '@/components/atoms';
@@ -10,7 +11,7 @@ import { HeroSection, ImageBlock } from '@/types';
 import { mapStylesToClassNames as mapStyles } from '@/utils/map-styles-to-class-names';
 import Section from '../Section';
 
-export default function Component(props: HeroSection) {
+function Component(props: HeroSection) {
     const { elementId, colors, backgroundSize, title, subtitle, text, media, actions = [], styles = {} } = props;
     const sectionFlexDirection = styles.self?.flexDirection ?? 'row';
     const sectionAlign = styles.self?.textAlign ?? 'left';
@@ -96,3 +97,5 @@ function mapFlexDirectionStyles(flexDirection?: 'row' | 'row-reverse' | 'col' | 
             return 'flex-col lg:flex-row lg:items-center';
     }
 }
+
+export default React.memo(Component)
