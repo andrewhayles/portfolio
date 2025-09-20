@@ -117,7 +117,7 @@ export function getAllPagePaths() {
 }
 
 export async function getPageProps(urlPath: string) {
-    // 1. Get all content data as before. This is okay on the server during build.
+    // 1. Get all content data ONCE at the beginning.
     const allData = allContent();
     const props = resolveStaticProps(urlPath, allData) as any;
 
@@ -125,17 +125,15 @@ export async function getPageProps(urlPath: string) {
         return null;
     }
 
-    // 2. Create a safe, deep copy of the props to avoid modifying the original data.
+    // 2. Create a safe, deep copy to work with.
     const leanProps = JSON.parse(JSON.stringify(props));
 
     // 3. Intelligently prune heavy, nested data.
-    //    Here, we find any project feeds and replace the full project data
-    //    with lightweight previews using your OWN getProjectPreviews() function.
     if (leanProps.sections) {
         leanProps.sections.forEach((section: any) => {
             if (section.type === 'ProjectFeedSection' && section.projects) {
-                // Replace the list of full project objects with a list of smaller preview objects.
-                const projectPreviews = getProjectPreviews();
+                // Pass the already-loaded allData to our efficient helper function.
+                const projectPreviews = getProjectPreviews(allData);
                 section.projects = section.projects.map((project: any) => 
                     projectPreviews.find(p => p.__metadata.id === project.__metadata.id) || project
                 );
@@ -143,20 +141,19 @@ export async function getPageProps(urlPath: string) {
         });
     }
 
-    // 4. Handle code highlighting as before, but on the new 'lean' object.
+    // 4. Handle code highlighting.
     if (leanProps.code) {
         const lang = leanProps.code.match(/^```(\w+)\n/)?.[1] || 'text';
         leanProps.highlightedCode = await highlightCode(leanProps.code, lang);
-        // Delete the original raw code so it's not sent to the browser.
         delete leanProps.code;
     }
 
-    // 5. Return the new, lightweight props object to the browser.
+    // 5. Return the final, lightweight props object.
     return leanProps;
 }
 
-export function getProjectPreviews() {
-    const allProjects = allContent().filter(
+export function getProjectPreviews(allData: types.ContentObject[]) {
+    const allProjects = allData.filter(
         (content) => content.type === 'ProjectLayout'
     );
 
