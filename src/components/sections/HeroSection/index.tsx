@@ -1,101 +1,65 @@
-// src/components/sections/HeroSection/index.tsx
-
 import classNames from 'classnames';
-import Markdown from 'markdown-to-jsx';
-import Image from 'next/image';
-import React from 'react';
-
-import { AnnotatedField } from '@/components/Annotated';
 import { Action } from '@/components/atoms';
-import { HeroSection, ImageBlock } from '@/types';
-import { mapStylesToClassNames as mapStyles } from '@/utils/map-styles-to-class-names';
-import Section from '../Section';
+import { DynamicComponent } from '@/components/components-registry';
+import { Annotated } from '@/components/Annotated';
 
-function Component(props: HeroSection) {
-    const { elementId, colors, backgroundSize, title, subtitle, text, media, actions = [], styles = {} } = props;
-    const sectionFlexDirection = styles.self?.flexDirection ?? 'row';
-    const sectionAlign = styles.self?.textAlign ?? 'left';
+export const HeroSection = (props) => {
+    const {
+        title,
+        subtitle,
+        subtitleHtml, // Use the pre-rendered HTML for the subtitle
+        actions = [],
+        media,
+        'data-sb-field-path': fieldPath
+    } = props;
 
     return (
-        <Section elementId={elementId} colors={colors} backgroundSize={backgroundSize} styles={styles.self}>
-            <div className={classNames('flex gap-8', mapFlexDirectionStyles(sectionFlexDirection))}>
-                <div className={classNames('flex-1 w-full', mapStyles({ textAlign: sectionAlign }))}>
-                    {title && (
-                        <AnnotatedField path=".title">
-                            <h1 className="text-5xl sm:text-6xl">{title}</h1>
-                        </AnnotatedField>
-                    )}
-                    {subtitle && (
-                        <AnnotatedField path=".subtitle">
-                            <p className={classNames('text-xl sm:text-2xl', { 'mt-4': title })}>{subtitle}</p>
-                        </AnnotatedField>
-                    )}
-                    {text && (
-                        <AnnotatedField path=".text">
-                            <Markdown
-                                options={{ forceBlock: true, forceWrapper: true }}
-                                className={classNames('max-w-none prose sm:prose-lg', {
-                                    'mt-6': title || subtitle
-                                })}
-                            >
-                                {text}
-                            </Markdown>
-                        </AnnotatedField>
-                    )}
-                    {actions?.length > 0 && (
-                        <div
-                            className={classNames('flex flex-wrap items-center gap-4', {
-                                'mt-8': title || subtitle || text,
-                                'justify-center': sectionAlign === 'center',
-                                'justify-end': sectionAlign === 'right'
-                            })}
-                        >
-                            {actions.map((action, index) => (
-                                <Action key={index} {...action} />
-                            ))}
-                        </div>
-                    )}
-                </div>
-                {media && (
+        <Annotated content={props}>
+            <div className="w-full">
+                <div className="w-full max-w-7xl mx-auto px-4 sm:px-8">
                     <div
-                        className={classNames('flex flex-1 w-full', {
-                            'justify-center': sectionAlign === 'center',
-                            'justify-end': sectionAlign === 'right'
-                        })}
+                        className={classNames(
+                            'p-8',
+                            'sm:p-14',
+                            'text-center',
+                            'bg-base-100',
+                            'rounded-2xl',
+                            'border-2',
+                            'border-base-300'
+                        )}
                     >
-                        <HeroMedia media={media} />
+                        <div className="w-full max-w-3xl mx-auto">
+                            {title && (
+                                <h1 className="text-5xl font-bold" data-sb-field-path=".title">
+                                    {title}
+                                </h1>
+                            )}
+                            {subtitleHtml && (
+                                <div
+                                    className="text-xl sm:text-2xl mt-4"
+                                    dangerouslySetInnerHTML={{ __html: subtitleHtml }}
+                                    data-sb-field-path=".subtitle"
+                                />
+                            )}
+                            {actions.length > 0 && (
+                                <div className="mt-8">
+                                    <div className="flex flex-wrap justify-center items-center gap-4" data-sb-field-path=".actions">
+                                        {actions.map((action, index) => (
+                                            <Action key={index} action={action} className="lg:whitespace-nowrap" data-sb-field-path={`.${index}`} />
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        {media && (
+                            <div className="mt-12" data-sb-field-path=".media">
+                                <DynamicComponent {...media} />
+                            </div>
+                        )}
                     </div>
-                )}
+                </div>
             </div>
-        </Section>
+        </Annotated>
     );
-}
-
-// Ensure this is the ONLY HeroMedia function in the file
-function HeroMedia({ media }: { media: ImageBlock }) {
-    return (
-        <Image
-            src={media.url}
-            alt={media.altText || ''}
-            width={1000}
-            height={750}
-            priority={true}
-            className="w-full h-auto object-contain aspect-[4/3]"
-        />
-    );
-}
-
-function mapFlexDirectionStyles(flexDirection?: 'row' | 'row-reverse' | 'col' | 'col-reverse') {
-    switch (flexDirection) {
-        case 'row-reverse':
-            return 'flex-col-reverse lg:flex-row-reverse lg:items-center';
-        case 'col':
-            return 'flex-col';
-        case 'col-reverse':
-            return 'flex-col-reverse';
-        default:
-            return 'flex-col lg:flex-row lg:items-center';
-    }
-}
-
-export default React.memo(Component)
+};
