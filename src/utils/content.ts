@@ -25,13 +25,28 @@ const getPages = () => getContent('pages');
 const getAllPosts = () => getContent('posts');
 const getAllProjects = () => getContent('projects');
 
-// This function gets the props for a single page during the build
-export async function getPageProps(urlPath: string) {
-    const { allPages, allPosts, allProjects } = {
+// *** THIS IS THE MISSING FUNCTION THAT IS NOW ADDED ***
+function getAllContent() {
+    return {
         allPages: getPages(),
         allPosts: getAllPosts(),
         allProjects: getAllProjects()
     };
+}
+
+// Helper function to find a post by its URL path (slug)
+function getPostBySlug(urlPath: string, allPosts: any[]) {
+    return allPosts.find(post => post.__metadata.urlPath === urlPath);
+}
+
+// Helper function to find a project by its URL path (slug)
+function getProjectBySlug(urlPath: string, allProjects: any[]) {
+    return allProjects.find(project => project.__metadata.urlPath === urlPath);
+}
+
+// This function gets the props for a single page during the build
+export async function getPageProps(urlPath: string) {
+    const { allPages, allPosts, allProjects } = getAllContent();
     
     const allContent = [...allPages, ...allPosts, ...allProjects];
     const contentObject = allContent.find(p => p.__metadata.urlPath === urlPath);
