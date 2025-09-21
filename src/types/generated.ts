@@ -344,6 +344,7 @@ export type ImageBlock = BaseContentObject & {
     elementId?: string;
 	width?: number;
 	height?: number;
+	className?: string;
 	priority?: boolean;
 };
 

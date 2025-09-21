@@ -32,7 +32,15 @@ const Component: React.FC<ComponentProps> = (props) => {
 
                 {media && (
                     <figure className="max-w-5xl mx-auto mb-10 sm:mb-14">
-                        <DynamicComponent {...media} className={classNames({ 'w-full': media.type === 'ImageBlock' })} />
+                        const componentProps = {
+                            ...media,
+                            className: classNames(
+                                (media as any).className, // Preserves any existing className in the media object
+                                { 'w-full': media.type === 'ImageBlock' }
+                            )
+                        };
+
+<DynamicComponent {...componentProps} />
                     </figure>
                 )}
 
