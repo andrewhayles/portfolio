@@ -23,10 +23,10 @@ function getAllContentObjects() {
     return files.map(file => {
         const filePath = path.join(contentDir, file);
         const fileContents = fs.readFileSync(filePath, 'utf8');
-        const { data } = matter(fileContents); // We only need the frontmatter here
+        const { data } = matter(fileContents); 
 
         return {
-            ...data, // Spread the frontmatter (title, type, etc.)
+            ...data,
             __metadata: {
                 id: file,
                 urlPath: fileToUrlPath(file)
