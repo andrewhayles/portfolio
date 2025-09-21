@@ -39,6 +39,7 @@ const dynamicComponents = {
 
 type DynamicComponentProps = ContentObject & {
   global?: GlobalProps;
+  className?: string;
 };
 
 const components = {
