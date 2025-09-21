@@ -7,43 +7,44 @@ import html from 'remark-html';
 
 const contentBaseDir = 'content';
 
-// Helper to get all markdown file paths
-function getContentFiles(): string[] {
-    const contentDir = path.join(process.cwd(), contentBaseDir);
-    return glob.sync('**/*.md', { cwd: contentDir });
-}
-
-// Derives a URL path from a file path
-function fileToUrlPath(file: string): string {
-    return ('/' + file.replace(/\\/g, '/'))
+function urlPathFromFileId(id: string): string {
+    return ('/' + id)
         .replace(/^\/pages/, '')
         .replace(/\.md$/, '')
         .replace(/\/index$/, '') || '/';
 }
 
-// This function provides all possible page URLs to Next.js
-export function getAllPagePaths(): string[] {
-    return getContentFiles().map(file => fileToUrlPath(file));
+function getAllContentObjects() {
+    const contentDir = path.join(process.cwd(), contentBaseDir);
+    const files = glob.sync('**/*.md', { cwd: contentDir });
+
+    return files.map(file => {
+        const filePath = path.join(contentDir, file);
+        const fileContents = fs.readFileSync(filePath, 'utf8');
+        const { data } = matter(fileContents);
+        return {
+            ...data,
+            __metadata: {
+                id: file,
+                urlPath: urlPathFromFileId(file)
+            }
+        };
+    });
 }
 
-// Gets the data for a single page at build time
-export async function getPageProps(urlPath: string) {
-    const allFiles = getContentFiles();
-    const allContent = allFiles.map(file => ({
-        ...matter(fs.readFileSync(path.join(process.cwd(), contentBaseDir, file), 'utf8')).data,
-        __metadata: {
-            id: file,
-            urlPath: fileToUrlPath(file)
-        }
-    }));
-    
-    const page = allContent.find(p => p.__metadata.urlPath === urlPath);
+export function getAllPagePaths(): string[] {
+    return getAllContentObjects().map(content => content.__metadata.urlPath);
+}
 
-    if (!page) {
+export async function getPageProps(urlPath: string) {
+    const allContent = getAllContentObjects();
+    const pageMetaData = allContent.find(p => p.__metadata.urlPath === urlPath);
+
+    if (!pageMetaData) {
         return { notFound: true };
     }
 
-    const filePath = path.join(process.cwd(), contentBaseDir, page.__metadata.id);
+    const filePath = path.join(process.cwd(), contentBaseDir, pageMetaData.__metadata.id);
     const fileContents = fs.readFileSync(filePath, 'utf8');
     const { data: pageData, content: markdownContent } = matter(fileContents);
 
@@ -52,7 +53,6 @@ export async function getPageProps(urlPath: string) {
         (pageData as any).contentHtml = processedContent.toString();
     }
     
-    // Convert markdown for sections if they exist
     if ((pageData as any).sections) {
         for (const section of (pageData as any).sections) {
             if (section.type === 'HeroSection' && section.subtitle) {
@@ -65,10 +65,12 @@ export async function getPageProps(urlPath: string) {
 
     return {
         props: {
-            page: { ...pageData, __metadata: page.__metadata },
+            page: { ...pageData, __metadata: pageMetaData.__metadata },
             global: {
                 site: { title: 'Andrew Hayles' },
-                // You can add global data here if needed later
+                pages: allContent.filter(p => p.__metadata.id.startsWith('pages')),
+                posts: allContent.filter(p => p.__metadata.id.startsWith('posts')),
+                projects: allContent.filter(p => p.__metadata.id.startsWith('projects'))
             }
         }
     };

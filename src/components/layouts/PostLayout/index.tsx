@@ -1,11 +1,16 @@
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import * as React from 'react';
+
 import { DynamicComponent } from '@/components/components-registry';
 import { PageComponentProps, PostLayout } from '@/types';
 import BaseLayout from '../BaseLayout';
 
-// The new props type will include contentHtml
+// ADD THIS FUNCTION BACK
+function PostMedia({ media }: { media: any }) {
+    return <DynamicComponent {...media} className={classNames({ 'w-full': media.type === 'ImageBlock' })} />;
+}
+
 type ComponentProps = PageComponentProps & PostLayout & { contentHtml?: string };
 
 const Component: React.FC<ComponentProps> = (props) => {
@@ -33,12 +38,9 @@ const Component: React.FC<ComponentProps> = (props) => {
                         <PostMedia media={media} />
                     </figure>
                 )}
-                
-                {/* This now renders the pre-built HTML directly */}
                 {contentHtml && (
                     <div className="max-w-3xl mx-auto prose sm:prose-lg" dangerouslySetInnerHTML={{ __html: contentHtml }} />
                 )}
-
             </article>
             {bottomSections?.map((section, index) => {
                 return <DynamicComponent key={index} {...section} />;
@@ -48,7 +50,3 @@ const Component: React.FC<ComponentProps> = (props) => {
 };
 
 export default Component;
-
-function PostMedia({ media }: { media: any }) {
-    return <DynamicComponent {...media} className={classNames({ 'w-full': media.type === 'ImageBlock' })} />;
-}
