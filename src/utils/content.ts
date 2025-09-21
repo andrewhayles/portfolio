@@ -46,9 +46,8 @@ export async function getPageProps(urlPath: string) {
                           getProjectBySlug(urlPath, allProjects);
 
     if (!contentObject) {
-        const page = allPages.find((p) => p.__metadata.urlPath === '/'); // Fallback to homepage
-        props.page = page;
-        return props;
+        // This is the standard Next.js way to handle a page not found
+        return { notFound: true };
     }
     
     const filePath = path.join(process.cwd(), contentBaseDir, contentObject.__metadata.id);
