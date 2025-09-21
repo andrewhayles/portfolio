@@ -1,36 +1,37 @@
 import * as React from 'react';
-import Markdown from 'markdown-to-jsx';
-import LazyHydrate from 'react-lazy-hydration'; // Import the library
-
 import { DynamicComponent } from '@/components/components-registry';
 import { PageComponentProps, PageLayout } from '@/types';
 import BaseLayout from '../BaseLayout';
 
-type ComponentProps = PageComponentProps & PageLayout;
+type ComponentProps = PageComponentProps & PageLayout & { contentHtml?: string };
 
 const Component: React.FC<ComponentProps> = (props) => {
-    const { sections = [], markdownContent } = props;
+    const { topSections = [], bottomSections = [], contentHtml } = props;
 
     return (
         <BaseLayout {...props}>
-            {sections.map((section, index) => {
-                // The first section (index 0) is critical and above the fold.
-                // We hydrate it immediately.
-                if (index === 0) {
-                    return <DynamicComponent key={section['data-sb-object-id']} {...section} />;
-                }
-                
-                // For all other sections, we defer hydration until they are visible.
-                return (
-                    <LazyHydrate whenVisible key={section['data-sb-object-id']}>
-                        <DynamicComponent {...section} />
-                    </LazyHydrate>
-                );
-            })}
+            {topSections.length > 0 && (
+                <div>
+                    {topSections.map((section, index) => (
+                        <DynamicComponent key={index} {...section} />
+                    ))}
+                </div>
+            )}
 
-            {markdownContent && (
-                <div className="prose max-w-4xl mx-auto px-4 py-12">
-                    <Markdown>{markdownContent}</Markdown>
+            {contentHtml && (
+                <div className="px-4 py-14 lg:py-20">
+                    <div
+                        className="max-w-3xl mx-auto prose sm:prose-lg"
+                        dangerouslySetInnerHTML={{ __html: contentHtml }}
+                    />
+                </div>
+            )}
+
+            {bottomSections.length > 0 && (
+                <div>
+                    {bottomSections.map((section, index) => (
+                        <DynamicComponent key={index} {...section} />
+                    ))}
                 </div>
             )}
         </BaseLayout>
