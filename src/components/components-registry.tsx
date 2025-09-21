@@ -47,9 +47,26 @@ const components = {
   ...dynamicComponents
 };
 
+
 export const DynamicComponent: React.FC<DynamicComponentProps> = (props) => {
-	console.log('DynamicComponent props:', props);
-	const modelName = props.type;
+    // Keep this for now, it's very helpful!
+    console.log('DynamicComponent props:', props); 
+
+    const modelName = props.type;
+    if (!modelName) {
+        // Fallback for when type is missing, to prevent crash
+        return <div>Error: Component type missing!</div>; 
+    }
+
+    const Component = components[modelName];
+    if (!Component) {
+        // Fallback for when component is not registered
+        return <div>Error: Component '{modelName}' not found in registry.</div>;
+    }
+
+    // THIS IS THE CRITICAL CHANGE: Pass ALL props
+    return <Component {...props} />;
+};
 
 
   if (!modelName) {
