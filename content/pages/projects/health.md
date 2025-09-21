@@ -7,12 +7,11 @@ client: ''
 description: I created this project to stay up-to-date with my basic health markers.
 featuredImage:
   type: ImageBlock
-  url: /images/bg2_mini.webp
+  url: /images/bg2.jpg
   altText: Project thumbnail image
-  priority: true
 media:
   type: ImageBlock
-  url: /images/bg2_mini.webp
+  url: /images/bg2.jpg
   altText: Project image
 code: |
   ```
@@ -21,7 +20,9 @@ code: |
   import seaborn as sns
   import numpy as np
   
-  df = pd.read_csv("health.csv", usecols=['WEIGHT', 'BPAVGSYS',	'BPAVGDIA',	'BPMAXSYS',	'BPMAXDIA',	'BPMINSYS',	'BPMINDIA',	'SLEEPTOTAL','DEEPSLEEP','LIGHTSLEEP','HRAVG','HRMAX','HRMIN', 'STRESSAVG','STRESSMAX','STRESSMIN'])
+  df = pd.read_csv("health.csv", usecols=['WEIGHT', 'BPAVGSYS',	'BPAVGDIA',	'BPMAXSYS',	'BPMAXDIA',	'BPMINSYS',	
+                                          'BPMINDIA',	'SLEEPTOTAL','DEEPSLEEP','LIGHTSLEEP','HRAVG','HRMAX','HRMIN',
+                                          'STRESSAVG','STRESSMAX','STRESSMIN'])
                                           
   # Basic statistics
   summary = df.describe(percentiles=[.25, .5, .75]).T
@@ -128,23 +129,23 @@ This started with the question, "Am I in good health, and how do my personal hea
 
 This is a plot of most of the variables I am tracking with histograms.  Most of the variables are in healthy ranges, although weight is an area of potential improvement:
 
-<img src="/images/overall_distributions.webp" alt="These are the overall distributions of the variables measured by me and by the watch" width="1536" height="855" style="max-width: 100%; height: auto;" loading="lazy">
+![These are the overall distributions of the variables measured by me and by the watch](/images/overall_distributions.png)
 
 After this visual is closed, the next visual will be generated (the next line of code is executed in the Python script).  The next step in solving my original problem is the following visualization.  This visual is colored based on row, so each row has a highest value and a lowest value, with a color scale defined on the right which shows the highest and lowest values (yellow corresponding to high values, dark blue corresponding to low values).  As can be seen, maximum heart rate (standard deviation and interquartile range) and maximum systolic blood pressure (mean and 50%) are the highest values.  This makes it easy to see which variables vary the most and the least:
 
-<img src="/images/heatmap_normalized.webp" alt="The colors are normalized by row based on the value inside the box (the highest numbers are yellow, the lowest numbers are dark blue)" width="1200" height="800" style="max-width: 100%; height: auto;" loading="lazy">
+![The colors are normalized by row based on the value inside the box (the highest numbers are yellow, the lowest numbers are dark blue)](/images/heatmap_normalized.png)
 
 Then the following is produced.  This is a correlation table.  The darker the red color, the higher the positive correlation.  The darker the blue color, the lower the negative correlation.  As can be seen, there is a very strong positive correlation between heart rate, stress, and blood pressure.  These are apparently very tightly linked physiological indicators.  The colors are shown for all possible correlations in the table but the numbers are only included if they are statistically significant:
 
-<img src="/images/heatmap_correlations.webp" alt="These are the correlations of the variables with each other, the more red the higher positive, the more blue the lower negative" width="1539" height="906" style="max-width: 100%; height: auto;" loading="lazy">
+![These are the correlations of the variables with each other, the more red the higher positive, the more blue the lower negative](/images/heatmap_correlations.png)
 
 When the previous night's sleep data is checked for relationship to health markers, something significant happens.  The effect of sleep becomes more manifest.  There is a modest negative correlation between previous night's sleep and many of the health markers, including stress levels and blood pressure.  This is not manifest in the previous correlation table because this table is based on *that night's* sleep, in other words, it checks to see how does the day's stress and blood pressure affect sleep that night.  The following graph checks to see how does the previous night affect the following day's blood pressure and stress level, and in this there is a modest but significant correlation.
 
-<img src="/images/correlation_matrix_previous_night.webp" alt="Correlations for previous night's sleep" width="1400" height="600" style="max-width: 100%; height: auto;" loading="lazy">
+![Correlations for previous night's sleep](/images/correlation_matrix_previous_night.png)
 
 Lastly, a table is produced with ranges of the variables (this tells me how my health markers vary somewhat) and some other useful information.  To get the variance throughout the day, actually looking at the data in the software application on my smart phone is necessary and predictable trends are manifest, stress rises when I wake up, reaches a peak, and decreases towards bed time.  Blood pressure and heart rate share a similar pattern.  If I get sick or have a night of poor sleep, stress, blood pressure, and heart rate tend to be higher:
 
-<img src="/images/range_calculations.png" alt="These are the ranges of each variable." width="724" height="394" style="max-width: 100%; height: auto;" loading="lazy">
+![These are the ranges of each variable.](/images/range_calculations.png)
 
 As can be seen, a simple CSV file can be read by the pandas library in Python and some statistical calculations can be made with the numpy library followed by visualizations prepared by the seaborn and matplotlib libraries.  In the future I'd like to analyze the data from my body composition scale as I collect enough data (I only use it twice per month because the measurement doesn't change much day-to-day and the battery dies rapidly if regularly used).  This project demonstrates the power of Python's data analysis libraries in transforming raw sensor data into actionable insights.
 

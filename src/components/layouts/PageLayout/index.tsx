@@ -1,37 +1,26 @@
 import * as React from 'react';
+import Markdown from 'markdown-to-jsx';
+
 import { DynamicComponent } from '@/components/components-registry';
 import { PageComponentProps, PageLayout } from '@/types';
 import BaseLayout from '../BaseLayout';
 
-type ComponentProps = PageComponentProps & PageLayout & { contentHtml?: string; topSections?: any[]; bottomSections?: any[]; };
+type ComponentProps = PageComponentProps & PageLayout;
 
 const Component: React.FC<ComponentProps> = (props) => {
-    const { topSections = [], bottomSections = [], contentHtml } = props;
+    const { sections = [], markdownContent } = props;
 
     return (
         <BaseLayout {...props}>
-            {topSections.length > 0 && (
-                <div>
-                    {topSections.map((section, index) => (
-                        <DynamicComponent key={index} {...section} global={props.global} />
-                    ))}
-                </div>
-            )}
+            {/* Render the sections (including the title) FIRST */}
+            {sections.map((section, index) => {
+                return <DynamicComponent key={index} {...section} />;
+            })}
 
-            {contentHtml && (
-                <div className="px-4 py-14 lg:py-20">
-                    <div
-                        className="max-w-3xl mx-auto prose sm:prose-lg"
-                        dangerouslySetInnerHTML={{ __html: contentHtml }}
-                    />
-                </div>
-            )}
-
-            {bottomSections.length > 0 && (
-                <div>
-                    {bottomSections.map((section, index) => (
-                        <DynamicComponent key={index} {...section} global={props.global} />
-                    ))}
+            {/* Render the main markdown content AFTER */}
+            {markdownContent && (
+                <div className="prose max-w-4xl mx-auto px-4 py-12">
+                    <Markdown>{markdownContent}</Markdown>
                 </div>
             )}
         </BaseLayout>

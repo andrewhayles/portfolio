@@ -1,39 +1,14 @@
-// src/components/molecules/ImageBlock/index.tsx
-
 import { Annotated } from '@/components/Annotated';
-import { ImageBlock as ImageBlockProps } from '@/types'; // Import the specific type
-import Image from 'next/image';
-import React from 'react';
 
-type ComponentProps = ImageBlockProps & {
-    className?: string;
-};
-
-function ImageBlock(props: ComponentProps) {
-    const { elementId, className, url, altText = '', priority = false } = props;
+export default function ImageBlock(props) {
+    const { elementId, className, url, altText = '' } = props;
     if (!url) {
         return null;
     }
 
-    // Set default dimensions. These are critical for aspect ratio and preventing CLS.
-    const width = props.width || 1200;
-    const height = props.height || 800;
-
     return (
         <Annotated content={props}>
-            <figure className={className}>
-                <Image
-                    id={elementId}
-                    src={url}
-                    alt={altText}
-                    width={width}
-                    height={height}
-					priority={priority}
-                    className="w-full h-auto object-cover"
-                />
-            </figure>
+            <img id={elementId || null} className={className} src={url} alt={altText} />
         </Annotated>
     );
 }
-
-export default React.memo(ImageBlock)

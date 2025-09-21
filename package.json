@@ -4,25 +4,19 @@
     "scripts": {
         "dev": "next dev",
         "build": "next build",
-        "start": "next start",
-        "analyze": "cross-env ANALYZE=true next build"
+        "start": "next start"
     },
     "dependencies": {
-        "@next/bundle-analyzer": "^15.5.3",
         "@stackbit/cms-git": "^1.0.35",
         "@tailwindcss/postcss": "^4.0.12",
         "classnames": "^2.5.1",
         "dayjs": "^1.11.11",
         "front-matter": "^4.0.2",
-        "gray-matter": "^4.0.3",
+        "markdown-to-jsx": "^7.7.1",
         "next": "^15.2.1",
         "react": "^19.0.0",
         "react-dom": "^19.0.0",
-        "react-intersection-observer": "^9.16.0",
-        "react-lazy-hydration": "^0.1.0",
-        "react-syntax-highlighter": "^15.6.6",
-        "remark": "^15.0.1",
-        "remark-html": "^16.0.1",
+        "react-syntax-highlighter": "^15.6.1",
         "slugify": "^1.6.6",
         "tailwindcss": "^4.0.12"
     },
@@ -33,7 +27,6 @@
         "@types/react": "^19.0.1",
         "@types/react-syntax-highlighter": "^15.5.13",
         "@vue/compiler-sfc": "^3.5.17",
-        "cross-env": "^10.0.0",
         "eslint": "^9.21.0",
         "eslint-config-next": "^15.2.0",
         "js-yaml": "^4.1.0",

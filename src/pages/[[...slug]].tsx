@@ -1,61 +1,49 @@
-import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
-import ErrorPage from 'next/error';
+import Head from 'next/head';
+
 import { DynamicComponent } from '@/components/components-registry';
-import { PageLayout as PageLayoutProps } from '@/types';
-import { getPage, getPagePaths } from '@/lib/pages'; // Assuming these functions exist
-import { getGlobalProps } from '@/lib/global'; // Assuming this function exists
-import PageLayout from '@/components/layouts/PageLayout'; // Assuming this component exists
+import { PageComponentProps } from '@/types';
+import { allContent } from '@/utils/content';
+import { seoGenerateMetaDescription, seoGenerateMetaTags, seoGenerateTitle } from '@/utils/seo-utils';
+import { resolveStaticProps } from '@/utils/static-props-resolvers';
 
-// This defines the structure of your page's data
-type Props = InferGetStaticPropsType<typeof getStaticProps>;
+const Page: React.FC<PageComponentProps> = (props) => {
+    const { global, ...page } = props;
+    const { site } = global;
+    const title = seoGenerateTitle(page, site);
+    const metaTags = seoGenerateMetaTags(page, site);
+    const metaDescription = seoGenerateMetaDescription(page, site);
 
-// This is the main component for your pages
-export default function Page({ page, global, notFound }: Props) {
-    // ✅ THIS IS THE IMPORTANT SAFETY CHECK
-    // If the page was not found, it shows a 404 error page and stops.
-    if (notFound || !page) {
-        return <ErrorPage statusCode={404} />;
-    }
+    return (
+        <>
+            <Head>
+                <title>{title}</title>
+                {metaDescription && <meta name="description" content={metaDescription} />}
+                {metaTags.map((metaTag) => {
+                    if (metaTag.format === 'property') {
+                        // OpenGraph meta tags (og:*) should be have the format <meta property="og:…" content="…">
+                        return <meta key={metaTag.property} property={metaTag.property} content={metaTag.content} />;
+                    }
+                    return <meta key={metaTag.property} name={metaTag.property} content={metaTag.content} />;
+                })}
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                {site.favicon && <link rel="icon" href={site.favicon} />}
+            </Head>
+            <DynamicComponent {...props} />
+        </>
+    );
+};
 
-    // If the page IS found, it renders your layout with the page data.
-    return <PageLayout {...page} global={global} />;
+export function getStaticPaths() {
+    const allData = allContent();
+    const paths = allData.map((obj) => obj.__metadata.urlPath).filter(Boolean);
+    return { paths, fallback: false };
 }
 
-// This function fetches the data for a single page during the build
-export const getStaticProps: GetStaticProps<{
-    page?: PageLayoutProps;
-    global?: any;
-    notFound?: boolean;
-}> = async (context) => {
-    const slug = '/' + ((context.params?.slug as string[]) ?? []).join('/');
-    const page = await getPage(slug);
+export function getStaticProps({ params }) {
+    const allData = allContent();
+    const urlPath = '/' + (params.slug || []).join('/');
+    const props = resolveStaticProps(urlPath, allData);
+    return { props };
+}
 
-    if (!page) {
-        return { notFound: true };
-    }
-
-    // ✨ FIX IS HERE: Create a mutable copy of the 'sections' array.
-    // This solves the "readonly" type error by ensuring the array
-    // passed to the component is modifiable.
-    const pageWithMutableSections = {
-        ...page,
-        sections: page.sections ? [...page.sections] : []
-    };
-
-    const globalProps = await getGlobalProps();
-    return {
-        props: {
-            page: pageWithMutableSections, // Use the modified page object
-            global: globalProps
-        }
-    };
-};
-
-// This function tells Next.js which pages to build
-export const getStaticPaths: GetStaticPaths = async () => {
-    const paths = await getPagePaths();
-    return {
-        paths,
-        fallback: false
-    };
-};
+export default Page;

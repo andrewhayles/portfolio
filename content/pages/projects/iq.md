@@ -9,12 +9,11 @@ description: >-
   over many years.
 featuredImage:
   type: ImageBlock
-  url: /images/bg3_mini.webp
+  url: /images/bg3.jpg
   altText: Project thumbnail image
-  priority: true
 media:
   type: ImageBlock
-  url: /images/bg3_mini.webp
+  url: /images/bg3.jpg
   altText: Project image
 code: |
   ```
@@ -282,7 +281,8 @@ code: |
                       "Joshi", "Dorsey", "Predavec", "Jouve", "Kutle",
                       "Prousalis", "Scillitani", "Udriste", "Other"])
   
-  plt.pie(mypiearray,labels = mylabel,autopct='%.0f%%', explode = (0.1, 0.1, 0.1, 0.1, 0.1, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.1), startangle = 90)
+  plt.pie(mypiearray,labels = mylabel,autopct='%.0f%%', explode = (0.1, 0.1, 0.1, 0.1, 0.1, 0.6, 0.6, 0.6, 0.6, 0.6,
+                                                                   0.6, 0.6, 0.6, 0.1), startangle = 90)
   
   plt.show()
   ```
@@ -295,44 +295,44 @@ This script does a lot of things and I'm not going to talk about all of them rig
 
 Histogram of timed/untimed scores superimposed on each other
 
-<img src="/images/histogram_timed_untimed1.webp" alt="Histogram of timed/untimed scores superimposed on each other" width="640" height="480" style="max-width: 100%; height: auto;" loading="lazy">
+![Histogram of timed/untimed scores superimposed on each other](/images/histogram_timed_untimed1.png)
 
 Probability plot of timed scores
 
-<img src="/images/probability_plot_timed4.webp" alt="Probability plot of timed scores" width="640" height="480" style="max-width: 100%; height: auto;" loading="lazy">
+![Probability plot of timed scores](/images/probability_plot_timed4.png)
 
 Probability plot of untimed scores
 
-<img src="/images/probability_plot_untimed5.webp" alt="Probabliity plot of untimed scores" width="640" height="480" style="max-width: 100%; height: auto;" loading="lazy">
+![Probabliity plot of untimed scores](/images/probability_plot_untimed5.png)
 
 Boxplot of authors (visible are the ranges of scores for each author)
 
-<img src="/images/box_plot_author6.webp" alt="Boxplot of authors (visible are the ranges of scores for each author)" width="1536" height="855" style="max-width: 100%; height: auto;" loading="lazy">
+![Boxplot of authors (visible are the ranges of scores for each author)](/images/box_plot_author6.png)
 
 Boxplot of tests taken in hot months versus cold months
 
-<img src="/images/box_plot_hotcold7.webp" alt="Boxplot of tests taken in hot months versus cold months" width="1536" height="855" style="max-width: 100%; height: auto;" loading="lazy">
+![Boxplot of tests taken in hot months versus cold months](/images/box_plot_hotcold7.png)
 
 Boxplot of timed versus untimed tests
 
-<img src="/images/box_plot_timeduntimed8.webp" alt="Boxplot of timed versus untimed tests" width="640" height="480" style="max-width: 100%; height: auto;" loading="lazy">
+![Boxplot of timed versus untimed tests](/images/box_plot_timeduntimed8.png)
 
 Boxplot of test types
 
-<img src="/images/box_plot_testtype9.webp" alt="Boxplot of test types" width="640" height="480" style="max-width: 100%; height: auto;" loading="lazy">
+![Boxplot of test types](/images/box_plot_testtype9.png)
 
 Violin plot of test types
 
-<img src="/images/violin_plot10.webp" alt="Violin plot of test types" width="1200" height="400" style="max-width: 100%; height: auto;" loading="lazy">
+![Violin plot of test types](/images/violin_plot10.png)
 
 Bell curve of scores
 
-<img src="/images/bell_curve_of_scores11.webp" alt="Bell curve of scores" width="640" height="480" style="max-width: 100%; height: auto;" loading="lazy">
+![Bell curve of scores](/images/bell_curve_of_scores11.png)
 
 Pie chart of test types
 
-<img src="/images/piechart_testtype_12.webp" alt="Pie chart of test types" width="682" height="576" style="max-width: 100%; height: auto;" loading="lazy">
+![Pie chart of test types](/images/piechart_testtype_12.png)
 
 Pie chart of authors
 
-<img src="/images/piechart_author13.webp" alt="Pie chart of authors" width="1536" height="855" style="max-width: 100%; height: auto;" loading="lazy">
+![Pie chart of authors](/images/piechart_author13.png)

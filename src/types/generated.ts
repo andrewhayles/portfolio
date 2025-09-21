@@ -329,7 +329,7 @@ export type HeroSection = BaseContentObject & {
     subtitle?: string;
     text?: string;
     actions?: (Button | Link)[];
-    media?: ImageBlock;
+    media?: FormBlock | ImageBlock | VideoBlock;
     colors?: 'colors-a' | 'colors-b' | 'colors-c' | 'colors-d' | 'colors-e' | 'colors-f';
     backgroundSize?: 'full' | 'inset';
     elementId?: string;
@@ -342,10 +342,6 @@ export type ImageBlock = BaseContentObject & {
     altText?: string;
     caption?: string;
     elementId?: string;
-	width?: number;
-	height?: number;
-	className?: string;
-	priority?: boolean;
 };
 
 export type Label = BaseContentObject & {
@@ -531,7 +527,6 @@ export type ProjectFeedSection = BaseContentObject & {
     title?: string;
     subtitle?: string;
     actions?: (Button | Link)[];
-    projects?: ProjectLayout[]; // Add this line
     colors?: 'colors-a' | 'colors-b' | 'colors-c' | 'colors-d' | 'colors-e' | 'colors-f';
     variant: 'variant-a' | 'variant-b' | 'variant-c' | 'variant-d';
     elementId?: string;
@@ -559,7 +554,6 @@ export type ProjectLayout = BaseContentObject & {
     colors?: 'colors-a' | 'colors-b' | 'colors-c' | 'colors-d' | 'colors-e';
     backgroundImage?: BackgroundImage;
     markdownContent: string;
-	highlightedCode?: string;
 };
 
 export type QuoteSection = BaseContentObject & {

@@ -6,12 +6,7 @@ module.exports = {
     './content/**/*.{md,mdx}',
   ],
   theme: {
-    extend: {
-		fontFamily: {
-			sans: ['var(--font-azeret-mono)'],
-			mono: ['var(--font-dm-mono)']
-		}
-	},
+    extend: {},
   },
   plugins: [
     require('@tailwindcss/typography'),
