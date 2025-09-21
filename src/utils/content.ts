@@ -1,88 +1,98 @@
 import fs from 'fs';
 import path from 'path';
+import { glob } from 'glob';
 import matter from 'gray-matter';
 import { remark } from 'remark';
 import html from 'remark-html';
-import { glob } from 'glob';
 
 const contentBaseDir = 'content';
 
-// Helper function to read and parse all markdown files from a directory
-function getContent(dirPath: string) {
-    const absDirPath = path.join(process.cwd(), contentBaseDir, dirPath);
-    const fileNames = glob.sync('**/*.md', { cwd: absDirPath });
-    return fileNames.map(fileName => {
-        const id = path.join(dirPath, fileName);
-        const urlPath = '/' + id.replace(/\.md$/, '').replace(/\/index$/, '');
-        return {
-            __metadata: { id, urlPath }
-        };
-    });
+// Helper to get all content file paths
+function getContentPaths(dir: string): string[] {
+    const contentDir = path.join(process.cwd(), contentBaseDir, dir);
+    return glob.sync('**/*.md', { cwd: contentDir });
 }
 
-// Helper functions to get specific content types
-const getPages = () => getContent('pages');
-const getAllPosts = () => getContent('posts');
-const getAllProjects = () => getContent('projects');
-
-// Helper function to find a post by its URL path (slug)
-function getPostBySlug(urlPath: string, allPosts: any[]) {
-    return allPosts.find(post => post.__metadata.urlPath === urlPath);
+// Helper to generate metadata for a piece of content
+function getContentMetadata(filePath: string, dir: string) {
+    const id = path.join(dir, filePath);
+    const urlPath = '/' + id.replace(/\.md$/, '').replace(/\/index$/, '');
+    return { id, urlPath };
 }
 
-// Helper function to find a project by its URL path (slug)
-function getProjectBySlug(urlPath: string, allProjects: any[]) {
-    return allProjects.find(project => project.__metadata.urlPath === urlPath);
+// Main function to get all data for your site pages, posts, and projects
+function getAllContent() {
+    const pageFiles = getContentPaths('pages');
+    const postFiles = getContentPaths('posts');
+    const projectFiles = getContentPaths('projects');
+
+    const allPages = pageFiles.map(file => ({ __metadata: getContentMetadata(file, 'pages') }));
+    const allPosts = postFiles.map(file => ({ __metadata: getContentMetadata(file, 'posts') }));
+    const allProjects = projectFiles.map(file => ({ __metadata: getContentMetadata(file, 'projects') }));
+
+    return { allPages, allPosts, allProjects };
 }
 
-// This function gets the props for a single page during the build
-export async function getPageProps(urlPath: string) {
-    const allPages = getPages();
-    const allPosts = getAllPosts();
-    const allProjects = getAllProjects();
-
-    const contentObject = allPages.find(p => p.__metadata.urlPath === urlPath) || 
-                          getPostBySlug(urlPath, allPosts) || 
-                          getProjectBySlug(urlPath, allProjects);
-
-    if (!contentObject) {
-        // This is the standard Next.js way to handle a page not found
-        return { notFound: true };
-    }
-    
-    const filePath = path.join(process.cwd(), contentBaseDir, contentObject.__metadata.id);
-    const fileContents = fs.readFileSync(filePath, 'utf8');
-    const matterResult = matter(fileContents);
-
-    const processedContent = await remark().use(html).process(matterResult.content);
-    const contentHtml = processedContent.toString();
-
-    const props = {
-        page: {
-            ...contentObject,
-            ...matterResult.data,
-            contentHtml: contentHtml,
-        },
-        global: {
-            site: { title: 'Andrew Hayles' },
-            pages: allPages,
-            posts: allPosts,
-            projects: allProjects,
-        }
-    };
-    
-    return props;
-}
-
-// This function provides all possible page URLs to Next.js
+// Provides all possible page URLs to Next.js for static generation
 export function getAllPagePaths(): string[] {
-    const allPages = getPages();
-    const allPosts = getAllPosts();
-    const allProjects = getAllProjects();
-    
+    const { allPages, allPosts, allProjects } = getAllContent();
     return [
         ...allPages.map(p => p.__metadata.urlPath),
         ...allPosts.map(p => p.__metadata.urlPath),
         ...allProjects.map(p => p.__metadata.urlPath)
     ];
+}
+
+// Gets the data for a single page at build time
+export async function getPageProps(urlPath: string) {
+    const { allPages, allPosts, allProjects } = getAllContent();
+    const allContent = [...allPages, ...allPosts, ...allProjects];
+    
+    const contentObject = allContent.find(p => p.__metadata.urlPath === urlPath);
+
+    if (!contentObject) {
+        return { notFound: true };
+    }
+
+    const filePath = path.join(process.cwd(), contentBaseDir, contentObject.__metadata.id);
+    const fileContents = fs.readFileSync(filePath, 'utf8');
+    const matterResult = matter(fileContents);
+    const pageData = matterResult.data as any; // Cast as any to add properties
+
+    // Convert markdown to HTML for the main content
+    if (matterResult.content) {
+        const processedContent = await remark().use(html).process(matterResult.content);
+        pageData.contentHtml = processedContent.toString();
+    }
+    
+    // Convert markdown for sections (Hero, Text, etc.)
+    if (pageData.sections) {
+        for (const section of pageData.sections) {
+            if (section.type === 'HeroSection' && section.subtitle) {
+                const processed = await remark().use(html).process(section.subtitle);
+                section.subtitleHtml = processed.toString();
+                delete section.subtitle;
+            }
+            if (section.type === 'TextSection' && section.content) {
+                const processed = await remark().use(html).process(section.content);
+                section.contentHtml = processed.toString();
+                delete section.content;
+            }
+        }
+    }
+
+    return {
+        props: {
+            page: {
+                ...contentObject,
+                ...pageData,
+            },
+            global: {
+                site: { title: 'Andrew Hayles' },
+                pages: allPages,
+                posts: allPosts,
+                projects: allProjects,
+            }
+        }
+    };
 }

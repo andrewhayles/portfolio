@@ -60,29 +60,29 @@ export function getStaticPaths() {
   return { paths, fallback: false };
 }
 
-// This function runs for EACH page at build time.
 export async function getStaticProps({ params }: { params?: { slug?: string[] } }) {
   const urlPath = '/' + (params?.slug || []).join('/');
-
-  // 1. Fetch the data for ONLY this specific page.
-  //    This assumes your getPageProps function in 'utils/content.js' is now fixed
-  //    to only return the data for the given urlPath.
   const props = await getPageProps(urlPath);
-  
-  // 2. Separate the global data from the specific page data.
-  const { global, ...pageData } = props || {};
-  
-  // 3. Generate SEO metadata from the fetched data.
-  const site = global?.site || {};
-  const title = seoGenerateTitle(pageData, site) || '';
-  const metaTags = seoGenerateMetaTags(pageData, site) || [];
-  const metaDescription = seoGenerateMetaDescription(pageData, site) || '';
 
-  // 4. Return a clean, lean props object to the Page component.
+  // Add this check to handle pages that are not found
+  if (!props || (props as any).notFound) {
+    return { notFound: true };
+  }
+  
+  // Now we know we have the correct props structure
+  const { global, page } = props;
+  
+  // Generate SEO metadata from the fetched data
+  const site = global?.site || {};
+  const title = seoGenerateTitle(page, site) || '';
+  const metaTags = seoGenerateMetaTags(page, site) || [];
+  const metaDescription = seoGenerateMetaDescription(page, site) || '';
+
+  // Return a clean props object to the Page component
   return {
     props: {
       global,
-      page: pageData, // The data for this specific page
+      page,
       title,
       metaTags,
       metaDescription,
