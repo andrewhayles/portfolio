@@ -16,8 +16,16 @@ function getContentPaths(dir: string): string[] {
 // Helper to generate metadata for a piece of content
 function getContentMetadata(filePath: string, dir: string) {
     const id = path.join(dir, filePath);
-    const urlPath = '/' + id.replace(/\.md$/, '').replace(/\/index$/, '');
+    // Remove the '/pages' prefix and '/index' suffix from the URL
+    let urlPath = '/' + id.replace(/\\/g, '/').replace(/\.md$/, '');
+    if (urlPath.startsWith('/pages')) {
+        urlPath = urlPath.substring('/pages'.length);
+    }
+    if (urlPath.endsWith('/index')) {
+        urlPath = urlPath.slice(0, -'/index'.length) || '/';
+    }
     return { id, urlPath };
+}
 }
 
 // Main function to get all data for your site pages, posts, and projects

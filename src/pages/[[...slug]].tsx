@@ -60,25 +60,33 @@ export function getStaticPaths() {
   return { paths, fallback: false };
 }
 
-export async function getStaticProps({ params }: { params?: { slug?: string[] } }) {
-  const urlPath = '/' + (params?.slug || []).join('/');
-  const pageData = await getPageProps(urlPath);
+// In src/pages/[[...slug]].tsx
 
-  // Handle pages that are not found
-  if (!pageData || (pageData as any).notFound) {
+export async function getStaticProps({ params }: { params?: { slug?: string[] } }) {
+  // Construct the urlPath correctly, ensuring it starts with '/'
+  const slug = params?.slug || [];
+  let urlPath = '/' + slug.join('/');
+  
+  // Handle the special case for the homepage
+  if (urlPath === '/') {
+      urlPath = '/pages/index';
+  } else {
+      urlPath = '/pages' + urlPath;
+  }
+
+  const pageResult = await getPageProps(urlPath);
+
+  if (!pageResult || (pageResult as any).notFound) {
     return { notFound: true };
   }
   
-  // Now we can safely access the nested props
-  const { global, page } = pageData.props;
+  const { global, page } = pageResult.props;
   
-  // Generate SEO metadata from the fetched data
   const site = global?.site || {};
   const title = seoGenerateTitle(page, site) || '';
   const metaTags = seoGenerateMetaTags(page, site) || [];
   const metaDescription = seoGenerateMetaDescription(page, site) || '';
 
-  // Return the final props object to the Page component
   return {
     props: {
       global,
