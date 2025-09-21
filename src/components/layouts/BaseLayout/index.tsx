@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Annotated } from '@/components/Annotated';
 import { BackgroundImage } from '@/components/atoms';
 import dynamic from 'next/dynamic';
-const Footer = dynamic(() => import('@/components/sections/Footer'));
+const Footer = dynamic(() => import('@/components/sections/Footer').then((mod) => mod.Footer));
 import Header from '@/components/sections/Header';
 import { PageComponentProps } from '@/types';
 import { PageModelType } from '@/types/generated';
