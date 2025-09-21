@@ -83,20 +83,17 @@ type PreProps = React.HTMLAttributes<HTMLElement> & {
 };
 
 const PreHighlight: React.FC<PreProps> = ({ children, 'data-sb-field-path': fieldPath, ...rest }) => {
-    // The children prop contains the raw code and the pre-highlighted HTML
     const codeProps = (children as React.ReactElement)?.props as { children?: React.ReactNode, highlightedCode?: string };
     const highlightedHtml = codeProps?.highlightedCode;
     const rawCode = codeProps?.children;
 
     if (highlightedHtml) {
-        // If pre-highlighted HTML exists, render it directly. This is the fast path.
         return <div data-sb-field-path={fieldPath} dangerouslySetInnerHTML={{ __html: highlightedHtml }} />;
     }
 
-    // Fallback for safety: if no highlighted code is found, show the raw code.
     return (
         <pre {...rest} data-sb-field-path={fieldPath}>
             <code>{rawCode}</code>
         </pre>
     );
-};
+}
