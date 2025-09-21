@@ -3,7 +3,7 @@ import { DynamicComponent } from '@/components/components-registry';
 import { PageComponentProps, PageLayout } from '@/types';
 import BaseLayout from '../BaseLayout';
 
-type ComponentProps = PageComponentProps & PageLayout & { contentHtml?: string };
+type ComponentProps = PageComponentProps & PageLayout & { contentHtml?: string; topSections?: any[]; bottomSections?: any[]; };
 
 const Component: React.FC<ComponentProps> = (props) => {
     const { topSections = [], bottomSections = [], contentHtml } = props;
