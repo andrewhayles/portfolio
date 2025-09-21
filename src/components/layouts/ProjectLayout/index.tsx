@@ -13,6 +13,15 @@ const Component: React.FC<ComponentProps> = (props) => {
     const dateTimeAttr = dayjs(date).format('YYYY-MM-DD HH:mm:ss');
     const formattedDate = dayjs(date).format('YYYY-MM-DD');
 
+    // ✅ **MOVE THE LOGIC HERE**
+    // Define the component props before the return statement.
+    const componentProps = media
+        ? {
+              ...media,
+              className: classNames((media as any).className, { 'w-full': media.type === 'ImageBlock' })
+          }
+        : null;
+
     return (
         <BaseLayout {...props}>
             <article className="px-4 py-14 lg:py-20">
@@ -30,17 +39,11 @@ const Component: React.FC<ComponentProps> = (props) => {
                     {description && <p className="text-xl sm:text-2xl mt-4">{description}</p>}
                 </header>
 
-                {media && (
+                {/* ✅ **THEN USE THE VARIABLE HERE** */}
+                {/* Now, this is just a simple conditional render. */}
+                {componentProps && (
                     <figure className="max-w-5xl mx-auto mb-10 sm:mb-14">
-                        const componentProps = {
-                            ...media,
-                            className: classNames(
-                                (media as any).className, // Preserves any existing className in the media object
-                                { 'w-full': media.type === 'ImageBlock' }
-                            )
-                        };
-
-<DynamicComponent {...componentProps} />
+                        <DynamicComponent {...componentProps} />
                     </figure>
                 )}
 
