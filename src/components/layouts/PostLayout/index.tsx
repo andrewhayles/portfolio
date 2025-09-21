@@ -8,6 +8,12 @@ import { PageComponentProps, PostLayout } from '@/types';
 import { highlightCode } from '@/utils/shiki';
 import BaseLayout from '../BaseLayout';
 
+
+function PostMedia({ media }: { media: any }) {
+    return <DynamicComponent {...media} className={classNames({ 'w-full': media.type === 'ImageBlock' })} />;
+}
+
+
 type ComponentProps = PageComponentProps & PostLayout;
 
 const Component: React.FC<ComponentProps> = (props) => {
