@@ -64,10 +64,13 @@ export async function getStaticProps({ params }: { params?: { slug?: string[] } 
   const urlPath = '/' + (params?.slug || []).join('/');
   const result = await getPageProps(urlPath);
 
-  if ((result as any).notFound) {
+  // First, check if the page data could not be found.
+  // If so, tell Next.js to return a 404 page.
+  if ('notFound' in result && result.notFound) {
     return { notFound: true };
   }
-  
+
+  // If the page was found, we can now safely access the data inside result.props
   const { global, page } = result.props;
   
   const site = global?.site || {};

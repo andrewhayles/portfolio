@@ -7,13 +7,15 @@ import html from 'remark-html';
 
 const contentBaseDir = 'content';
 
-function urlPathFromFileId(id: string): string {
-    return ('/' + id)
+// Helper to generate a URL-friendly path from a file path
+function fileToUrlPath(file: string): string {
+    return ('/' + file.replace(/\\/g, '/'))
         .replace(/^\/pages/, '')
         .replace(/\.md$/, '')
         .replace(/\/index$/, '') || '/';
 }
 
+// Gets all content objects with their correct URL paths and frontmatter
 function getAllContentObjects() {
     const contentDir = path.join(process.cwd(), contentBaseDir);
     const files = glob.sync('**/*.md', { cwd: contentDir });
@@ -21,21 +23,25 @@ function getAllContentObjects() {
     return files.map(file => {
         const filePath = path.join(contentDir, file);
         const fileContents = fs.readFileSync(filePath, 'utf8');
-        const { data } = matter(fileContents);
+        const { data } = matter(fileContents); // We only need the frontmatter here
+
         return {
-            ...data,
+            ...data, // Spread the frontmatter (title, type, etc.)
             __metadata: {
                 id: file,
-                urlPath: urlPathFromFileId(file)
+                urlPath: fileToUrlPath(file)
             }
         };
     });
 }
 
+// This function provides all possible page URLs to Next.js
 export function getAllPagePaths(): string[] {
-    return getAllContentObjects().map(content => content.__metadata.urlPath);
+    const allContent = getAllContentObjects();
+    return allContent.map(content => content.__metadata.urlPath);
 }
 
+// Gets the data for a single page at build time
 export async function getPageProps(urlPath: string) {
     const allContent = getAllContentObjects();
     const pageMetaData = allContent.find(p => p.__metadata.urlPath === urlPath);
@@ -46,23 +52,32 @@ export async function getPageProps(urlPath: string) {
 
     const filePath = path.join(process.cwd(), contentBaseDir, pageMetaData.__metadata.id);
     const fileContents = fs.readFileSync(filePath, 'utf8');
-    const { data: pageData, content: markdownContent } = matter(fileContents);
+    const matterResult = matter(fileContents);
+    const pageData = matterResult.data as any;
 
-    if (markdownContent) {
-        const processedContent = await remark().use(html).process(markdownContent);
-        (pageData as any).contentHtml = processedContent.toString();
+    // Convert the main markdown content to HTML
+    if (matterResult.content) {
+        const processedContent = await remark().use(html).process(matterResult.content);
+        pageData.contentHtml = processedContent.toString();
     }
     
-    if ((pageData as any).sections) {
-        for (const section of (pageData as any).sections) {
+    // Convert markdown for any sections
+    if (pageData.sections) {
+        for (const section of pageData.sections) {
             if (section.type === 'HeroSection' && section.subtitle) {
                 const processed = await remark().use(html).process(section.subtitle);
                 section.subtitleHtml = processed.toString();
                 delete section.subtitle;
             }
+            if (section.type === 'TextSection' && section.content) {
+                const processed = await remark().use(html).process(section.content);
+                section.contentHtml = processed.toString();
+                delete section.content;
+            }
         }
     }
 
+    // Return all data needed by the page
     return {
         props: {
             page: { ...pageData, __metadata: pageMetaData.__metadata },
