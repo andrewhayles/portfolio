@@ -5,7 +5,7 @@ import { Annotated } from './Annotated';
 import { ContentObject, GlobalProps } from '@/types';
 
 // Statically import HeroSection to optimize LCP.
-import HeroSection from './sections/HeroSection';
+import { HeroSection } from './sections/HeroSection';
 
 // LOADER 1: For critical components that must be server-rendered (SSR).
 const dyn = (importer: () => Promise<any>) =>

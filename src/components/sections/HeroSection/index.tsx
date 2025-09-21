@@ -3,7 +3,7 @@ import { Action } from '@/components/atoms';
 import { DynamicComponent } from '@/components/components-registry';
 import { Annotated } from '@/components/Annotated';
 
-export const HeroSection = (props) => {
+export const HeroSection  = (props) => {
     const {
         title,
         subtitle,
