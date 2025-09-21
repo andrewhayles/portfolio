@@ -62,23 +62,19 @@ export function getStaticPaths() {
 
 export async function getStaticProps({ params }: { params?: { slug?: string[] } }) {
   const urlPath = '/' + (params?.slug || []).join('/');
-  const pageDataResult = await getPageProps(urlPath);
+  const pageResult = await getPageProps(urlPath);
 
-  // Check if the page was not found and return a 404 if so
-  if (!pageDataResult || (pageDataResult as any).notFound) {
+  if ((pageResult as any).notFound) {
     return { notFound: true };
   }
-
-  // The actual page and global data are nested inside a 'props' object
-  const { global, page } = pageDataResult.props;
   
-  // Generate SEO metadata from the fetched data
+  const { global, page } = pageResult.props;
+  
   const site = global?.site || {};
   const title = seoGenerateTitle(page, site) || '';
   const metaTags = seoGenerateMetaTags(page, site) || [];
   const metaDescription = seoGenerateMetaDescription(page, site) || '';
 
-  // Return the final, clean props object to the Page component
   return {
     props: {
       global,
@@ -89,5 +85,4 @@ export async function getStaticProps({ params }: { params?: { slug?: string[] } 
     },
   };
 }
-
 export default Page;
