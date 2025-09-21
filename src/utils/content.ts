@@ -7,61 +7,64 @@ import html from 'remark-html';
 
 const contentBaseDir = 'content';
 
-// Helper to generate a URL-friendly path from a file path
-function fileToUrlPath(file: string): string {
-    return ('/' + file.replace(/\\/g, '/'))
-        .replace(/^\/pages/, '')
-        .replace(/\.md$/, '')
-        .replace(/\/index$/, '') || '/';
-}
-
-// Gets all content objects with their correct URL paths and frontmatter
-function getAllContentObjects() {
-    const contentDir = path.join(process.cwd(), contentBaseDir);
-    const files = glob.sync('**/*.md', { cwd: contentDir });
-
-    return files.map(file => {
-        const filePath = path.join(contentDir, file);
-        const fileContents = fs.readFileSync(filePath, 'utf8');
-        const { data } = matter(fileContents); 
-
+// Helper function to read and parse all markdown files from a directory
+function getContent(dirPath: string) {
+    const absDirPath = path.join(process.cwd(), contentBaseDir, dirPath);
+    const fileNames = glob.sync('**/*.md', { cwd: absDirPath });
+    return fileNames.map(fileName => {
+        const id = path.join(dirPath, fileName);
+        const urlPath = '/' + id.replace(/\\/g, '/').replace(/\.md$/, '').replace(/\/index$/, '') || '/';
         return {
-            ...data,
-            __metadata: {
-                id: file,
-                urlPath: fileToUrlPath(file)
-            }
+            __metadata: { id, urlPath }
         };
     });
 }
 
-// This function provides all possible page URLs to Next.js
-export function getAllPagePaths(): string[] {
-    const allContent = getAllContentObjects();
-    return allContent.map(content => content.__metadata.urlPath);
+// Helper functions to get specific content types
+const getPages = () => getContent('pages');
+const getAllPosts = () => getContent('posts');
+const getAllProjects = () => getContent('projects');
+
+// *** THIS IS THE MISSING FUNCTION THAT IS NOW ADDED ***
+function getAllContent() {
+    return {
+        allPages: getPages(),
+        allPosts: getAllPosts(),
+        allProjects: getAllProjects()
+    };
 }
 
-// Gets the data for a single page at build time
-export async function getPageProps(urlPath: string) {
-    const allContent = getAllContentObjects();
-    const pageMetaData = allContent.find(p => p.__metadata.urlPath === urlPath);
+// Helper function to find a post by its URL path (slug)
+function getPostBySlug(urlPath: string, allPosts: any[]) {
+    return allPosts.find(post => post.__metadata.urlPath === urlPath);
+}
 
-    if (!pageMetaData) {
+// Helper function to find a project by its URL path (slug)
+function getProjectBySlug(urlPath: string, allProjects: any[]) {
+    return allProjects.find(project => project.__metadata.urlPath === urlPath);
+}
+
+// This function gets the props for a single page during the build
+export async function getPageProps(urlPath: string) {
+    const { allPages, allPosts, allProjects } = getAllContent();
+    
+    const allContent = [...allPages, ...allPosts, ...allProjects];
+    const contentObject = allContent.find(p => p.__metadata.urlPath === urlPath);
+
+    if (!contentObject) {
         return { notFound: true };
     }
-
-    const filePath = path.join(process.cwd(), contentBaseDir, pageMetaData.__metadata.id);
+    
+    const filePath = path.join(process.cwd(), contentBaseDir, contentObject.__metadata.id);
     const fileContents = fs.readFileSync(filePath, 'utf8');
     const matterResult = matter(fileContents);
     const pageData = matterResult.data as any;
 
-    // Convert the main markdown content to HTML
     if (matterResult.content) {
         const processedContent = await remark().use(html).process(matterResult.content);
         pageData.contentHtml = processedContent.toString();
     }
     
-    // Convert markdown for any sections
     if (pageData.sections) {
         for (const section of pageData.sections) {
             if (section.type === 'HeroSection' && section.subtitle) {
@@ -74,19 +77,40 @@ export async function getPageProps(urlPath: string) {
                 section.contentHtml = processed.toString();
                 delete section.content;
             }
+             if (section.type === 'FeaturedItemsSection' && section.items) {
+                for (const item of section.items) {
+                    if (item.text) {
+                        const processed = await remark().use(html).process(item.text);
+                        item.textHtml = processed.toString();
+                        delete item.text;
+                    }
+                }
+            }
         }
     }
 
-    // Return all data needed by the page
     return {
         props: {
-            page: { ...pageData, __metadata: pageMetaData.__metadata },
+            page: {
+                ...contentObject,
+                ...pageData,
+            },
             global: {
                 site: { title: 'Andrew Hayles' },
-                pages: allContent.filter(p => p.__metadata.id.startsWith('pages')),
-                posts: allContent.filter(p => p.__metadata.id.startsWith('posts')),
-                projects: allContent.filter(p => p.__metadata.id.startsWith('projects'))
+                pages: allPages,
+                posts: allPosts,
+                projects: allProjects,
             }
         }
     };
+}
+
+// This function provides all possible page URLs to Next.js
+export function getAllPagePaths(): string[] {
+    const { allPages, allPosts, allProjects } = getAllContent();
+    return [
+        ...allPages.map(p => p.__metadata.urlPath),
+        ...allPosts.map(p => p.__metadata.urlPath),
+        ...allProjects.map(p => p.__metadata.urlPath)
+    ];
 }
