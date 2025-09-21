@@ -7,12 +7,6 @@
         "start": "next start",
         "analyze": "cross-env ANALYZE=true next build"
     },
-    "browserslist": [
-        "last 2 chrome versions",
-        "last 2 firefox versions",
-        "last 2 safari versions",
-        "last 2 edge versions"
-    ],
     "dependencies": {
         "@next/bundle-analyzer": "^15.5.3",
         "@stackbit/cms-git": "^1.0.35",

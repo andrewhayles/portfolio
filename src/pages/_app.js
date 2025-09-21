@@ -173,6 +173,7 @@ function MyApp({ Component, pageProps }) {
           type="font/woff2"
           crossOrigin="anonymous"
         />
+		<meta name="description" content="Personal Portfolio Website for Andrew Hayles, aspiring Data Analyst">
       </Head>
       
       <style jsx global>{`
