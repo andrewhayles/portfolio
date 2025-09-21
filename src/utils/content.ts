@@ -7,45 +7,47 @@ import html from 'remark-html';
 
 const contentBaseDir = 'content';
 
-// Helper to generate a URL-friendly path from a file path
-function fileToUrlPath(file: string): string {
-    // This logic handles everything: removes 'pages', '/index.md', and '.md'
-    return ('/' + file.replace(/\\/g, '/'))
+// Helper to get all markdown file paths
+function getContentFiles(dir: string): string[] {
+    const contentDir = path.join(process.cwd(), contentBaseDir, dir);
+    if (!fs.existsSync(contentDir)) return [];
+    return glob.sync('**/*.md', { cwd: contentDir });
+}
+
+// Main function to read, parse, and prepare all content
+function getAllContent() {
+    const pageFiles = getContentPaths('pages');
+    const postFiles = getContentPaths('posts');
+    const projectFiles = getContentPaths('projects');
+
+    const allPages = pageFiles.map(file => ({ ...matter(fs.readFileSync(path.join(process.cwd(), contentBaseDir, 'pages', file), 'utf8')).data, __metadata: { id: `pages/${file}` } }));
+    const allPosts = postFiles.map(file => ({ ...matter(fs.readFileSync(path.join(process.cwd(), contentBaseDir, 'posts', file), 'utf8')).data, __metadata: { id: `posts/${file}` } }));
+    const allProjects = projectFiles.map(file => ({ ...matter(fs.readFileSync(path.join(process.cwd(), contentBaseDir, 'projects', file), 'utf8')).data, __metadata: { id: `projects/${file}` } }));
+
+    return { allPages, allPosts, allProjects };
+}
+
+// Derives a URL path from a file ID
+function urlPathFromFileId(id: string): string {
+    return ('/' + id)
         .replace(/^\/pages/, '')
         .replace(/\.md$/, '')
         .replace(/\/index$/, '') || '/';
 }
 
-// Gets all content objects with their correct URL paths
-function getAllContentObjects() {
-    const contentDir = path.join(process.cwd(), contentBaseDir);
-    const files = glob.sync('**/*.md', { cwd: contentDir });
-
-    return files.map(file => {
-        const filePath = path.join(contentDir, file);
-        const fileContents = fs.readFileSync(filePath, 'utf8');
-        const matterResult = matter(fileContents);
-
-        return {
-            ...matterResult.data,
-            __metadata: {
-                id: file,
-                urlPath: fileToUrlPath(file)
-            }
-        };
-    });
-}
-
 // This function provides all possible page URLs to Next.js
 export function getAllPagePaths(): string[] {
-    const allContent = getAllContentObjects();
-    return allContent.map(content => content.__metadata.urlPath);
+    const { allPages, allPosts, allProjects } = getAllContent();
+    const allContent = [...allPages, ...allPosts, ...allProjects];
+    return allContent.map(content => urlPathFromFileId(content.__metadata.id));
 }
 
 // Gets the data for a single page at build time
 export async function getPageProps(urlPath: string) {
-    const allContent = getAllContentObjects();
-    const page = allContent.find(p => p.__metadata.urlPath === urlPath);
+    const { allPages, allPosts, allProjects } = getAllContent();
+    const allContent = [...allPages, ...allPosts, ...allProjects];
+
+    const page = allContent.find(p => urlPathFromFileId(p.__metadata.id) === urlPath);
 
     if (!page) {
         return { notFound: true };
@@ -56,13 +58,12 @@ export async function getPageProps(urlPath: string) {
     const matterResult = matter(fileContents);
     const pageData = matterResult.data as any;
 
-    // Convert the main markdown content to HTML
     if (matterResult.content) {
         const processedContent = await remark().use(html).process(matterResult.content);
         pageData.contentHtml = processedContent.toString();
     }
-    
-    // Convert markdown for any sections
+
+    // Process markdown for any sections
     if (pageData.sections) {
         for (const section of pageData.sections) {
             if (section.type === 'HeroSection' && section.subtitle) {
@@ -78,15 +79,14 @@ export async function getPageProps(urlPath: string) {
         }
     }
 
-    // Return all data needed by the page
     return {
         props: {
-            page: pageData,
+            page: { ...pageData, __metadata: page.__metadata },
             global: {
                 site: { title: 'Andrew Hayles' },
-                pages: allContent.filter(p => p.__metadata.id.startsWith('pages')),
-                posts: allContent.filter(p => p.__metadata.id.startsWith('posts')),
-                projects: allContent.filter(p => p.__metadata.id.startsWith('projects'))
+                pages: allPages,
+                posts: allPosts,
+                projects: allProjects,
             }
         }
     };
