@@ -9,6 +9,7 @@ backgroundImage:
   backgroundPosition: center
   backgroundRepeat: no-repeat
   opacity: 50
+  priority: true
 projectFeed:
   type: ProjectFeedSection
   colors: colors-f

@@ -9,7 +9,7 @@ import { ProjectFeedSection as ProjectFeedSectionProps, ProjectLayout } from '@/
 import dayjs from 'dayjs';
 
 // Helper component for a single project card
-const ProjectCard: React.FC<{ project: ProjectLayout }> = ({ project }) => {
+const ProjectCard: React.FC<{ project: ProjectLayout }> = ({ project, priority }) => {
     return (
         <Annotated content={project}>
             <Link href={`/projects/${project.__metadata.id}`} className="block group">
@@ -18,6 +18,7 @@ const ProjectCard: React.FC<{ project: ProjectLayout }> = ({ project }) => {
                         <Image
                             src={project.featuredImage.url}
                             alt={project.featuredImage.altText || ''}
+							priority = {priority}
                             width={project.featuredImage.width || 400}
                             height={project.featuredImage.height || 300}
                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
@@ -56,7 +57,11 @@ export default function ProjectFeedSection(props: ProjectFeedSectionProps) {
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
                     {projects.map((project, index) => (
-                        <ProjectCard key={index} project={project} />
+                        <ProjectCard 
+                        key={index} 
+                        project={project} 
+                        priority={index < 2} // Prioritize the first two images
+                    />
                     ))}
                 </div>
 
