@@ -1,45 +1,19 @@
+// src/components/components-registry.tsx
+
+import React from 'react';
 import { PageComponentProps } from '@/types';
-import { PageLayout } from '@/components/layouts/PageLayout';
-import { PostLayout } from '@/components/layouts/PostLayout';
-import { ProjectLayout } from '@/components/layouts/ProjectLayout';
-import { CtaSection } from '@/components/sections/CtaSection';
-import { FeaturedItemsSection } from '@/components/sections/FeaturedItemsSection';
-import { HeroSection } from '@/components/sections/HeroSection';
-import { TextSection } from '@/components/sections/TextSection';
-import { ProjectFeedSection } from '@/components/sections/ProjectFeedSection';
-import { PostFeedSection } from '@/components/sections/PostFeedSection';
-import { ContactSection } from '@/components/sections/ContactSection';
 
-// Map of component types to their actual components
-const components = {
-    PageLayout: PageLayout,
-    PostLayout: PostLayout,
-    ProjectLayout: ProjectLayout,
-    CtaSection: CtaSection,
-    FeaturedItemsSection: FeaturedItemsSection,
-    HeroSection: HeroSection,
-    TextSection: TextSection,
-    ProjectFeedSection: ProjectFeedSection,
-    PostFeedSection: PostFeedSection,
-    ContactSection: ContactSection
-};
+// This is a special version of DynamicComponent for debugging.
+// It will print its props as text instead of rendering a component.
+export const DynamicComponent: React.FC<PageComponentProps> = (props) => {
+    const componentType = props.type;
 
-export type DynamicComponentProps = PageComponentProps & {
-    className?: string;
-};
-
-export const DynamicComponent: React.FC<DynamicComponentProps> = (props) => {
-    const modelName = props.type;
-    if (!modelName) {
-        // Return an error message if the component type is missing
-        return <div>Error: Component type missing from page data.</div>;
-    }
-
-    const Component = components[modelName];
-    if (!Component) {
-        // Return an error message if the component is not found in the registry
-        return <div>Error: Component '{modelName}' not found in registry.</div>;
-    }
-
-    return <Component {...props} />;
+    return (
+        <div style={{ border: '2px solid red', margin: '10px', padding: '10px', backgroundColor: 'white' }}>
+            <h2 style={{ fontWeight: 'bold', color: 'red' }}>Component Type: {componentType}</h2>
+            <pre style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-all', fontSize: '12px' }}>
+                {JSON.stringify(props, null, 2)}
+            </pre>
+        </div>
+    );
 };
