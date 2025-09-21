@@ -9,7 +9,7 @@ import { ProjectFeedSection as ProjectFeedSectionProps, ProjectLayout } from '@/
 import dayjs from 'dayjs';
 
 // Helper component for a single project card
-const ProjectCard: React.FC<{ project: ProjectLayout }> = ({ project, priority }) => {
+const ProjectCard: React.FC<{ project: ProjectLayout; priority: boolean; }> = ({ project, priority }) => {
     return (
         <Annotated content={project}>
             <Link href={`/projects/${project.__metadata.id}`} className="block group">
