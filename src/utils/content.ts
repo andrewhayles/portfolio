@@ -78,6 +78,15 @@ export async function getPageProps(urlPath: string) {
                 section.contentHtml = processed.toString();
                 delete section.content;
             }
+			if (section.type === 'FeaturedItemsSection' && section.items) {
+                for (const item of section.items) {
+                    if (item.text) {
+                        const processed = await remark().use(html).process(item.text);
+                        item.textHtml = processed.toString();
+                        delete item.text;
+                    }
+                }
+            }
         }
     }
 
