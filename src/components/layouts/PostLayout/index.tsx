@@ -84,7 +84,7 @@ type PreProps = React.HTMLAttributes<HTMLElement> & {
 
 const PreHighlight: React.FC<PreProps> = ({ children, 'data-sb-field-path': fieldPath, ...rest }) => {
     // The children prop contains the raw code and the pre-highlighted HTML
-    const codeProps = (children as React.ReactElement)?.props;
+    const codeProps = (children as React.ReactElement)?.props as { children?: React.ReactNode, highlightedCode?: string };
     const highlightedHtml = codeProps?.highlightedCode;
     const rawCode = codeProps?.children;
 
