@@ -159,7 +159,7 @@ function MyApp({ Component, pageProps }) {
         window.loadScriptLazy = createLoadScriptLazy(window.runWhenIdle);
       }
     }
-  }, []);
+  }, [page.colors]);
 
   return (
     <div className={`${dmMono.variable} ${azeretMono.variable} font-sans`}>

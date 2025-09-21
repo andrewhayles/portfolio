@@ -40,7 +40,12 @@ const Component: React.FC<ComponentProps> = (props) => {
                         options={{
                             forceBlock: true,
                             // NOTE: use the component override shape expected by markdown-to-jsx
-                            overrides: { pre: { component: PreHighlight } },
+                            overrides: { 
+                                pre: { 
+                                    component: PreHighlight, 
+                                    props: { 'data-sb-field-path': '.markdownContent' } 
+                                } 
+                            },
                         }}
                         className="max-w-3xl mx-auto prose sm:prose-lg"
                     >
@@ -70,64 +75,21 @@ type PreProps = React.HTMLAttributes<HTMLElement> & {
     className?: string;
 };
 
-const PreHighlight: React.FC<PreProps> = ({ className = '', children, ...rest }) => {
-    // Attempt to extract raw code text robustly from common markdown-to-jsx shapes:
-    const code = React.useMemo(() => {
-        if (typeof children === 'string') return children;
-        if (Array.isArray(children)) return children.join('');
-        if (React.isValidElement(children)) {
-            const inner = (children.props as any)?.children;
-            if (typeof inner === 'string') return inner;
-            if (Array.isArray(inner)) return inner.join('');
-        }
-        return String(children ?? '');
-    }, [children]);
+const PreHighlight: React.FC<PreProps> = ({ children, 'data-sb-field-path': fieldPath, ...rest }) => {
+    // The children prop contains the raw code and the pre-highlighted HTML
+    const codeProps = (children as React.ReactElement)?.props;
+    const highlightedHtml = codeProps?.highlightedCode;
+    const rawCode = codeProps?.children;
 
-    // className may be "language-js" or "lang-js"
-    const langMatch = (className || '').match(/(?:lang|language)-?([a-zA-Z0-9-]+)/);
-    const lang = langMatch ? langMatch[1] : 'text';
-
-    const [html, setHtml] = React.useState<string | null>(null);
-
-    React.useEffect(() => {
-        let mounted = true;
-        (async () => {
-            try {
-                const highlighted = await highlightCode(code, lang);
-                if (mounted) setHtml(highlighted);
-            } catch (err) {
-                // fallback to plain code if highlighting fails
-                // keep console.error to aid debugging on CI/build logs or client console
-                // (server builds won't run this effect; it runs on client.)
-                // If you want build-time highlighting, convert to remark/rehype pipeline.
-                // eslint-disable-next-line no-console
-                console.error('highlightCode error', err);
-                if (mounted) setHtml(null);
-            }
-        })();
-
-        return () => {
-            mounted = false;
-        };
-    }, [code, lang]);
-
-    if (!html) {
-        // initial/fallback render (prevents SSR/client mismatch because we render plain code)
-        return (
-            <pre className={className} {...rest}>
-                <code>{code}</code>
-            </pre>
-        );
+    if (highlightedHtml) {
+        // If pre-highlighted HTML exists, render it directly. This is the fast path.
+        return <div data-sb-field-path={fieldPath} dangerouslySetInnerHTML={{ __html: highlightedHtml }} />;
     }
 
-    // Insert highlighted HTML (assumed to be safe — your highlighter should produce sanitized markup)
+    // Fallback for safety: if no highlighted code is found, show the raw code.
     return (
-        <pre className={className} {...rest}>
-            <code dangerouslySetInnerHTML={{ __html: html }} />
+        <pre {...rest} data-sb-field-path={fieldPath}>
+            <code>{rawCode}</code>
         </pre>
     );
 };
-
-function PostMedia({ media }: { media: any }) {
-    return <DynamicComponent {...media} className={classNames({ 'w-full': media.type === 'ImageBlock' })} />;
-}
