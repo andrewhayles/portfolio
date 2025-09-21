@@ -60,29 +60,36 @@ export function getStaticPaths() {
   return { paths, fallback: false };
 }
 
+
 export async function getStaticProps({ params }: { params?: { slug?: string[] } }) {
-  const urlPath = '/' + (params?.slug || []).join('/');
-  const pageResult = await getPageProps(urlPath);
+    const urlPath = '/' + (params?.slug || []).join('/');
+    const result = await getPageProps(urlPath);
 
-  if ((pageResult as any).notFound) {
-    return { notFound: true };
-  }
-  
-  const { global, page } = pageResult.props;
-  
-  const site = global?.site || {};
-  const title = seoGenerateTitle(page, site) || '';
-  const metaTags = seoGenerateMetaTags(page, site) || [];
-  const metaDescription = seoGenerateMetaDescription(page, site) || '';
+    // First, check if the page was not found and stop if so.
+    if ('notFound' in result && result.notFound) {
+        return { notFound: true };
+    }
 
-  return {
-    props: {
-      global,
-      page,
-      title,
-      metaTags,
-      metaDescription,
-    },
-  };
+    // If the page was found, we can now safely access the data.
+    const { global, page } = result.props;
+
+    // Generate SEO metadata from the fetched data
+    const site = global?.site || {};
+    const title = seoGenerateTitle(page, site) || '';
+    const metaTags = seoGenerateMetaTags(page, site) || [];
+    const metaDescription = seoGenerateMetaDescription(page, site) || '';
+
+    // Return the final props object to the Page component
+    return {
+        props: {
+            global,
+            page,
+            title,
+            metaTags,
+            metaDescription
+        }
+    };
 }
+
+
 export default Page;
