@@ -16,10 +16,11 @@ const Component: React.FC<ComponentProps> = (props) => {
     // ✅ **MOVE THE LOGIC HERE**
     // Define the component props before the return statement.
     const componentProps = media
-        ? {
-              ...media,
-              className: classNames((media as any).className, { 'w-full': media.type === 'ImageBlock' })
-          }
+        ?  {
+            ...media,
+            global: props.global, // ✨ Add this line
+            className: classNames((media as any).className, { 'w-full': media.type === 'ImageBlock' })
+            }
         : null;
 
     return (
