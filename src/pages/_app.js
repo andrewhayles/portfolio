@@ -174,6 +174,7 @@ function MyApp({ Component, pageProps }) {
           crossOrigin="anonymous"
         />
 		<meta name="description" content="Personal Portfolio Website for Andrew Hayles, aspiring Data Analyst">
+		</meta>
       </Head>
       
       <style jsx global>{`
