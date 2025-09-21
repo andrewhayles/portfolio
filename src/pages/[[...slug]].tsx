@@ -64,7 +64,7 @@ export async function getStaticProps({ params }: { params?: { slug?: string[] } 
   const urlPath = '/' + (params?.slug || []).join('/');
   const result = await getPageProps(urlPath);
 
-  if ('notFound' in result && result.notFound) {
+  if ((result as any).notFound) {
     return { notFound: true };
   }
   
@@ -85,5 +85,4 @@ export async function getStaticProps({ params }: { params?: { slug?: string[] } 
     },
   };
 }
-
 export default Page;
