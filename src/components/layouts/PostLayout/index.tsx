@@ -5,14 +5,7 @@ import * as React from 'react';
 
 import { DynamicComponent } from '@/components/components-registry';
 import { PageComponentProps, PostLayout } from '@/types';
-import { highlightCode } from '@/utils/shiki';
 import BaseLayout from '../BaseLayout';
-
-
-function PostMedia({ media }: { media: any }) {
-    return <DynamicComponent {...media} className={classNames({ 'w-full': media.type === 'ImageBlock' })} />;
-}
-
 
 type ComponentProps = PageComponentProps & PostLayout;
 
@@ -42,19 +35,7 @@ const Component: React.FC<ComponentProps> = (props) => {
                     </figure>
                 )}
                 {markdownContent && (
-                    <Markdown
-                        options={{
-                            forceBlock: true,
-                            // NOTE: use the component override shape expected by markdown-to-jsx
-                            overrides: { 
-                                pre: { 
-                                    component: PreHighlight, 
-                                    props: { 'data-sb-field-path': '.markdownContent' } 
-                                } 
-                            },
-                        }}
-                        className="max-w-3xl mx-auto prose sm:prose-lg"
-                    >
+                    <Markdown className="max-w-3xl mx-auto prose sm:prose-lg">
                         {markdownContent}
                     </Markdown>
                 )}
@@ -65,35 +46,9 @@ const Component: React.FC<ComponentProps> = (props) => {
         </BaseLayout>
     );
 };
+
 export default Component;
 
-/**
- * PreHighlight
- *
- * A wrapper component that accepts the same props markdown-to-jsx passes to a `pre` override.
- * It calls your async `highlightCode(code, lang)` and inserts the returned HTML.
- *
- * Note: This does client-side highlighting via useEffect. If you prefer server-side/build-time
- * highlighting (recommended for performance/SEO), use a remark/rehype plugin instead.
- */
-type PreProps = React.HTMLAttributes<HTMLElement> & {
-    children?: React.ReactNode;
-    className?: string;
-	'data-sb-field-path'?: string;
-};
-
-const PreHighlight: React.FC<PreProps> = ({ children, 'data-sb-field-path': fieldPath, ...rest }) => {
-    const codeProps = (children as React.ReactElement)?.props as { children?: React.ReactNode, highlightedCode?: string };
-    const highlightedHtml = codeProps?.highlightedCode;
-    const rawCode = codeProps?.children;
-
-    if (highlightedHtml) {
-        return <div data-sb-field-path={fieldPath} dangerouslySetInnerHTML={{ __html: highlightedHtml }} />;
-    }
-
-    return (
-        <pre {...rest} data-sb-field-path={fieldPath}>
-            <code>{rawCode}</code>
-        </pre>
-    );
+function PostMedia({ media }: { media: any }) {
+    return <DynamicComponent {...media} className={classNames({ 'w-full': media.type === 'ImageBlock' })} />;
 }

@@ -8,7 +8,6 @@ import * as types from '@/types';
 import { isDev } from './common';
 import { PAGE_MODEL_NAMES, PageModelType } from '@/types/generated';
 import { resolveStaticProps } from './static-props-resolvers';
-import { highlightCode } from './shiki';
 
 
 const contentBaseDir = 'content';
@@ -146,11 +145,6 @@ export async function getPageProps(urlPath: string) {
     }
 
     // 4. Handle code highlighting for single-page content.
-    if (leanProps.code) {
-        const lang = leanProps.code.match(/^```(\w+)\n/)?.[1] || 'text';
-        leanProps.highlightedCode = await highlightCode(leanProps.code, lang);
-        delete leanProps.code;
-    }
 
     // 5. Return the final, fixed props object.
     return leanProps;
