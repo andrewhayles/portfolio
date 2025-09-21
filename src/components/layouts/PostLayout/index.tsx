@@ -1,16 +1,15 @@
 import classNames from 'classnames';
 import dayjs from 'dayjs';
-import Markdown from 'markdown-to-jsx';
 import * as React from 'react';
-
 import { DynamicComponent } from '@/components/components-registry';
 import { PageComponentProps, PostLayout } from '@/types';
 import BaseLayout from '../BaseLayout';
 
-type ComponentProps = PageComponentProps & PostLayout;
+// The new props type will include contentHtml
+type ComponentProps = PageComponentProps & PostLayout & { contentHtml?: string };
 
 const Component: React.FC<ComponentProps> = (props) => {
-    const { title, date, author, markdownContent, media, bottomSections = [] } = props;
+    const { title, date, author, contentHtml, media, bottomSections = [] } = props;
     const dateTimeAttr = dayjs(date).format('YYYY-MM-DD HH:mm:ss');
     const formattedDate = dayjs(date).format('YYYY-MM-DD');
 
@@ -34,11 +33,12 @@ const Component: React.FC<ComponentProps> = (props) => {
                         <PostMedia media={media} />
                     </figure>
                 )}
-                {markdownContent && (
-                    <Markdown className="max-w-3xl mx-auto prose sm:prose-lg">
-                        {markdownContent}
-                    </Markdown>
+                
+                {/* This now renders the pre-built HTML directly */}
+                {contentHtml && (
+                    <div className="max-w-3xl mx-auto prose sm:prose-lg" dangerouslySetInnerHTML={{ __html: contentHtml }} />
                 )}
+
             </article>
             {bottomSections?.map((section, index) => {
                 return <DynamicComponent key={index} {...section} />;
