@@ -1,7 +1,6 @@
 // src/components/sections/ContactSection/index.tsx
 import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
-import Markdown from 'markdown-to-jsx';
 import dynamic from 'next/dynamic';
 
 import { DynamicComponent } from '@/components/components-registry';
@@ -59,17 +58,8 @@ export default function ContactSection(props: ContactSectionProps) {
             </h2>
           )}
 
-          {text && (
-            <Markdown
-              options={{ forceBlock: true, forceWrapper: true }}
-              className={classNames(
-                'max-w-none prose sm:prose-lg',
-                mapStyles({ textAlign: sectionAlign }),
-                { 'mt-4': title }
-              )}
-            >
-              {text}
-            </Markdown>
+          {contentHtml && (
+            <div className="prose" dangerouslySetInnerHTML={{ __html: contentHtml }} />
           )}
 
           {/* Form area: placeholder button (quick) + viewport-triggered mount */}
