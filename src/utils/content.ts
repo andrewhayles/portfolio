@@ -7,62 +7,62 @@ import html from 'remark-html';
 
 const contentBaseDir = 'content';
 
-// Helper to get all content file paths from a directory
-function getContentPaths(dir: string): string[] {
-    const contentDir = path.join(process.cwd(), contentBaseDir, dir);
-    if (!fs.existsSync(contentDir)) {
-        return [];
-    }
-    return glob.sync('**/*.md', { cwd: contentDir });
+// Helper to generate a URL-friendly path from a file path
+function fileToUrlPath(file: string): string {
+    // This logic handles everything: removes 'pages', '/index.md', and '.md'
+    return ('/' + file.replace(/\\/g, '/'))
+        .replace(/^\/pages/, '')
+        .replace(/\.md$/, '')
+        .replace(/\/index$/, '') || '/';
 }
 
-// Helper to generate metadata for a piece of content
-function getContentMetadata(filePath: string, dir: string) {
-    const id = path.join(dir, filePath);
-    let urlPath = '/' + id.replace(/\\/g, '/').replace(/\.md$/, '');
-    if (urlPath.endsWith('/index')) {
-        urlPath = urlPath.slice(0, -'/index'.length) || '/';
-    }
-     if (urlPath.startsWith('/pages')) {
-        urlPath = urlPath.substring('/pages'.length) || '/';
-    }
-    return { id, urlPath };
+// Gets all content objects with their correct URL paths
+function getAllContentObjects() {
+    const contentDir = path.join(process.cwd(), contentBaseDir);
+    const files = glob.sync('**/*.md', { cwd: contentDir });
+
+    return files.map(file => {
+        const filePath = path.join(contentDir, file);
+        const fileContents = fs.readFileSync(filePath, 'utf8');
+        const matterResult = matter(fileContents);
+
+        return {
+            ...matterResult.data,
+            __metadata: {
+                id: file,
+                urlPath: fileToUrlPath(file)
+            }
+        };
+    });
 }
 
-// Main function to get all data for your site pages, posts, and projects
-function getAllContent() {
-    const pageFiles = getContentPaths('pages');
-    const postFiles = getContentPaths('posts');
-    const projectFiles = getContentPaths('projects');
-
-    const allPages = pageFiles.map(file => ({ __metadata: getContentMetadata(file, 'pages') }));
-    const allPosts = postFiles.map(file => ({ __metadata: getContentMetadata(file, 'posts') }));
-    const allProjects = projectFiles.map(file => ({ __metadata: getContentMetadata(file, 'projects') }));
-
-    return { allPages, allPosts, allProjects };
+// This function provides all possible page URLs to Next.js
+export function getAllPagePaths(): string[] {
+    const allContent = getAllContentObjects();
+    return allContent.map(content => content.__metadata.urlPath);
 }
 
 // Gets the data for a single page at build time
 export async function getPageProps(urlPath: string) {
-    const { allPages, allPosts, allProjects } = getAllContent();
-    const allContent = [...allPages, ...allPosts, ...allProjects];
-    
-    const contentObject = allContent.find(p => p.__metadata.urlPath === urlPath);
+    const allContent = getAllContentObjects();
+    const page = allContent.find(p => p.__metadata.urlPath === urlPath);
 
-    if (!contentObject) {
+    if (!page) {
         return { notFound: true };
     }
 
-    const filePath = path.join(process.cwd(), contentBaseDir, contentObject.__metadata.id);
+    const filePath = path.join(process.cwd(), contentBaseDir, page.__metadata.id);
     const fileContents = fs.readFileSync(filePath, 'utf8');
     const matterResult = matter(fileContents);
     const pageData = matterResult.data as any;
 
+    // Convert the main markdown content to HTML
     if (matterResult.content) {
         const processedContent = await remark().use(html).process(matterResult.content);
         pageData.contentHtml = processedContent.toString();
     }
     
+    // Convert markdown for any sections
     if (pageData.sections) {
         for (const section of pageData.sections) {
             if (section.type === 'HeroSection' && section.subtitle) {
@@ -75,40 +75,19 @@ export async function getPageProps(urlPath: string) {
                 section.contentHtml = processed.toString();
                 delete section.content;
             }
-             if (section.type === 'FeaturedItemsSection' && section.items) {
-                for (const item of section.items) {
-                    if (item.text) {
-                        const processed = await remark().use(html).process(item.text);
-                        item.textHtml = processed.toString();
-                        delete item.text;
-                    }
-                }
-            }
         }
     }
 
+    // Return all data needed by the page
     return {
         props: {
-            page: {
-                ...contentObject,
-                ...pageData,
-            },
+            page: pageData,
             global: {
-                site: { title: 'Andrew Hayles' }, // This was the missing part
-                pages: allPages,
-                posts: allPosts,
-                projects: allProjects,
+                site: { title: 'Andrew Hayles' },
+                pages: allContent.filter(p => p.__metadata.id.startsWith('pages')),
+                posts: allContent.filter(p => p.__metadata.id.startsWith('posts')),
+                projects: allContent.filter(p => p.__metadata.id.startsWith('projects'))
             }
         }
     };
-}
-
-// This function provides all possible page URLs to Next.js for static generation
-export function getAllPagePaths(): string[] {
-    const { allPages, allPosts, allProjects } = getAllContent();
-    return [
-        ...allPages.map(p => p.__metadata.urlPath),
-        ...allPosts.map(p => p.__metadata.urlPath),
-        ...allProjects.map(p => p.__metadata.urlPath)
-    ];
 }
