@@ -43,7 +43,7 @@ const Component: React.FC<ComponentProps> = (props) => {
                 )}
             </article>
             {bottomSections?.map((section, index) => {
-                return <DynamicComponent key={index} {...section} />;
+                return <DynamicComponent key={index} {...section} global={props.global} />;
             })}
         </BaseLayout>
     );
