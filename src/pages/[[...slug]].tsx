@@ -1,70 +1,61 @@
-import React from 'react';
-import Head from 'next/head';
+import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
+import ErrorPage from 'next/error';
 import { DynamicComponent } from '@/components/components-registry';
-import { PageComponentProps } from '@/types';
-import { getAllPagePaths, getPageProps } from '@/utils/content';
-import { seoGenerateMetaDescription, seoGenerateMetaTags, seoGenerateTitle } from '@/utils/seo-utils';
+import { PageLayout as PageLayoutProps } from '@/types';
+import { getPage, getPagePaths } from '@/lib/pages'; // Assuming these functions exist
+import { getGlobalProps } from '@/lib/global'; // Assuming this function exists
+import PageLayout from '@/components/layouts/PageLayout'; // Assuming this component exists
 
-type StaticPropsShape = {
-  global: any;
-  page: PageComponentProps;
-  title: string;
-  metaTags: Array<{ property: string; content: string; format?: string }>;
-  metaDescription: string;
-};
+// This defines the structure of your page's data
+type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
-const Page: React.FC<StaticPropsShape> = (props) => {
-  const { global, page } = props;
-  const { site } = global || {};
+// This is the main component for your pages
+export default function Page({ page, global, notFound }: Props) {
+    // ✅ THIS IS THE IMPORTANT SAFETY CHECK
+    // If the page was not found, it shows a 404 error page and stops.
+    if (notFound || !page) {
+        return <ErrorPage statusCode={404} />;
+    }
 
-  return (
-    <>
-      <Head>
-        <title>{props.title}</title>
-        {props.metaDescription && <meta name="description" content={props.metaDescription} />}
-        {props.metaTags.map((metaTag) => {
-          if (metaTag.format === 'property') {
-            return <meta key={metaTag.property} property={metaTag.property} content={metaTag.content} />;
-          }
-          return <meta key={metaTag.property} name={metaTag.property} content={metaTag.content} />;
-        })}
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        {site?.favicon && <link rel="icon" href={site.favicon} />}
-      </Head>
-      <DynamicComponent {...page} global={global} />
-    </>
-  );
-};
-
-export async function getStaticProps({ params }: { params?: { slug?: string[] } }) {
-  const urlPath = '/' + (params?.slug || []).join('/');
-  const result = await getPageProps(urlPath);
-
-  if ('notFound' in result && result.notFound) {
-    return { notFound: true };
-  }
-  
-  const { global, page } = result.props;
-  
-  const site = global?.site || {};
-  const title = seoGenerateTitle(page, site) || '';
-  const metaTags = seoGenerateMetaTags(page, site) || [];
-  const metaDescription = seoGenerateMetaDescription(page, site) || '';
-
-  return {
-    props: {
-      global,
-      page,
-      title,
-      metaTags,
-      metaDescription,
-    },
-  };
+    // If the page IS found, it renders your layout with the page data.
+    return <PageLayout {...page} global={global} />;
 }
 
-export function getStaticPaths() {
-  const paths = getAllPagePaths();
-  return { paths, fallback: false };
-}
+// This function fetches the data for a single page during the build
+export const getStaticProps: GetStaticProps<{
+    page?: PageLayoutProps;
+    global?: any;
+    notFound?: boolean;
+}> = async (context) => {
+    const slug = '/' + ((context.params?.slug as string[]) ?? []).join('/');
+    const page = await getPage(slug);
 
-export default Page;
+    if (!page) {
+        return { notFound: true };
+    }
+
+    // ✨ FIX IS HERE: Create a mutable copy of the 'sections' array.
+    // This solves the "readonly" type error by ensuring the array
+    // passed to the component is modifiable.
+    const pageWithMutableSections = {
+        ...page,
+        sections: page.sections ? [...page.sections] : []
+    };
+
+    const globalProps = await getGlobalProps();
+    return {
+        props: {
+            page: pageWithMutableSections, // Use the modified page object
+            global: globalProps
+        }
+    };
+};
+
+// This function tells Next.js which pages to build
+export const getStaticPaths: GetStaticPaths = async () => {
+    const paths = await getPagePaths();
+    return {
+        paths,
+        fallback: false
+    };
+};
