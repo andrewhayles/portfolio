@@ -48,7 +48,9 @@ const components = {
 };
 
 export const DynamicComponent: React.FC<DynamicComponentProps> = (props) => {
-  const modelName = props.type;
+	console.log('DynamicComponent props:', props);
+	const modelName = props.type;
+
 
   if (!modelName) {
     throw new Error(`Object does not have a 'type' property: ${JSON.stringify(props, null, 2)}`);
