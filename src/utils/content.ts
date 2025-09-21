@@ -46,7 +46,9 @@ export async function getPageProps(urlPath: string) {
                           getProjectBySlug(urlPath, allProjects);
 
     if (!contentObject) {
-        return null;
+        const page = allPages.find((p) => p.__metadata.urlPath === '/'); // Fallback to homepage
+        props.page = page;
+        return props;
     }
     
     const filePath = path.join(process.cwd(), contentBaseDir, contentObject.__metadata.id);
