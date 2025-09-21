@@ -13,11 +13,11 @@ const Component: React.FC<ComponentProps> = (props) => {
     return (
         <BaseLayout {...props}>
             {topSections?.map((section, index) => {
-                return <DynamicComponent key={index} {...section} />;
+                return <DynamicComponent key={index} {...section} global={props.global} />;
             })}
             <PostFeedSection {...postFeed} posts={items} />
             {bottomSections?.map((section, index) => {
-                return <DynamicComponent key={index} {...section} />;
+                return <DynamicComponent key={index} {...section} global={props.global} />;
             })}
         </BaseLayout>
     );

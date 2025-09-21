@@ -13,7 +13,7 @@ const Component: React.FC<ComponentProps> = (props) => {
             {topSections.length > 0 && (
                 <div>
                     {topSections.map((section, index) => (
-                        <DynamicComponent key={index} {...section} />
+                        <DynamicComponent key={index} {...section} global={props.global} />
                     ))}
                 </div>
             )}
@@ -30,7 +30,7 @@ const Component: React.FC<ComponentProps> = (props) => {
             {bottomSections.length > 0 && (
                 <div>
                     {bottomSections.map((section, index) => (
-                        <DynamicComponent key={index} {...section} />
+                        <DynamicComponent key={index} {...section} global={props.global} />
                     ))}
                 </div>
             )}
