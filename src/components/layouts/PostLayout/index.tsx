@@ -79,6 +79,7 @@ export default Component;
 type PreProps = React.HTMLAttributes<HTMLElement> & {
     children?: React.ReactNode;
     className?: string;
+	'data-sb-field-path'?: string;
 };
 
 const PreHighlight: React.FC<PreProps> = ({ children, 'data-sb-field-path': fieldPath, ...rest }) => {
