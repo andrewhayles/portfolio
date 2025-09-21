@@ -20,7 +20,7 @@ const ContactMediaLazy = dynamic(() => import('@/components/components-registry'
 type ContactSectionProps = any;
 
 export default function ContactSection(props: ContactSectionProps) {
-  const { elementId, colors, backgroundSize, title, text, form, media, styles = {} } = props;
+  const { elementId, colors, backgroundSize, title, text, form, media, styles, contentHtml = {} } = props;
   const sectionAlign = styles.self?.textAlign ?? 'left';
 
   // track whether the user explicitly requested the form (click) or it entered viewport
