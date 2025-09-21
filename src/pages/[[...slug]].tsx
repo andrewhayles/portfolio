@@ -61,9 +61,7 @@ export function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }: { params?: { slug?: string[] } }) {
-  // This creates the correct URL path, e.g., '/' for the homepage or '/about' for other pages.
   const urlPath = '/' + (params?.slug || []).join('/');
-  
   const result = await getPageProps(urlPath);
 
   if ('notFound' in result && result.notFound) {
