@@ -35,6 +35,8 @@ sections:
     actions: []
 ---
 
+[![Project Euler Level 3](/images/projecteuler.png)](https://www.projecteuler.net)
+
 [![IBM Course Certificate 1 - Introduction to Data Science](/images/ibm1.png)](/images/whatisdatascience.pdf)
 [![IBM Course Certificate 2 - Tools in Data Science](/images/ibm2.png)](/images/toolsfordatascience.pdf)
 [![IBM Course Certificate 3 - Data Science Methodology](/images/ibm3.png)](/images/datasciencemethodology.pdf)
