@@ -43,6 +43,11 @@ export function getStaticProps({ params }) {
     const allData = allContent();
     const urlPath = '/' + (params.slug || []).join('/');
     const props = resolveStaticProps(urlPath, allData);
+	
+	if (!props) {
+        return { notFound: true };
+    }
+	
     return { props };
 }
 
