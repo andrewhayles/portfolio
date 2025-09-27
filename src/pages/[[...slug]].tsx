@@ -5,6 +5,7 @@ import { PageComponentProps } from '@/types';
 import { allContent } from '@/utils/content';
 import { seoGenerateMetaDescription, seoGenerateMetaTags, seoGenerateTitle } from '@/utils/seo-utils';
 import { resolveStaticProps } from '@/utils/static-props-resolvers';
+import fs from 'fs';	
 
 const Page: React.FC<PageComponentProps> = (props) => {
     const { global, ...page } = props;
@@ -40,13 +41,14 @@ export function getStaticPaths() {
 }
 
 export function getStaticProps({ params }) {
-    const urlPath = '/' + (params.slug || []).join('/');    
-    // The original logic is still needed for other pages
     const allData = allContent();
+    const urlPath = '/' + (params.slug || []).join('/');
     const props = resolveStaticProps(urlPath, allData);
+	
     if (!props) {
         return { notFound: true };
     }
+
     return { props };
 }
 
