@@ -125,6 +125,8 @@ code: |
   ```
 ---
 
+import SafePowerBIEmbed from '../../components/SafePowerBIEmbed'
+
 This started with the question, "Am I in good health, and how do my personal health markers vary throughout the day, week, and month?"  To start answering this (in addition to seeking medical advice from a trained and licensed doctor), I purchased an affordable smart watch and I created this code to analyze my personal health data from my MorePro AIR2 Fitness Tracker watch and my body composition scale and my regular scale.  It is written in Python and it uses the read_csv method to load the data into a memory location called a DataFrame in pandas and then creates several visualizations based on some statistical calculations using numpy for some of the more advanced calculations and seaborn for the visualizations.
 
 This is a plot of most of the variables I am tracking with histograms.  Most of the variables are in healthy ranges, although weight is an area of potential improvement:
@@ -151,7 +153,15 @@ As can be seen, a simple CSV file can be read by the pandas library in Python an
 
 Here is a Power BI embedded feature.  This is not representative of my actual sleep (I get more sleep than is represented here).  The smartwatch sometimes doesn't work properly and it is incapable of measuring naps (which I do sometimes take).
 
-<iframe title="health_analysis" width="600" height="373.5" src="https://app.powerbi.com/view?r=eyJrIjoiMmNhNDIzZTAtZTIxNi00NWZhLTk0MmItMDZjM2M5MjRjMzFiIiwidCI6IjE5NWQ0ZTBiLTAzM2UtNDAzNi05ZDAwLTJiOGY0MDA1OWE3YyIsImMiOjZ9" frameborder="0" allowFullScreen="true"></iframe>
+<div className="powerbi-container" style={{position: 'relative', paddingBottom: '62.25%', height: 0, overflow: 'hidden'}}>
+  <iframe 
+    title="health_analysis" 
+    style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%'}} 
+    src="https://app.powerbi.com/view?r=eyJrIjoiMmNhNDIzZTAtZTIxNi00NWZhLTk0MmItMDZjM2M5MjRjMzFiIiwidCI6IjE5NWQ0ZTBiLTAzM2UtNDAzNi05ZDAwLTJiOGY0MDA1OWE3YyIsImMiOjZ9" 
+    frameBorder="0" 
+    allowFullScreen="true">
+  </iframe>
+</div>
 
 The code used for this analysis is available below if you're interested in viewing it:
 
