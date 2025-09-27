@@ -40,14 +40,13 @@ export function getStaticPaths() {
 }
 
 export function getStaticProps({ params }) {
+    const urlPath = '/' + (params.slug || []).join('/');    
+    // The original logic is still needed for other pages
     const allData = allContent();
-    const urlPath = '/' + (params.slug || []).join('/');
     const props = resolveStaticProps(urlPath, allData);
-	
-	if (!props) {
+    if (!props) {
         return { notFound: true };
     }
-	
     return { props };
 }
 
