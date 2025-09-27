@@ -1,5 +1,11 @@
+const withMDX = require('@next/mdx')({
+  // Optionally, pass options to the loader
+});
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    // Add mdx to the list of page extensions
+    pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
     env: {
         stackbitPreview: process.env.STACKBIT_PREVIEW
     },
@@ -7,4 +13,4 @@ const nextConfig = {
     reactStrictMode: true
 };
 
-module.exports = nextConfig;
+module.exports = withMDX(nextConfig);
