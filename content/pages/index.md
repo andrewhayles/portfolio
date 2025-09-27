@@ -1,6 +1,7 @@
 ---
 type: PageLayout
 title: Home
+urlPath: / 
 colors: colors-a
 backgroundImage:
   type: BackgroundImage
