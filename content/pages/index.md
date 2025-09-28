@@ -48,7 +48,7 @@ sections:
     showReadMoreLink: true
     variant: variant-b
     projects:
-      - content/pages/projects/health.mdx
+      - content/pages/projects/health.md
       - content/pages/projects/iq.md
       - content/pages/projects/chess.md
       - content/pages/projects/yelp.md
