@@ -125,8 +125,6 @@ code: |
   ```
 ---
 
-import SafePowerBIEmbed from '../../components/SafePowerBIEmbed'
-
 This started with the question, "Am I in good health, and how do my personal health markers vary throughout the day, week, and month?"  To start answering this (in addition to seeking medical advice from a trained and licensed doctor), I purchased an affordable smart watch and I created this code to analyze my personal health data from my MorePro AIR2 Fitness Tracker watch and my body composition scale and my regular scale.  It is written in Python and it uses the read_csv method to load the data into a memory location called a DataFrame in pandas and then creates several visualizations based on some statistical calculations using numpy for some of the more advanced calculations and seaborn for the visualizations.
 
 This is a plot of most of the variables I am tracking with histograms.  Most of the variables are in healthy ranges, although weight is an area of potential improvement:
