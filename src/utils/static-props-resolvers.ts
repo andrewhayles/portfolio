@@ -16,8 +16,13 @@ import {
 } from '@/types';
 import { deepMapObject } from './data-utils';
 
-export function resolveStaticProps(urlPath: string, allData: ContentObject[]): PageComponentProps {
+export function resolveStaticProps(urlPath: string, allData: ContentObject[]): PageComponentProps | null {
     const originalPage = allData.find((obj) => obj.__metadata.urlPath === urlPath);
+
+    if (!originalPage) {
+        return null;
+    }
+
     const globalProps: GlobalProps = {
         site: allData.find((obj) => obj.__metadata.modelName === ConfigModel.name) as Config,
         theme: allData.find((obj) => obj.__metadata.modelName === ThemeStyleModel.name) as ThemeStyle

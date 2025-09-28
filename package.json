@@ -7,6 +7,9 @@
         "start": "next start"
     },
     "dependencies": {
+        "@mdx-js/loader": "^3.1.1",
+        "@mdx-js/react": "^3.1.1",
+        "@next/mdx": "^15.5.4",
         "@stackbit/cms-git": "^1.0.35",
         "@tailwindcss/postcss": "^4.0.12",
         "classnames": "^2.5.1",
