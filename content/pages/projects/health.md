@@ -147,6 +147,8 @@ Lastly, a table is produced with ranges of the variables (this tells me how my h
 
 ![These are the ranges of each variable.](/images/range_calculations.png)
 
+Here is a link to a Power BI feature: [Please click here to view](https://app.powerbi.com/view?r=eyJrIjoiMmNhNDIzZTAtZTIxNi00NWZhLTk0MmItMDZjM2M5MjRjMzFiIiwidCI6IjE5NWQ0ZTBiLTAzM2UtNDAzNi05ZDAwLTJiOGY0MDA1OWE3YyIsImMiOjZ9).  This is not representative of my actual sleep (I get more sleep than is represented here).  The smartwatch sometimes doesn't work properly and it is incapable of measuring naps (which I do sometimes take).  Also, I the measurement for sleep is sometimes simply lower than what I actually got.
+
 As can be seen, a simple CSV file can be read by the pandas library in Python and some statistical calculations can be made with the numpy library followed by visualizations prepared by the seaborn and matplotlib libraries.  In the future I'd like to analyze the data from my body composition scale as I collect enough data (I only use it twice per month because the measurement doesn't change much day-to-day and the battery dies rapidly if regularly used).  This project demonstrates the power of Python's data analysis libraries in transforming raw sensor data into actionable insights.
 
 The code used for this analysis is available below if you're interested in viewing it:
