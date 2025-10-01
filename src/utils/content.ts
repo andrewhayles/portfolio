@@ -92,6 +92,9 @@ function getAllContentObjects(): types.ContentObject[] {
 
 function getAllProjects(): types.ProjectLayout[] {
     const allContent = getAllContentObjects();
+	
+	console.log(`[DEBUG] Found ${projects.length} project(s).`);
+	
     return allContent.filter(page => page.type === 'ProjectLayout') as types.ProjectLayout[];
 }
 
