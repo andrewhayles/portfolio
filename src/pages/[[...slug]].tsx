@@ -5,7 +5,6 @@ import { getAllPagePaths, getPageProps } from '@/utils/content'; // UPDATED impo
 import { seoGenerateMetaDescription, seoGenerateMetaTags, seoGenerateTitle } from '@/utils/seo-utils';
 
 const Page: React.FC<PageComponentProps> = (props) => {
-    // This component logic does not need to change
     const { global, page } = props;
     const { site } = global;
     const title = seoGenerateTitle(page, site);
@@ -26,11 +25,15 @@ const Page: React.FC<PageComponentProps> = (props) => {
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 {site.favicon && <link rel="icon" href={site.favicon} />}
             </Head>
-            <DynamicComponent {...props} />
+            
+            {/* BEFORE: */}
+            {/* <DynamicComponent {...props} /> */}
+            
+            {/* AFTER: Spread the 'page' object and pass 'global' as a prop */}
+            <DynamicComponent {...page} global={global} />
         </>
     );
 };
-
 /**
  * UPDATED: Use the new lightweight getAllPagePaths() function.
  * This is much faster as it doesn't read file contents.
