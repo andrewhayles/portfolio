@@ -5,7 +5,7 @@ urlPath: /
 colors: colors-a
 backgroundImage:
   type: BackgroundImage
-  url: /images/bg1.jpg
+  url: /images/bg1.webp
   backgroundSize: cover
   backgroundPosition: center
   backgroundRepeat: no-repeat

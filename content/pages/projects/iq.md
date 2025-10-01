@@ -9,11 +9,11 @@ description: >-
   over many years.
 featuredImage:
   type: ImageBlock
-  url: /images/bg3.jpg
+  url: /images/bg3.webp
   altText: Project thumbnail image
 media:
   type: ImageBlock
-  url: /images/bg3.jpg
+  url: /images/bg3.webp
   altText: Project image
 code: |
   ```
@@ -307,50 +307,50 @@ This is the combination of mixed and untimed tests (all authors):
 
 ![Mixed + Untimed](/images/mixed-untimed-tests.webp)
 
-From what I can tell (including some of my own deeper-dive analysis into date ranges, specifically, excluding the first seven date codes associated with test administrations) it seems that in the first 8 days or so I didn't really understand well the instructions and I was kind of "learning" how to take the tests during this phase.  Strictly speaking I don't think this qualifies as a learning effect entirely, more of a gradual learning of the instructions and approaching a level playing field with the other test-takers on this now extinct platform IQexams.
+From what I can tell (including some of my own deeper-dive analysis into date ranges, specifically, excluding the first eight date codes associated with test administrations) it seems that in the first 8 days or so I didn't really understand well the instructions and I was kind of "learning" how to take the tests during this phase.  Strictly speaking I don't think this qualifies as a learning effect entirely, more of a gradual learning of the instructions and approaching a level playing field with the other test-takers on this now extinct platform IQexams.
 
 Even when the data is filtered in such a way that the slope is significant, it is normally just a bit higher than 0.001 in magnitude and the coefficient of determination is very low also (the linear model is not predictive of anything really, other than some nonzero improvement from the beginning of my test taking).
 
 Histogram of timed/untimed scores superimposed on each other.  You can see there is a slight offset in the positive direction with the untimed tests.  I perform a bit better when I am not under time pressure, but still do exceptionally well with a time limit.
 
-![Histogram of timed/untimed scores superimposed on each other](/images/histogram_timed_untimed1.png)
+![Histogram of timed/untimed scores superimposed on each other](/images/histogram_timed_untimed1.webp)
 
 Probability plot of timed scores (very normal behavior)
 
-![Probability plot of timed scores](/images/probability_plot_timed4.png)
+![Probability plot of timed scores](/images/probability_plot_timed4.webp)
 
 Probability plot of untimed scores (very normal behavior)
 
-![Probabliity plot of untimed scores](/images/probability_plot_untimed5.png)
+![Probabliity plot of untimed scores](/images/probability_plot_untimed5.webp)
 
 Boxplot of authors (visible are the ranges of scores for each author)
 
-![Boxplot of authors (visible are the ranges of scores for each author)](/images/box_plot_author6.png)
+![Boxplot of authors (visible are the ranges of scores for each author)](/images/box_plot_author6.webp)
 
 Boxplot of tests taken in hot months versus cold months (not much difference, but it seems a slightly wider range of performances in the hot months, perhaps from sometimes less motivation to perform well when there are people to see and places to go).
 
-![Boxplot of tests taken in hot months versus cold months](/images/box_plot_hotcold7.png)
+![Boxplot of tests taken in hot months versus cold months](/images/box_plot_hotcold7.webp)
 
 Boxplot of timed versus untimed tests (wider range - more randomness - and lower median with timed tests)
 
-![Boxplot of timed versus untimed tests](/images/box_plot_timeduntimed8.png)
+![Boxplot of timed versus untimed tests](/images/box_plot_timeduntimed8.webp)
 
 Boxplot of test types
 
-![Boxplot of test types](/images/box_plot_testtype9.png)
+![Boxplot of test types](/images/box_plot_testtype9.webp)
 
 Violin plot of test types (you can see one of my very first tests there was a verbal test that I performed very low on compared to my normal scores).  For some reason on logical tests I do a bit better than on other types of tests.
 
-![Violin plot of test types](/images/violin_plot10.png)
+![Violin plot of test types](/images/violin_plot10.webp)
 
 Bell curve of scores.  The median and mean are almost the same, suggesting a symmetric distribution.  The mode is shifted a bit over to the right.
 
-![Bell curve of scores](/images/bell_curve_of_scores11.png)
+![Bell curve of scores](/images/bell_curve_of_scores11.webp)
 
 Pie chart of test types
 
-![Pie chart of test types](/images/piechart_testtype_12.png)
+![Pie chart of test types](/images/piechart_testtype_12.webp)
 
 Pie chart of authors.  Thank God for all of the wonderful authors of these tests.  All of them with a different personality, all of them basically measuring the same thing with all of their varied problems and problem types.
 
-![Pie chart of authors](/images/piechart_author13.png)
+![Pie chart of authors](/images/piechart_author13.webp)
