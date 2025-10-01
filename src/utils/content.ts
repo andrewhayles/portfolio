@@ -92,9 +92,6 @@ function getAllContentObjects(): types.ContentObject[] {
 
 function getAllProjects(): types.ProjectLayout[] {
     const allContent = getAllContentObjects();
-	
-	console.log(`[DEBUG] Found ${projects.length} project(s).`);
-	
     return allContent.filter(page => page.type === 'ProjectLayout') as types.ProjectLayout[];
 }
 
@@ -118,15 +115,33 @@ export function getPageProps(urlPath: string): PageComponentProps | null {
     if (pageContent.type === 'ProjectFeedLayout') {
         const projects = getAllProjects();
         projects.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        // FIXED: Add projects to the sections that need them
+        if (pageContent.sections) {
+            pageContent.sections = pageContent.sections.map((section: any) => {
+                if (section.type === 'ProjectFeedSection') {
+                    return { ...section, projects };
+                }
+                return section;
+            });
+        }
+        // Keep the old logic for backward compatibility
         if (pageContent.projectFeed) {
-            // THE FIX: Use the generic property name 'items' instead of 'projects'
             pageContent.projectFeed.items = projects;
         }
     } else if (pageContent.type === 'PostFeedLayout') {
         const posts = getAllPosts();
         posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        // FIXED: Add posts to the sections that need them
+        if (pageContent.sections) {
+            pageContent.sections = pageContent.sections.map((section: any) => {
+                if (section.type === 'PostFeedSection') {
+                    return { ...section, posts };
+                }
+                return section;
+            });
+        }
+        // Keep the old logic for backward compatibility
         if (pageContent.postFeed) {
-            // THE FIX: Use the generic property name 'items' instead of 'posts'
             pageContent.postFeed.items = posts;
         }
     }
