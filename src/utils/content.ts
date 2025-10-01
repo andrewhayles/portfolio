@@ -84,7 +84,6 @@ function annotateContentObject(o: any, prefix = '', depth = 0) {
 let allContentObjects: types.ContentObject[] | null = null;
 function getAllContentObjects(): types.ContentObject[] {
     if (allContentObjects === null) {
-        // UPDATED: Search the entire 'content' directory, not just 'content/pages'
         const globPattern = `${contentBaseDir}/**/*.{${supportedFileTypes.join(',')}}`;
         allContentObjects = glob.sync(globPattern).map(file => readContent(file));
     }
@@ -111,16 +110,22 @@ export function getPageProps(urlPath: string): PageComponentProps | null {
     const pageFilePath = urlPathToFilePath(urlPath);
     if (!pageFilePath) return null;
 
-    const pageContent = readContent(pageFilePath);
+    const pageContent = readContent(pageFilePath) as any;
 
     if (pageContent.type === 'ProjectFeedLayout') {
         const projects = getAllProjects();
         projects.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-        (pageContent as any).projects = projects;
+        // THE FIX: Place the 'projects' array inside the 'projectFeed' object
+        if (pageContent.projectFeed) {
+            pageContent.projectFeed.projects = projects;
+        }
     } else if (pageContent.type === 'PostFeedLayout') {
         const posts = getAllPosts();
         posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-        (pageContent as any).posts = posts;
+        // Apply the same logic for posts, placing them inside the 'postFeed' object
+        if (pageContent.postFeed) {
+            pageContent.postFeed.posts = posts;
+        }
     }
 
     const siteContent = readContent('content/data/config.json');
