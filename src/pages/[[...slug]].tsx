@@ -27,7 +27,7 @@ const Page: React.FC<PageComponentProps> = (props) => {
             </Head>
             
             {/* FIX: Pass the entire props object, not just page */}
-            <DynamicComponent {...props} />
+            <DynamicComponent {...page} global={global} />
         </>
     );
 };
