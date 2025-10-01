@@ -39,9 +39,6 @@ sections:
     type: FeaturedProjectsSection
     elementId: ''
     actions:
-      - type: Link
-        label: See all projects
-        url: /projects
     showDate: false
     showDescription: true
     showFeaturedImage: true
