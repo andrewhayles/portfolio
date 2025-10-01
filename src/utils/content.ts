@@ -23,7 +23,8 @@ allModels.forEach((model) => {
 });
 
 function isRefField(modelName: string, fieldName: string) {
-    return !!allReferenceFields[model.name + ':' + fieldName];
+    // FIX: Changed 'model.name' to the correct 'modelName' variable
+    return !!allReferenceFields[modelName + ':' + fieldName];
 }
 
 function readContent(file: string): types.ContentObject {
