@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { DynamicComponent } from '@/components/components-registry';
 import { PageComponentProps } from '@/types';
-import { getAllPagePaths, getPageProps } from '@/utils/content'; // UPDATED import
+import { getAllPagePaths, getPageProps } from '@/utils/content';
 import { seoGenerateMetaDescription, seoGenerateMetaTags, seoGenerateTitle } from '@/utils/seo-utils';
 
 const Page: React.FC<PageComponentProps> = (props) => {
@@ -26,16 +26,14 @@ const Page: React.FC<PageComponentProps> = (props) => {
                 {site.favicon && <link rel="icon" href={site.favicon} />}
             </Head>
             
-            {/* BEFORE: */}
-            {/* <DynamicComponent {...props} /> */}
-            
-            {/* AFTER: Spread the 'page' object and pass 'global' as a prop */}
-            <DynamicComponent {...page} global={global} />
+            {/* FIX: Pass the entire props object, not just page */}
+            <DynamicComponent {...props} />
         </>
     );
 };
+
 /**
- * UPDATED: Use the new lightweight getAllPagePaths() function.
+ * Use the new lightweight getAllPagePaths() function.
  * This is much faster as it doesn't read file contents.
  */
 export function getStaticPaths() {
@@ -44,7 +42,7 @@ export function getStaticPaths() {
 }
 
 /**
- * UPDATED: Use the new getPageProps() function.
+ * Use the new getPageProps() function.
  * This fetches data for only the current page, not the entire site.
  */
 export function getStaticProps({ params }) {
