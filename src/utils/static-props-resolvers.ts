@@ -40,9 +40,9 @@ export function resolveStaticProps(urlPath: string, allData: ContentObject[]): P
 
     const enrichedPage = deepMapObject(originalPage, enrichContent) as ContentObject;
     return {
-        ...enrichedPage,
+        page: enrichedPage,
         global: globalProps
-    };
+    }
 }
 
 type ResolverFunction = (props: ContentObject, allData: ContentObject[]) => ContentObject;
