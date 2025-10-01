@@ -125,10 +125,15 @@ export function getPageProps(urlPath: string): PageComponentProps | null {
     // 4. Annotate for Stackbit visual editor (if in dev mode)
     const props = {
         page: deepClone(pageContent),
-        global: deepClone(globalContent)
+        // BEFORE:
+        // global: deepClone(globalContent)
+        // AFTER: Wrap globalContent in a 'site' property to match the expected type
+        global: {
+            site: deepClone(globalContent)
+        }
     };
     annotateContentObject(props.page);
-    annotateContentObject(props.global);
+    annotateContentObject(props.global.site); // Also update this line
 
     return props as PageComponentProps;
 }

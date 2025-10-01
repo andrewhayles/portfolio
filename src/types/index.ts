@@ -1,4 +1,5 @@
 import { Config, ContentObject, ThemeStyle } from './generated';
+import { DataModelType, PageModelType } from './generated';
 
 export * from './base';
 export * from './generated';
@@ -8,6 +9,9 @@ export type GlobalProps = {
     theme: ThemeStyle;
 };
 
-export type PageComponentProps = ContentObject & {
-    global: GlobalProps;
+export type PageComponentProps = {
+    page: PageModelType;
+    global: {
+        site: DataModelType;
+    };
 };
