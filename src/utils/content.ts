@@ -115,16 +115,16 @@ export function getPageProps(urlPath: string): PageComponentProps | null {
     if (pageContent.type === 'ProjectFeedLayout') {
         const projects = getAllProjects();
         projects.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-        // THE FIX: Place the 'projects' array inside the 'projectFeed' object
         if (pageContent.projectFeed) {
-            pageContent.projectFeed.projects = projects;
+            // THE FIX: Use the generic property name 'items' instead of 'projects'
+            pageContent.projectFeed.items = projects;
         }
     } else if (pageContent.type === 'PostFeedLayout') {
         const posts = getAllPosts();
         posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-        // Apply the same logic for posts, placing them inside the 'postFeed' object
         if (pageContent.postFeed) {
-            pageContent.postFeed.posts = posts;
+            // THE FIX: Use the generic property name 'items' instead of 'posts'
+            pageContent.postFeed.items = posts;
         }
     }
 
