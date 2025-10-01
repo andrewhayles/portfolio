@@ -24,9 +24,6 @@ function isRefField(modelName: string, fieldName: string) {
     return !!allReferenceFields[modelName + ':' + fieldName];
 }
 
-/**
- * NEW: A helper function to convert a file path to a URL path.
- */
 function filePathToUrl(filePath: string): string | undefined {
     if (!filePath.startsWith(pagesBaseDir)) {
         return undefined;
@@ -44,10 +41,7 @@ function readContent(file: string): types.ContentObject {
     switch (path.extname(file).substring(1)) {
         case 'md':
             const parsedMd = frontmatter<Record<string, any>>(rawContent);
-            content = {
-                ...parsedMd.attributes,
-                markdownContent: parsedMd.body
-            };
+            content = { ...parsedMd.attributes, markdownContent: parsedMd.body };
             break;
         case 'json':
             content = JSON.parse(rawContent);
@@ -57,11 +51,9 @@ function readContent(file: string): types.ContentObject {
     }
     content.__metadata = { id: file, modelName: content.type };
 
-    // UPDATED: If the content is a page, calculate its URL path immediately.
     if (PAGE_MODEL_NAMES.includes(content.__metadata.modelName)) {
         content.__metadata.urlPath = filePathToUrl(file);
     }
-
     return content;
 }
 
@@ -72,29 +64,46 @@ function deepClone(o: object) {
 const skipList = ['__metadata'];
 function annotateContentObject(o: any, prefix = '', depth = 0) {
     if (!isDev || !o || typeof o !== 'object' || !o.type || skipList.includes(prefix)) return;
-
     if (depth === 0) {
-        if (o.__metadata?.id) {
-            o[types.objectIdAttr] = o.__metadata.id;
-        }
+        if (o.__metadata?.id) o[types.objectIdAttr] = o.__metadata.id;
     } else {
         o[types.fieldPathAttr] = prefix;
     }
-
     Object.entries(o).forEach(([k, v]) => {
         if (v && typeof v === 'object') {
             const fieldPrefix = (prefix ? prefix + '.' : '') + k;
             if (Array.isArray(v)) {
-                v.forEach((e, idx) => {
-                    const elementPrefix = fieldPrefix + '.' + idx;
-                    annotateContentObject(e, elementPrefix, depth + 1);
-                });
+                v.forEach((e, idx) => annotateContentObject(e, fieldPrefix + '.' + idx, depth + 1));
             } else {
                 annotateContentObject(v, fieldPrefix, depth + 1);
             }
         }
     });
 }
+
+// --- NEW HELPER FUNCTIONS FOR FEEDS ---
+
+// Cache all page content to avoid re-reading files during a single build
+let allPageObjects: types.ContentObject[] | null = null;
+function getAllPageObjects(): types.ContentObject[] {
+    if (allPageObjects === null) {
+        const globPattern = `${pagesBaseDir}/**/*.{${supportedFileTypes.join(',')}}`;
+        allPageObjects = glob.sync(globPattern).map(file => readContent(file));
+    }
+    return allPageObjects;
+}
+
+function getAllProjects(): types.ProjectLayout[] {
+    const allPages = getAllPageObjects();
+    return allPages.filter(page => page.type === 'ProjectLayout') as types.ProjectLayout[];
+}
+
+function getAllPosts(): types.PostLayout[] {
+    const allPages = getAllPageObjects();
+    return allPages.filter(page => page.type === 'PostLayout') as types.PostLayout[];
+}
+
+// --- EFFICIENT DATA FETCHING FUNCTIONS ---
 
 export function getAllPagePaths(): string[] {
     const globPattern = `${pagesBaseDir}/**/*.{${supportedFileTypes.join(',')}}`;
@@ -104,17 +113,23 @@ export function getAllPagePaths(): string[] {
 
 export function getPageProps(urlPath: string): PageComponentProps | null {
     const pageFilePath = urlPathToFilePath(urlPath);
-    if (!pageFilePath) {
-        return null;
-    }
+    if (!pageFilePath) return null;
 
     const pageContent = readContent(pageFilePath);
 
-    const globalConfigPath = 'content/data/config.json';
-    const siteContent = readContent(globalConfigPath);
+    // Add special logic for feed pages to load their items
+    if (pageContent.type === 'ProjectFeedLayout') {
+        const projects = getAllProjects();
+        projects.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        (pageContent as any).projects = projects;
+    } else if (pageContent.type === 'PostFeedLayout') {
+        const posts = getAllPosts();
+        posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        (pageContent as any).posts = posts;
+    }
 
-    const themeConfigPath = 'content/data/theme.json';
-    const themeContent = readContent(themeConfigPath);
+    const siteContent = readContent('content/data/config.json');
+    const themeContent = readContent('content/data/theme.json');
     
     const cache = {};
     resolveOnDemand(pageContent, cache);
