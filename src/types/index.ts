@@ -12,6 +12,6 @@ export type GlobalProps = {
 export type PageComponentProps = {
     page: PageModelType;
     global: {
-        site: DataModelType;
+        site: Config;
     };
 };
