@@ -38,7 +38,7 @@ export function resolveStaticProps(urlPath: string, allData: ContentObject[]): P
         }
     }
 
-    const enrichedPage = deepMapObject(originalPage, enrichContent) as ContentObject;
+    const enrichedPage = deepMapObject(originalPage, enrichContent) as PageModelType;
     return {
         page: enrichedPage,
         global: globalProps
