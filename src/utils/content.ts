@@ -5,7 +5,7 @@ import frontmatter from 'front-matter';
 import { allModels } from '.stackbit/models';
 import * as types from '@/types';
 import { isDev } from './common';
-import { PAGE_MODEL_NAMES, PageModelType } from '@/types/generated';
+import { PAGE_MODEL_NAMES, PageComponentProps } from '@/types';
 
 const contentBaseDir = 'content';
 const pagesBaseDir = path.join(contentBaseDir, 'pages');
@@ -23,7 +23,7 @@ allModels.forEach((model) => {
 });
 
 function isRefField(modelName: string, fieldName: string) {
-    return !!allReferenceFields[modelName + ':' + fieldName];
+    return !!allReferenceFields[model.name + ':' + fieldName];
 }
 
 function readContent(file: string): types.ContentObject {
@@ -66,7 +66,6 @@ function annotateContentObject(o: any, prefix = '', depth = 0) {
     Object.entries(o).forEach(([k, v]) => {
         if (v && typeof v === 'object') {
             const fieldPrefix = (prefix ? prefix + '.' : '') + k;
-
             if (Array.isArray(v)) {
                 v.forEach((e, idx) => {
                     const elementPrefix = fieldPrefix + '.' + idx;
@@ -79,12 +78,8 @@ function annotateContentObject(o: any, prefix = '', depth = 0) {
     });
 }
 
-// --- NEW EFFICIENT FUNCTIONS ---
+// --- EFFICIENT DATA FETCHING FUNCTIONS ---
 
-/**
- * NEW: A lightweight function that only gets the URL paths for all pages.
- * It does NOT read or parse file content. Used by getStaticPaths.
- */
 export function getAllPagePaths(): string[] {
     const globPattern = `${pagesBaseDir}/**/*.{${supportedFileTypes.join(',')}}`;
     const files = glob.sync(globPattern);
@@ -98,104 +93,74 @@ export function getAllPagePaths(): string[] {
     });
 }
 
-/**
- * NEW: Gets the props for a single page based on its URL path.
- * This is the main function to be used by getStaticProps.
- */
 export function getPageProps(urlPath: string): PageComponentProps | null {
     const pageFilePath = urlPathToFilePath(urlPath);
     if (!pageFilePath) {
         return null;
     }
 
-    // 1. Read the specific page file
     const pageContent = readContent(pageFilePath);
     pageContent.__metadata.urlPath = urlPath;
 
-    // 2. Read global site configuration.
-    //    Adjust the path if your global config is located elsewhere.
+    // Load global site configuration
     const globalConfigPath = 'content/data/config.json';
-    const globalContent = readContent(globalConfigPath);
+    const siteContent = readContent(globalConfigPath);
 
-    // 3. Resolve references only for the loaded content
-    const cache = {}; // Cache to avoid reading the same file multiple times
-    resolveOnDemand(pageContent, cache);
-    resolveOnDemand(globalContent, cache);
+    // Load global theme configuration
+    // IMPORTANT: Make sure this file exists at 'content/data/theme.json'
+    const themeConfigPath = 'content/data/theme.json';
+    const themeContent = readContent(themeConfigPath);
     
-    // 4. Annotate for Stackbit visual editor (if in dev mode)
+    const cache = {};
+    resolveOnDemand(pageContent, cache);
+    resolveOnDemand(siteContent, cache);
+    resolveOnDemand(themeContent, cache);
+    
     const props = {
         page: deepClone(pageContent),
-        // BEFORE:
-        // global: deepClone(globalContent)
-        // AFTER: Wrap globalContent in a 'site' property to match the expected type
         global: {
-            site: deepClone(globalContent)
+            site: deepClone(siteContent),
+            theme: deepClone(themeContent)
         }
     };
+
     annotateContentObject(props.page);
-    annotateContentObject(props.global.site); // Also update this line
+    annotateContentObject(props.global.site);
+    annotateContentObject(props.global.theme);
 
     return props as PageComponentProps;
 }
 
-/**
- * NEW: Converts a URL path to a filesystem path.
- * e.g., '/about' => 'content/pages/about.md'
- * e.g., '/' => 'content/pages/index.md'
- */
 function urlPathToFilePath(urlPath: string): string | null {
-    // Handle the root path
     if (urlPath === '/') {
         for (const ext of supportedFileTypes) {
             const filePath = path.join(pagesBaseDir, `index.${ext}`);
-            if (fs.existsSync(filePath)) {
-                return filePath;
-            }
+            if (fs.existsSync(filePath)) return filePath;
         }
     }
-
-    // Handle other paths
-    const requestPath = urlPath.substring(1); // remove leading '/'
+    const requestPath = urlPath.substring(1);
     for (const ext of supportedFileTypes) {
-        // Check for file like 'about.md'
         const filePath = path.join(pagesBaseDir, `${requestPath}.${ext}`);
-        if (fs.existsSync(filePath)) {
-            return filePath;
-        }
-        // Check for directory with index file like 'about/index.md'
+        if (fs.existsSync(filePath)) return filePath;
         const indexFilePath = path.join(pagesBaseDir, requestPath, `index.${ext}`);
-        if (fs.existsSync(indexFilePath)) {
-            return indexFilePath;
-        }
+        if (fs.existsSync(indexFilePath)) return indexFilePath;
     }
-
     return null;
 }
 
-/**
- * NEW: A recursive function to resolve references on-demand.
- * It reads referenced files as it finds them.
- */
 function resolveOnDemand(content: types.ContentObject, cache: Record<string, types.ContentObject>) {
     if (!content || !content.type) return;
-
     for (const fieldName in content) {
         let fieldValue = content[fieldName];
         if (!fieldValue) continue;
-        
         const isRef = isRefField(content.type, fieldName);
-
-        if (isRef && typeof fieldValue === 'string') { // Single reference
-            if (!cache[fieldValue]) {
-                cache[fieldValue] = readContent(fieldValue);
-            }
+        if (isRef && typeof fieldValue === 'string') {
+            if (!cache[fieldValue]) cache[fieldValue] = readContent(fieldValue);
             content[fieldName] = cache[fieldValue];
-            resolveOnDemand(content[fieldName], cache); // Recurse into the resolved object
-        } else if (isRef && Array.isArray(fieldValue)) { // List of references
+            resolveOnDemand(content[fieldName], cache);
+        } else if (isRef && Array.isArray(fieldValue)) {
             content[fieldName] = fieldValue.map((fileRef: string) => {
-                if (!cache[fileRef]) {
-                    cache[fileRef] = readContent(fileRef);
-                }
+                if (!cache[fileRef]) cache[fileRef] = readContent(fileRef);
                 const resolvedRef = cache[fileRef];
                 resolveOnDemand(resolvedRef, cache);
                 return resolvedRef;
