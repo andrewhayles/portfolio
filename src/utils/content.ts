@@ -81,29 +81,25 @@ function annotateContentObject(o: any, prefix = '', depth = 0) {
     });
 }
 
-// --- NEW HELPER FUNCTIONS FOR FEEDS ---
-
-// Cache all page content to avoid re-reading files during a single build
-let allPageObjects: types.ContentObject[] | null = null;
-function getAllPageObjects(): types.ContentObject[] {
-    if (allPageObjects === null) {
-        const globPattern = `${pagesBaseDir}/**/*.{${supportedFileTypes.join(',')}}`;
-        allPageObjects = glob.sync(globPattern).map(file => readContent(file));
+let allContentObjects: types.ContentObject[] | null = null;
+function getAllContentObjects(): types.ContentObject[] {
+    if (allContentObjects === null) {
+        // UPDATED: Search the entire 'content' directory, not just 'content/pages'
+        const globPattern = `${contentBaseDir}/**/*.{${supportedFileTypes.join(',')}}`;
+        allContentObjects = glob.sync(globPattern).map(file => readContent(file));
     }
-    return allPageObjects;
+    return allContentObjects;
 }
 
 function getAllProjects(): types.ProjectLayout[] {
-    const allPages = getAllPageObjects();
-    return allPages.filter(page => page.type === 'ProjectLayout') as types.ProjectLayout[];
+    const allContent = getAllContentObjects();
+    return allContent.filter(page => page.type === 'ProjectLayout') as types.ProjectLayout[];
 }
 
 function getAllPosts(): types.PostLayout[] {
-    const allPages = getAllPageObjects();
-    return allPages.filter(page => page.type === 'PostLayout') as types.PostLayout[];
+    const allContent = getAllContentObjects();
+    return allContent.filter(page => page.type === 'PostLayout') as types.PostLayout[];
 }
-
-// --- EFFICIENT DATA FETCHING FUNCTIONS ---
 
 export function getAllPagePaths(): string[] {
     const globPattern = `${pagesBaseDir}/**/*.{${supportedFileTypes.join(',')}}`;
@@ -117,7 +113,6 @@ export function getPageProps(urlPath: string): PageComponentProps | null {
 
     const pageContent = readContent(pageFilePath);
 
-    // Add special logic for feed pages to load their items
     if (pageContent.type === 'ProjectFeedLayout') {
         const projects = getAllProjects();
         projects.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
