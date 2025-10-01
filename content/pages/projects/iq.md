@@ -291,7 +291,21 @@ This project is based on an initial curiosity that turned into a major hobby esp
 
 [CODE_HERE]
 
-This script does a lot of things and I'm not going to talk about all of them right now but above all it produces some interesting visualizations which I think tell most of the story.  As they say, a picture speaks 1,000 words, and I believe this is true.  These pictures summarize the data well.  I will later add more analysis here and verbal discussion of the results.  For now, these are the visualizations:
+This script does a lot of things and I'm not going to talk about all of them right now but above all it produces some interesting visualizations which I think tell a lot of the story.  I will say that this interactive Power BI Dashboard also helps in [understanding the data]( https://app.powerbi.com/view?r=eyJrIjoiYzBjNWNjMzMtNjQ2ZS00ZTg1LWI5YWUtM2M5NzMwMTNjZjFlIiwidCI6IjE5NWQ0ZTBiLTAzM2UtNDAzNi05ZDAwLTJiOGY0MDA1OWE3YyIsImMiOjZ9)
+
+Here are some of my observations from it, for example.  By clicking on the chart (like a section of the pie chart for example) and then holding the Ctrl button and clicking another element on another chart you can get different pictures of the subsets of the data (effectively filtering the data interactively).
+
+This is what all of the tests except IQexams look like:
+
+![All except IQexams](/images/allexceptIQexams.webp)
+
+This is what mixed tests by Cooijmans looks like:
+
+![Mixed + Cooijmans](/images/mixedCooijmans.webp)
+
+This is the combination of mixed and untimed tests (all authors):
+
+![Mixed + Untimed](/images/mixed-untimed-tests.webp)
 
 Histogram of timed/untimed scores superimposed on each other
 
