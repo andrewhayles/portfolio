@@ -11,8 +11,6 @@ const contentBaseDir = 'content';
 const pagesBaseDir = path.join(contentBaseDir, 'pages');
 const supportedFileTypes = ['md', 'json'];
 
-// --- UNCHANGED HELPER FUNCTIONS ---
-
 const allReferenceFields = {};
 allModels.forEach((model) => {
     model.fields.forEach((field) => {
@@ -23,8 +21,21 @@ allModels.forEach((model) => {
 });
 
 function isRefField(modelName: string, fieldName: string) {
-    // FIX: Changed 'model.name' to the correct 'modelName' variable
     return !!allReferenceFields[modelName + ':' + fieldName];
+}
+
+/**
+ * NEW: A helper function to convert a file path to a URL path.
+ */
+function filePathToUrl(filePath: string): string | undefined {
+    if (!filePath.startsWith(pagesBaseDir)) {
+        return undefined;
+    }
+    let url = filePath.slice(pagesBaseDir.length).split('.')[0];
+    if (url.endsWith('/index')) {
+        url = url.slice(0, -6) || '/';
+    }
+    return url;
 }
 
 function readContent(file: string): types.ContentObject {
@@ -45,6 +56,12 @@ function readContent(file: string): types.ContentObject {
             throw Error(`Unhandled file type: ${file}`);
     }
     content.__metadata = { id: file, modelName: content.type };
+
+    // UPDATED: If the content is a page, calculate its URL path immediately.
+    if (PAGE_MODEL_NAMES.includes(content.__metadata.modelName)) {
+        content.__metadata.urlPath = filePathToUrl(file);
+    }
+
     return content;
 }
 
@@ -79,19 +96,10 @@ function annotateContentObject(o: any, prefix = '', depth = 0) {
     });
 }
 
-// --- EFFICIENT DATA FETCHING FUNCTIONS ---
-
 export function getAllPagePaths(): string[] {
     const globPattern = `${pagesBaseDir}/**/*.{${supportedFileTypes.join(',')}}`;
     const files = glob.sync(globPattern);
-
-    return files.map((file) => {
-        let url = file.slice(pagesBaseDir.length).split('.')[0];
-        if (url.endsWith('/index')) {
-            url = url.slice(0, -6) || '/';
-        }
-        return url;
-    });
+    return files.map((file) => filePathToUrl(file)).filter(Boolean) as string[];
 }
 
 export function getPageProps(urlPath: string): PageComponentProps | null {
@@ -101,14 +109,10 @@ export function getPageProps(urlPath: string): PageComponentProps | null {
     }
 
     const pageContent = readContent(pageFilePath);
-    pageContent.__metadata.urlPath = urlPath;
 
-    // Load global site configuration
     const globalConfigPath = 'content/data/config.json';
     const siteContent = readContent(globalConfigPath);
 
-    // Load global theme configuration
-    // IMPORTANT: Make sure this file exists at 'content/data/theme.json'
     const themeConfigPath = 'content/data/theme.json';
     const themeContent = readContent(themeConfigPath);
     
