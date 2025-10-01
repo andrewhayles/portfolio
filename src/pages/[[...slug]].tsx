@@ -1,14 +1,12 @@
 import Head from 'next/head';
-
 import { DynamicComponent } from '@/components/components-registry';
 import { PageComponentProps } from '@/types';
-import { allContent } from '@/utils/content';
+import { getAllPagePaths, getPageProps } from '@/utils/content'; // UPDATED import
 import { seoGenerateMetaDescription, seoGenerateMetaTags, seoGenerateTitle } from '@/utils/seo-utils';
-import { resolveStaticProps } from '@/utils/static-props-resolvers';
-import fs from 'fs';	
 
 const Page: React.FC<PageComponentProps> = (props) => {
-    const { global, ...page } = props;
+    // This component logic does not need to change
+    const { global, page } = props;
     const { site } = global;
     const title = seoGenerateTitle(page, site);
     const metaTags = seoGenerateMetaTags(page, site);
@@ -21,7 +19,6 @@ const Page: React.FC<PageComponentProps> = (props) => {
                 {metaDescription && <meta name="description" content={metaDescription} />}
                 {metaTags.map((metaTag) => {
                     if (metaTag.format === 'property') {
-                        // OpenGraph meta tags (og:*) should be have the format <meta property="og:…" content="…">
                         return <meta key={metaTag.property} property={metaTag.property} content={metaTag.content} />;
                     }
                     return <meta key={metaTag.property} name={metaTag.property} content={metaTag.content} />;
@@ -34,17 +31,23 @@ const Page: React.FC<PageComponentProps> = (props) => {
     );
 };
 
+/**
+ * UPDATED: Use the new lightweight getAllPagePaths() function.
+ * This is much faster as it doesn't read file contents.
+ */
 export function getStaticPaths() {
-    const allData = allContent();
-    const paths = allData.map((obj) => obj.__metadata.urlPath).filter(Boolean);
+    const paths = getAllPagePaths();
     return { paths, fallback: false };
 }
 
+/**
+ * UPDATED: Use the new getPageProps() function.
+ * This fetches data for only the current page, not the entire site.
+ */
 export function getStaticProps({ params }) {
-    const allData = allContent();
     const urlPath = '/' + (params.slug || []).join('/');
-    const props = resolveStaticProps(urlPath, allData);
-	
+    const props = getPageProps(urlPath);
+
     if (!props) {
         return { notFound: true };
     }
