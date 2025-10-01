@@ -1,5 +1,7 @@
 import { ConfigModel } from '.stackbit/models/Config';
 import { ThemeStyleModel } from '.stackbit/models/ThemeStyle';
+import { PageModelType } from '@/types';
+
 import {
     Config,
     ContentObject,
