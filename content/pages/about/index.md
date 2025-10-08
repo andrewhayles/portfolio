@@ -35,7 +35,7 @@ sections:
     actions: []
 ---
 
-I am a 38 year old male (born September, 1986) who is a citizen of the United States and am currently residing in the country of The Philippines. I grew up spending copious amounts of time studying chess and teaching myself programming and how to use computers. I also learned to love sports and enjoy physical activities like walking, hiking, playing tennis, playing various other sports (just for fun and for exercise and perhaps a little friendly competition).
+I am a 39 year old male (born September, 1986) who is a citizen of the United States and am currently residing in the country of The Philippines. I grew up spending copious amounts of time studying chess and teaching myself programming and how to use computers. I also learned to love sports and enjoy physical activities like walking, hiking, playing tennis, playing various other sports (just for fun and for exercise and perhaps a little friendly competition).
 
 After graduating from the University of Washington in Seattle, WA USA in 2008 with a B.S. in chemical engineering I got a job in process engineering and worked only for a short time before there was a major economic catastrophe in the USA which shaped many people's lives, including mine. I was laid off less than 1 year after starting this first job out of college and I found myself questioning life and the purpose and meaning of it.
 
