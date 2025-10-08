@@ -40,6 +40,7 @@ sections:
 [![IBM Course Certificate 1 - Introduction to Data Science](/images/ibm1.webp)](/images/whatisdatascience.pdf)
 [![IBM Course Certificate 2 - Tools in Data Science](/images/ibm2.webp)](/images/toolsfordatascience.pdf)
 [![IBM Course Certificate 3 - Data Science Methodology](/images/ibm3.webp)](/images/datasciencemethodology.pdf)
+[![IBM Course Certificate 4 - Python for Data Science](/images/python4datascience.webp)](/images/python4datascience.pdf)
 [![University of Michigan Certificate - Statistics with Python](/images/statswithpython.webp)](/images/statswithpython.pdf)
 [![University of California Certificate - SQL Data Science Specialization](/images/sql_datascience.webp)](/images/sqlspecialization.pdf)
 [![CompTIA A+ Certificate](/images/comptia.webp)](/images/comptiaAplus.pdf)
