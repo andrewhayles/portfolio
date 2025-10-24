@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Page-specific title -->
+    <title>Certificates - Andrew Hayles</title>
+    
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load custom fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script>
+      // --- Custom Tailwind Config (consistent with index.html) ---
+      tailwind.config = {
+        darkMode: 'media', 
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              mono: ['"DM Mono"', 'monospace'],
+            },
+            colors: {
+              light: '#ffffff',
+              onLight: '#050806',
+              dark: '#000000',
+              onDark: '#FBFFF2',
+              primary: '#0804F6',
+              onPrimary: '#FBFFF2',
+              secondary: '#FE491F',
+              onSecondary: '#050806',
+              complementary: '#565862',
+              onComplementary: '#FBFFF2',
+            }
+          }
+        }
+      }
+    </script>
+    
+    <style>
+      /* --- Prose styling (consistent with index.html) --- */
+      .prose { @apply text-onLight dark:text-onDark; }
+      .prose h1, .prose h2, .prose h3, .prose h4 { @apply font-mono uppercase font-normal mb-4 mt-8 text-onLight dark:text-onDark; }
+      .prose h1 { @apply text-3xl md:text-4xl; }
+      .prose h2 { @apply text-2xl md:text-3xl; }
+      .prose h3 { @apply text-xl md:text-2xl; }
+      .prose h4 { @apply text-lg md:text-xl; }
+      .prose p { @apply mb-5 leading-relaxed text-lg; }
+      .prose a { @apply text-primary dark:text-secondary hover:underline; }
+      .prose img { @apply rounded-lg shadow-md my-6 max-w-full h-auto mx-auto; }
+      .prose pre { @apply bg-gray-100 dark:bg-gray-900 text-onLight dark:text-onDark p-4 rounded-lg overflow-x-auto; }
+      .prose pre.language-text { @apply bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700; }
+      .prose code { @apply font-mono text-sm; }
+      .prose blockquote { @apply border-l-4 border-primary dark:border-secondary pl-4 italic my-4; }
+      .prose ul, .prose ol { @apply list-disc list-inside mb-4 pl-4; }
+      .prose hr { @apply border-gray-200 dark:border-gray-700 my-8; }
+    </style>
+</head>
+
+<body class="bg-light dark:bg-dark font-sans text-onLight dark:text-onDark transition-colors duration-300">
+  <div class="flex flex-col min-h-screen">
+
+    <!-- === Header (Consistent with index.html) === -->
+    <header class="bg-light/95 dark:bg-dark/90 backdrop-blur-sm sticky top-0 z-50 border-b border-gray-200 dark:border-gray-800">
+      <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
+        <!-- Site Title -->
+        <a href="index.html" class="text-xl font-mono uppercase font-bold text-onLight dark:text-onDark hover:text-primary dark:hover:text-secondary">
+          Andrew Hayles
+        </a>
+        
+        <!-- Nav Links -->
+        <div class="flex items-center space-x-4 md:space-x-6">
+          <a href="about.html" class="text-onLight dark:text-onDark hover:text-primary dark:hover:text-secondary font-mono uppercase text-sm font-medium">About</a>
+          <a href="https://github.com/andrewhayles/" target="_blank" rel="noopener noreferrer" class="text-onLight dark:text-onDark hover:text-primary dark:hover:text-secondary" aria-label="GitHub">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.165 6.839 9.49.5.092.682-.217.682-.483 0-.237-.009-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.951 0-1.093.39-1.988 1.03-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.026 2.747-1.026.546 1.379.202 2.398.1 2.65.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.309.678.92.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0 0 22 12c0-5.523-4.477-10-10-10Z" clip-rule="evenodd" /></svg>
+          </a>
+        </div>
+      </nav>
+    </header>
+
+    <!-- === Main Content === -->
+    <main class="flex-grow">
+
+      <!-- === Hero Section (from certs.md frontmatter, title modified) === -->
+      <div class="relative bg-complementary dark:bg-dark text-onComplementary dark:text-onDark" 
+           style="background-image: url('/images/bg1.webp'); background-size: cover; background-position: center; background-repeat: no-repeat;"
+           onerror="this.style.backgroundImage='url(https://placehold.co/1600x900/565862/FBFFF2?text=Certificates)'; this.onerror=null;">
+        
+        <!-- Overlay from frontmatter opacity (75%) -->
+        <div class="absolute inset-0 bg-complementary/75 dark:bg-dark/75"></div>
+        
+        <!-- Content from frontmatter sections -->
+        <div class="relative container mx-auto px-4 py-36 md:py-48 text-left">
+          <h1 class="text-4xl md:text-6xl font-mono uppercase font-bold text-onComplementary dark:text-onDark">
+            Certificates
+          </h1>
+        </div>
+      </div>
+
+      <!-- === Prose Content (from certs.md body) === -->
+      <div class="container mx-auto px-4 py-16 md:py-24 max-w-7xl">
+        
+        <!-- Certificate Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          
+          <!-- Project Euler -->
+          <a href="https://www.projecteuler.net" target="_blank" rel="noopener noreferrer" class="group block bg-white dark:bg-gray-900 rounded-lg shadow-lg overflow-hidden transform transition-transform duration-300 hover:-translate-y-2">
+            <img src="/images/projecteuler.png" alt="Project Euler Level 3" class="w-full h-auto object-contain p-4" onerror="this.onerror=null;this.src='https://placehold.co/400x300/ffffff/050806?text=Project+Euler';">
+            <div class="p-6">
+              <h3 class="text-xl font-mono uppercase text-onLight dark:text-onDark group-hover:text-primary dark:group-hover:text-secondary">Project Euler</h3>
+              <p class="mt-2 text-base text-complementary dark:text-gray-400">Level 3 Achievement</p>
+            </div>
+          </a>
+          
+          <!-- IBM Cert 1 -->
+          <a href="/images/whatisdatascience.pdf" target="_blank" rel="noopener noreferrer" class="group block bg-white dark:bg-gray-900 rounded-lg shadow-lg overflow-hidden transform transition-transform duration-300 hover:-translate-y-2">
+            <img src="/images/ibm1.webp" alt="IBM Course Certificate 1 - Introduction to Data Science" class="w-full h-auto object-contain" onerror="this.onerror=null;this.src='https://placehold.co/400x300/ffffff/050806?text=IBM+Cert+1';">
+            <div class="p-6">
+              <h3 class="text-xl font-mono uppercase text-onLight dark:text-onDark group-hover:text-primary dark:group-hover:text-secondary">Introduction to Data Science</h3>
+              <p class="mt-2 text-base text-complementary dark:text-gray-400">IBM Course Certificate</p>
+            </div>
+          </a>
+          
+          <!-- IBM Cert 2 -->
+          <a href="/images/toolsfordatascience.pdf" target="_blank" rel="noopener noreferrer" class="group block bg-white dark:bg-gray-900 rounded-lg shadow-lg overflow-hidden transform transition-transform duration-300 hover:-translate-y-2">
+            <img src="/images/ibm2.webp" alt="IBM Course Certificate 2 - Tools in Data Science" class="w-full h-auto object-contain" onerror="this.onerror=null;this.src='https://placehold.co/400x300/ffffff/050806?text=IBM+Cert+2';">
+            <div class="p-6">
+              <h3 class="text-xl font-mono uppercase text-onLight dark:text-onDark group-hover:text-primary dark:group-hover:text-secondary">Tools in Data Science</h3>
+              <p class="mt-2 text-base text-complementary dark:text-gray-400">IBM Course Certificate</p>
+            </div>
+          </a>
+          
+          <!-- IBM Cert 3 -->
+          <a href="/images/datasciencemethodology.pdf" target="_blank" rel="noopener noreferrer" class="group block bg-white dark:bg-gray-900 rounded-lg shadow-lg overflow-hidden transform transition-transform duration-300 hover:-translate-y-2">
+            <img src="/images/ibm3.webp" alt="IBM Course Certificate 3 - Data Science Methodology" class="w-full h-auto object-contain" onerror="this.onerror=null;this.src='https://placehold.co/400x300/ffffff/050806?text=IBM+Cert+3';">
+            <div class="p-6">
+              <h3 class="text-xl font-mono uppercase text-onLight dark:text-onDark group-hover:text-primary dark:group-hover:text-secondary">Data Science Methodology</h3>
+              <p class="mt-2 text-base text-complementary dark:text-gray-400">IBM Course Certificate</p>
+            </div>
+          </a>
+          
+          <!-- IBM Cert 4 -->
+          <a href="/images/python4datascience.pdf" target="_blank" rel="noopener noreferrer" class="group block bg-white dark:bg-gray-900 rounded-lg shadow-lg overflow-hidden transform transition-transform duration-300 hover:-translate-y-2">
+            <img src="/images/python4datascience.webp" alt="IBM Course Certificate 4 - Python for Data Science" class="w-full h-auto object-contain" onerror="this.onerror=null;this.src='https://placehold.co/400x300/ffffff/050806?text=IBM+Cert+4';">
+            <div class="p-6">
+              <h3 class="text-xl font-mono uppercase text-onLight dark:text-onDark group-hover:text-primary dark:group-hover:text-secondary">Python for Data Science</h3>
+              <p class="mt-2 text-base text-complementary dark:text-gray-400">IBM Course Certificate</p>
+            </div>
+          </a>
+          
+          <!-- U of Michigan Cert -->
+          <a href="/images/statswithpython.pdf" target="_blank" rel="noopener noreferrer" class="group block bg-white dark:bg-gray-900 rounded-lg shadow-lg overflow-hidden transform transition-transform duration-300 hover:-translate-y-2">
+            <img src="/images/statswithpython.webp" alt="University of Michigan Certificate - Statistics with Python" class="w-full h-auto object-contain" onerror="this.onerror=null;this.src='https://placehold.co/400x300/ffffff/050806?text=U+of+Michigan+Cert';">
+            <div class="p-6">
+              <h3 class="text-xl font-mono uppercase text-onLight dark:text-onDark group-hover:text-primary dark:group-hover:text-secondary">Statistics with Python</h3>
+              <p class="mt-2 text-base text-complementary dark:text-gray-400">University of Michigan Certificate</p>
+            </div>
+          </a>
+          
+          <!-- UC Cert -->
+          <a href="/images/sqlspecialization.pdf" target="_blank" rel="noopener noreferrer" class="group block bg-white dark:bg-gray-900 rounded-lg shadow-lg overflow-hidden transform transition-transform duration-300 hover:-translate-y-2">
+            <img src="/images/sql_datascience.webp" alt="University of California Certificate - SQL Data Science Specialization" class="w-full h-auto object-contain" onerror="this.onerror=null;this.src='https://placehold.co/400x300/ffffff/050806?text=UC+Cert';">
+            <div class="p-6">
+              <h3 class="text-xl font-mono uppercase text-onLight dark:text-onDark group-hover:text-primary dark:group-hover:text-secondary">SQL Data Science Specialization</h3>
+              <p class="mt-2 text-base text-complementary dark:text-gray-400">University of California Certificate</p>
+            </div>
+          </a>
+          
+          <!-- CompTIA Cert -->
+          <a href="/images/comptiaAplus.pdf" target="_blank" rel="noopener noreferrer" class="group block bg-white dark:bg-gray-900 rounded-lg shadow-lg overflow-hidden transform transition-transform duration-300 hover:-translate-y-2">
+            <img src="/images/comptia.webp" alt="CompTIA A+ Certificate" class="w-full h-auto object-contain" onerror="this.onerror=null;this.src='https://placehold.co/400x300/ffffff/050806?text=CompTIA+Cert';">
+            <div class="p-6">
+              <h3 class="text-xl font-mono uppercase text-onLight dark:text-onDark group-hover:text-primary dark:group-hover:text-secondary">CompTIA A+</h3>
+              <p class="mt-2 text-base text-complementary dark:text-gray-400">CompTIA A+ Certificate</V>
+            </div>
+          </a>
+          
+        </div> <!-- /Certificate Grid -->
+
+      </div> <!-- /prose container -->
+    </main>
+
+    <!-- === Footer (Consistent with index.html) === -->
+    <footer class="bg-gray-100 dark:bg-gray-900 text-complementary dark:text-onComplementary py-12">
+      <div class="container mx-auto px-4 text-center">
+        <div class="flex justify-center space-x-6 mb-4">
+          <a href="mailto:andyhayles@gmail.com" class="hover:text-primary dark:hover:text-secondary">Contact</a>
+          <a href="https://github.com/andrewhayles/" target="_blank" rel="noopener noreferrer" class="hover:text-primary dark:hover:text-secondary">GitHub</a>
+        </div>
+        <!-- Copyright text from config.json -->
+        <p class="text-sm">Powered by <a href="https://www.netlify.com/" target="_blank" rel="noopener noreferrer" class="hover:text-primary dark:hover:text-secondary">Netlify</a></p>
+        <p class="text-sm">&copy; 2024 Andrew Hayles. All rights reserved.</p>
+      </div>
+    </footer>
+
+  </div><!-- /flex-col min-h-screen -->
+</body>
+</html>

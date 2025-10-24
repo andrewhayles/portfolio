@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Page-specific title from the markdown file -->
+    <title>I.Q. Test Data Analysis - Andrew Hayles</title>
+    
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load custom fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script>
+      // --- Custom Tailwind Config (consistent with index.html) ---
+      tailwind.config = {
+        darkMode: 'media', 
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              mono: ['"DM Mono"', 'monospace'],
+            },
+            colors: {
+              light: '#ffffff',
+              onLight: '#050806',
+              dark: '#000000',
+              onDark: '#FBFFF2',
+              primary: '#0804F6',
+              onPrimary: '#FBFFF2',
+              secondary: '#FE491F',
+              onSecondary: '#050806',
+              complementary: '#565862',
+              onComplementary: '#FBFFF2',
+            }
+          }
+        }
+      }
+    </script>
+    
+    <style>
+      /* --- Prose styling (consistent with index.html) --- */
+      .prose { @apply text-onLight dark:text-onDark; }
+      .prose h1, .prose h2, .prose h3, .prose h4 { @apply font-mono uppercase font-normal mb-4 mt-8 text-onLight dark:text-onDark; }
+      .prose h1 { @apply text-3xl md:text-4xl; }
+      .prose h2 { @apply text-2xl md:text-3xl; }
+      .prose h3 { @apply text-xl md:text-2xl; }
+      .prose h4 { @apply text-lg md:text-xl; }
+      .prose p { @apply mb-5 leading-relaxed text-lg; }
+      .prose a { @apply text-primary dark:text-secondary hover:underline; }
+      .prose img { @apply rounded-lg shadow-md my-6 max-w-full h-auto mx-auto; }
+      .prose pre { @apply bg-gray-100 dark:bg-gray-900 text-onLight dark:text-onDark p-4 rounded-lg overflow-x-auto; }
+      .prose pre.language-text { @apply bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700; }
+      .prose code { @apply font-mono text-sm; }
+      .prose blockquote { @apply border-l-4 border-primary dark:border-secondary pl-4 italic my-4; }
+      .prose ul, .prose ol { @apply list-disc list-inside mb-4 pl-4; }
+      .prose hr { @apply border-gray-200 dark:border-gray-700 my-8; }
+    </style>
+</head>
+
+<body class="bg-light dark:bg-dark font-sans text-onLight dark:text-onDark transition-colors duration-300">
+  <div class="flex flex-col min-h-screen">
+
+    <!-- === Header (Consistent with index.html) === -->
+    <header class="bg-light/95 dark:bg-dark/90 backdrop-blur-sm sticky top-0 z-50 border-b border-gray-200 dark:border-gray-800">
+      <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
+        <!-- Site Title -->
+        <a href="index.html" class="text-xl font-mono uppercase font-bold text-onLight dark:text-onDark hover:text-primary dark:hover:text-secondary">
+          Andrew Hayles
+        </a>
+        
+        <!-- Nav Links -->
+        <div class="flex items-center space-x-4 md:space-x-6">
+          <a href="about.html" class="text-onLight dark:text-onDark hover:text-primary dark:hover:text-secondary font-mono uppercase text-sm font-medium">About</a>
+          <a href="https://github.com/andrewhayles/" target="_blank" rel="noopener noreferrer" class="text-onLight dark:text-onDark hover:text-primary dark:hover:text-secondary" aria-label="GitHub">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.165 6.839 9.49.5.092.682-.217.682-.483 0-.237-.009-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.951 0-1.093.39-1.988 1.03-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.026 2.747-1.026.546 1.379.202 2.398.1 2.65.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.309.678.92.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0 0 22 12c0-5.523-4.477-10-10-10Z" clip-rule="evenodd" /></svg>
+          </a>
+        </div>
+      </nav>
+    </header>
+
+    <!-- === Main Content === -->
+    <main class="flex-grow">
+      <!-- Using max-w-4xl for a comfortable reading width for articles -->
+      <div class="container mx-auto px-4 py-16 md:py-24 max-w-4xl prose">
+        
+        <!-- Title from frontmatter -->
+        <h1>I.Q. Test Data Analysis</h1>
+        
+        <!-- Metadata from frontmatter -->
+        <p class="text-complementary dark:text-gray-400 text-lg mb-8">
+          Published: July 12, 2025
+        </p>
+
+        <!-- Main content from markdown body -->
+        <p>This project is based on an initial curiosity that turned into a major hobby especially during years of my life when I was having many trials and difficult times. That hobby I'm referring to is participating in experimental high-range intelligence testing. I wrote the script that is available for viewing below to process all the data I dilligently kept over the years:</p>
+        
+        <p>This script does a lot of things and I'm not going to talk about all of them right now but above all it produces some interesting visualizations which I think tell a lot of the story. I will say that this interactive Power BI Dashboard also helps in <a href="https://app.powerbi.com/view?r=eyJrIjoiYzBjNWNjMzMtNjQ2ZS00ZTg1LWI5YWUtM2M5NzMwMTNjZjFlIiwidCI6IjE5NWQ0ZTBiLTAzM2UtNDAzNi05ZDAwLTJiOGY0MDA1OWE3YyIsImMiOjZ9" target="_blank" rel="noopener noreferrer">understanding the data</a>.</p>
+        
+        <p>Here are some of my observations from it, for example. By clicking on the chart (like a section of the pie chart for example) and then holding the Ctrl button and clicking another element on another chart you can get different pictures of the subsets of the data (effectively filtering the data interactively).</p>
+        
+        <p>This is what all of the tests except IQexams look like:</p>
+        
+        <!-- Replaced local image with placeholder -->
+        <img src="https://placehold.co/1200x800/565862/FBFFF2?text=All+except+IQexams" alt="All except IQexams" style="max-width: 100%; height: auto;">
+        
+        <p>This is what mixed tests by Cooijmans looks like:</p>
+        
+        <!-- Replaced local image with placeholder -->
+        <img src="https://placehold.co/1200x800/565862/FBFFF2?text=Mixed+%2B+Cooijmans" alt="Mixed + Cooijmans" style="max-width: 100%; height: auto;">
+        
+        <p>This is the combination of mixed and untimed tests (all authors):</p>
+        
+        <!-- Replaced local image with placeholder -->
+        <img src="https://placehold.co/1200x800/565862/FBFFF2?text=Mixed+%2B+Untimed+tests" alt="Mixed + Untimed tests" style="max-width: 100%; height: auto;">
+        
+        <p>From what I can tell (including some of my own deeper-dive analysis into date ranges, specifically, excluding the first eight date codes associated with test administrations) it seems that in the first 8 days or so I didn't really understand well the instructions and I was kind of "learning" how to take the tests during this phase. Strictly speaking I don't think this qualifies as a learning effect entirely, more of a gradual learning of the instructions and approaching a level playing field with the other test-takers on this now extinct platform IQexams.</p>
+        
+        <p>Even when the data is filtered in such a way that the slope is significant, it is normally just a bit higher than 0.001 in magnitude and the coefficient of determination is very low also (the linear model is not predictive of anything really, other than some nonzero improvement from the beginning of my test taking).</p>
+        
+        <p>Histogram of timed/untimed scores superimposed on each other. You can see there is a slight offset in the positive direction with the untimed tests. I perform a bit better when I am not under time pressure, but still do exceptionally well with a time limit.</p>
+        
+        <!-- Replaced local image with placeholder -->
+        <img src="https://placehold.co/1200x800/565862/FBFFF2?text=Histogram+timed+untimed" alt="Histogram of timed/untimed scores superimposed on each other" style="max-width: 100%; height: auto;">
+        
+        <p>Probability plot of timed scores (very normal behavior)</p>
+        
+        <!-- Replaced local image with placeholder -->
+        <img src="https://placehold.co/1200x800/565862/FBFFF2?text=Probability+plot+timed" alt="Probability plot of timed scores" style="max-width: 100%; height: auto;">
+        
+        <p>Probability plot of untimed scores (very normal behavior)</p>
+        
+        <!-- Replaced local image with placeholder -->
+        <img src="https://placehold.co/1200x800/565862/FBFFF2?text=Probability+plot+untimed" alt="Probabliity plot of untimed scores" style="max-width: 100%; height: auto;">
+        
+        <p>Boxplot of authors (visible are the ranges of scores for each author)</p>
+        
+        <!-- Replaced local image with placeholder -->
+        <img src="https://placehold.co/1200x800/565862/FBFFF2?text=Boxplot+of+authors" alt="Boxplot of authors (visible are the ranges of scores for each author)" style="max-width: 100%; height: auto;">
+        
+        <p>Boxplot of tests taken in hot months versus cold months (not much difference, but it seems a slightly wider range of performances in the hot months, perhaps from sometimes less motivation to perform well when there are people to see and places to go).</p>
+        
+        <!-- Replaced local image with placeholder -->
+        <img src="https://placehold.co/1200x800/565862/FBFFF2?text=Boxplot+hot+vs+cold" alt="Boxplot of tests taken in hot months versus cold months" style="max-width: 100%; height: auto;">
+        
+        <p>Boxplot of timed versus untimed tests (wider range - more randomness - and lower median with timed tests)</p>
+        
+        <!-- Replaced local image with placeholder -->
+        <img src="https://placehold.co/1200x800/565862/FBFFF2?text=Boxplot+timed+vs+untimed" alt="Boxplot of timed versus untimed tests" style="max-width: 100%; height: auto;">
+        
+        <p>Boxplot of test types</p>
+        
+        <!-- Replaced local image with placeholder -->
+        <img src="https://placehold.co/1200x800/565862/FBFFF2?text=Boxplot+of+test+types" alt="Boxplot of test types" style="max-width: 100%; height: auto;">
+        
+        <p>Violin plot of test types (you can see one of my very first tests there was a verbal test that I performed very low on compared to my normal scores). For some reason on logical tests I do a bit better than on other types of tests.</p>
+        
+        <!-- Replaced local image with placeholder -->
+        <img src="https://placehold.co/1200x800/565862/FBFFF2?text=Violin+plot+of+test+types" alt="Violin plot of test types" style="max-width: 100%; height: auto;">
+        
+        <p>Bell curve of scores. The median and mean are almost the same, suggesting a symmetric distribution. The mode is shifted a bit over to the right.</p>
+        
+        <!-- Replaced local image with placeholder -->
+        <img src="https://placehold.co/1200x800/565862/FBFFF2?text=Bell+curve+of+scores" alt="Bell curve of scores" style="max-width: 100%; height: auto;">
+        
+        <p>Pie chart of test types</p>
+        
+        <!-- Replaced local image with placeholder -->
+        <img src="https://placehold.co/1200x800/565862/FBFFF2?text=Pie+chart+test+types" alt="Pie chart of test types" style="max-width: 100%; height: auto;">
+        
+        <p>Pie chart of authors. Thank God for all of the wonderful authors of these tests. All of them with a different personality, all of them basically measuring the same thing with all of their varied problems and problem types.</p>
+        
+        <!-- Replaced local image with placeholder -->
+        <img src="https://placehold.co/1200x800/565862/FBFFF2?text=Pie+chart+of+authors" alt="Pie chart of authors" style="max-width: 100%; height: auto;">
+
+        <!-- 
+          This section inserts the code from the 'code:' block in the frontmatter.
+        -->
+        <h2>Project Code</h2>
+<pre><code class="language-python"># Import the libraries that we will be using
+import statsmodels.api as sm
+import statsmodels.stats.weightstats as smstats
+import statsmodels
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+import pylab as py
+import scipy.stats as stats
+
+da = pd.read_csv("scores.csv")
+
+
+
+vars = ["Date", "Score", "Timed", "M", "V", "N", "S", "L", "Cold", "Recent"
+        ,"Cooijmans","Ivec","Betts", "IQexams", "Backlund", "Joshi", "Dorsey","Predavec"
+        , "Jouve","Kutle","Prousalis","Scillitani","Udriste", "OtherAuthor", "Author",
+        "TestType","TimedUntimed","ColdHot", "counter", "AuthorCode"
+        , "TestTypeCode"]
+
+da = da[vars].dropna()
+
+recent_avg = da.query("counter > 197")
+early_avg = da.query("counter <= 197")
+
+timed = da["Timed"]
+timedyes = da[timed == 1]
+timedno = da[timed == 0]
+M = da[da["M"] == 1]
+V = da[da["V"] == 1]
+N = da[da["N"] == 1]
+S = da[da["S"] == 1]
+L = da[da["L"] == 1]
+Cold = da[da["Cold"] == 1]
+Hot = da[da["Cold"] == 0]
+After1023 = da[da["Recent"] == 1]
+Cooijmans = da[da["Cooijmans"] == 1]
+Ivec = da[da["Ivec"] == 1]
+Betts = da[da["Betts"] == 1]
+IQexams = da[da["IQexams"] == 1]
+Backlund = da[da["Backlund"] == 1]
+Joshi = da[da["Joshi"] == 1]
+Dorsey = da[da["Dorsey"] == 1]
+Predavec = da[da["Predavec"] == 1]
+Jouve = da[da["Jouve"] == 1]
+Kutle = da[da["Kutle"] == 1]
+Prousalis = da[da["Prousalis"] == 1]
+Scillitani = da[da["Scillitani"] == 1]
+Udriste = da[da["Udriste"] == 1]
+OtherAuthor = da[da["OtherAuthor"] == 1]
+
+
+myvars = [M["Score"], V["Score"], N["Score"] ,S["Score"],L["Score"], Cold["Score"], Hot["Score"],
+          After1023["Score"], Cooijmans["Score"],Ivec["Score"],Betts["Score"], IQexams["Score"], Backlund["Score"],
+          Joshi["Score"],Dorsey["Score"], Predavec["Score"],Jouve["Score"],
+          Kutle["Score"], Prousalis["Score"], Scillitani["Score"], Udriste["Score"], OtherAuthor["Score"], da["Score"]]
+
+mynames = ["M", "V", "N", "S", "L", "Cold","Hot", "Recent", "Cooijmans", "Ivec", "Betts", "IQexams", "Backlund"
+           , "Joshi", "Dorsey", "Predavec", "Jouve", "Kutle", "Prousalis", "Scillitani", "Udriste", "Other", "Total"]
+
+
+
+
+
+timed_tests_count = timedyes.size
+untimed_tests_count = timedno.size
+
+#print("Timed:", statsmodels.stats.descriptivestats.describe(timedyes["Score"]))
+#print("Untimed:",statsmodels.stats.descriptivestats.describe(timedno["Score"]))
+#print("M:",statsmodels.stats.descriptivestats.describe(M["Score"]))
+#print("V:",statsmodels.stats.descriptivestats.describe(V["Score"]))
+#print("N:",statsmodels.stats.descriptivestats.describe(N["Score"]))
+#print("S:",statsmodels.stats.descriptivestats.describe(S["Score"]))
+#print("L:",statsmodels.stats.descriptivestats.describe(L["Score"]))
+#print("Cold:",statsmodels.stats.descriptivestats.describe(Cold["Score"]))
+#print("After1023:",statsmodels.stats.descriptivestats.describe(After1023["Score"]))
+#print("Cooijmans:",statsmodels.stats.descriptivestats.describe(Cooijmans["Score"]))
+#print("Ivec:",statsmodels.stats.descriptivestats.describe(Ivec["Score"]))
+#print("Betts:",statsmodels.stats.descriptivestats.describe(Betts["Score"]))
+#print("IQexams:",statsmodels.stats.descriptivestats.describe(IQexams["Score"]))
+#print("Backlund:",statsmodels.stats.descriptivestats.describe(Backlund["Score"]))
+#print("Joshi:",statsmodels.stats.descriptivestats.describe(Joshi["Score"]))
+#print("Dorsey:",statsmodels.stats.descriptivestats.describe(Dorsey["Score"]))
+#print("Predavec:",statsmodels.stats.descriptivestats.describe(Predavec["Score"]))
+#print("Jouve:",statsmodels.stats.descriptivestats.describe(Jouve["Score"]))
+#print("Kutle:",statsmodels.stats.descriptivestats.describe(Kutle["Score"]))
+#print("Prousalis:",statsmodels.stats.descriptivestats.describe(Prousalis["Score"]))
+#print("Scillitani:",statsmodels.stats.descriptivestats.describe(Scillitani["Score"]))
+#print("Udriste:",Udriste["Score"].describe)
+#print("OtherAuthor:",statsmodels.stats.descriptivestats.describe(OtherAuthor["Score"]))
+
+timedscores = pd.Series(timedyes["Score"])
+untimedscores = pd.Series(timedno["Score"])
+
+coldscores = Cold["Score"]
+hotdata = da.query('Cold == 0')
+hotscores = hotdata['Score']
+
+
+timedmean = timedscores.mean()
+untimedmean = untimedscores.mean()
+
+timedmedian = timedscores.median()
+untimedmedian = untimedscores.median()
+
+timedsd = timedscores.std()
+untimedsd = untimedscores.std()
+
+timedmode = timedscores.mode()
+untimedmode = untimedscores.mode()
+
+print("Timed mean, median, sd, mode:", timedmean, timedmedian, timedsd, timedmode)
+
+print("Untimed mean, sd, mode:", untimedmean, untimedmedian, untimedsd, untimedmode)
+
+print("Is the first larger of [1]/[2]?:")
+print("Recent/Early t-test:", smstats.ttest_ind(recent_avg["Score"], early_avg["Score"], alternative="larger", usevar="unequal"))
+
+print("Untimed/timed t-test:", smstats.ttest_ind(untimedscores, timedscores, alternative="larger", usevar="unequal"))
+
+print("Cold/Hot t-test:", smstats.ttest_ind(coldscores, hotscores, alternative="larger", usevar="unequal"))
+
+print("Logical/Numerical t-test:", smstats.ttest_ind(L["Score"], N["Score"], alternative="larger", usevar="unequal"))
+
+
+#model = sm.OLS.from_formula("Score ~ Date", data=da)
+#result = model.fit()
+#print(result.summary())
+
+#Marginal modelling (intra-cluster correlation calculations)
+
+#model = sm.GEE.from_formula("Score ~ Date", groups=da["Author"],
+#           cov_struct=sm.cov_struct.Exchangeable(), data=da)
+#result = model.fit()
+#print(result.cov_struct.summary())
+
+#for v in ["Date", "Score", "Timed", "M", "V", "N", "S", "L", "Cold", "Recent"]:
+#    model = sm.GEE.from_formula(v + " ~ 1", groups="Author",
+#           cov_struct=sm.cov_struct.Exchangeable(), data=da)
+#    result = model.fit()
+#    print(v, result.cov_struct.summary())
+
+
+#model = sm.GEE.from_formula("Score ~ Date + TestType + ColdHot + C(Recent) + TimedUntimed", groups="Author",
+#           cov_struct=sm.cov_struct.Exchangeable(), data=da)
+#result = model.fit()
+#print(result.cov_struct.summary())
+
+
+# Fit a linear model with OLS
+model1 = sm.OLS.from_formula("Score ~ Date + TestType + ColdHot + C(Recent) + TimedUntimed",
+           data=da)
+result1 = model1.fit()
+
+# Fit a marginal linear model using GEE to handle dependent data
+model2 = sm.GEE.from_formula("Score ~ Date + TestType + ColdHot + C(Recent) + TimedUntimed",
+           groups="Author",
+           cov_struct=sm.cov_struct.Exchangeable(), data=da)
+result2 = model2.fit()
+
+x = pd.DataFrame({"OLS_params": result1.params, "OLS_SE": result1.bse,
+                  "GEE_params": result2.params, "GEE_SE": result2.bse})
+x = x[["OLS_params", "OLS_SE", "GEE_params", "GEE_SE"]]
+print(x)    
+
+# Fit a multilevel (mixed effects) model to handle dependent data
+#model = sm.MixedLM.from_formula("Score ~ Date + ColdHot + C(Recent) + Author",
+#           groups="Author", data=da)
+#result = model.fit()
+#print(result.summary())
+
+#Generalized Estimating Equations
+m0 = sm.GEE.from_formula("Score ~ Date + TestType", "Author", cov_struct=sm.cov_struct.Exchangeable(), data=da)
+r0 = m0.fit()
+print(r0.summary())
+print(r0.cov_struct.summary())
+
+#for ky,dz in da.groupby("Timed"):
+#    m2 = sm.GEE.from_formula("Score ~ TestType", "Author", cov_struct=sm.cov_struct.Exchangeable(), data=dz)
+#    r2 = m2.fit()
+#    print("Timed?=%s" % {1: "Yes", 0: "No"}[ky])
+#    print(r2.summary())
+
+
+#Multilevel (mixed) model analysis
+#m4 = sm.MixedLM.from_formula("Score ~ TestType + Date", groups="Author", data=da)
+#r4 = m4.fit()
+#print(r4.summary())
+
+#print(47.074/da["Score"].var())
+#The findings are not significant for this analysis
+
+sns.histplot(x=timedyes["Score"], binwidth=1, kde=False)
+sns.histplot(x=timedno["Score"], binwidth=1, kde=False).set_title("Histograms of Test Scores (Orange=Untimed, Blue=Timed)");
+plt.show()
+sm.qqplot(timedscores)
+py.show()
+sm.qqplot(untimedscores)
+py.show()
+
+stats.probplot(timedscores, dist="norm", plot=plt)
+plt.show()
+
+stats.probplot(untimedscores, dist="norm", plot=plt)
+plt.show()
+sns.boxplot(data=da, x=da["Score"], y=da["Author"], color=".8", linecolor="#137", linewidth=.75)
+plt.show()
+sns.boxplot(data=da, x=da["Score"], y=da["ColdHot"], color=".8", linecolor="#137", linewidth=.75)
+plt.show()
+sns.boxplot(data=da, x=da["Score"], y=da["TimedUntimed"], color=".8", linecolor="#137", linewidth=.75)
+plt.show()
+sns.boxplot(data=da, x=da["Score"], y=da["TestType"], color=".8", linecolor="#137", linewidth=.75)
+plt.show()   
+
+
+plt.figure(figsize=(12,4))
+sns.violinplot(x=da["TestType"], y=da.Score, hue=da["TestType"], legend=False)
+plt.show()
+
+#Adjust bandwidth (bw_adjust) between 1 and 3.
+sns.kdeplot(da["Score"], bw_adjust=2)
+
+# Find the mean, median, mode
+mean_score = da["Score"].mean()
+median_score = da["Score"].median()
+mode_score = da["Score"].mode().squeeze()
+
+# Add vertical lines at the position of mean, median, mode
+plt.axvline(mean_score, label="Mean")
+plt.axvline(median_score, color="black", label="Median")
+plt.axvline(mode_score, color="green", label="Mode")
+
+plt.legend();
+
+plt.show()
+
+#make a pie chart
+
+#TestType pie chart
+
+mypiearray = np.array([M["Score"].size/da["Score"].size * 100, V["Score"].size/da["Score"].size * 100,
+              N["Score"].size/da["Score"].size * 100, S["Score"].size/da["Score"].size * 100,
+              L["Score"].size/da["Score"].size * 100])
+
+mylabel = np.array(["Mixed", "Verbal", "Numerical", "Spatial", "Logical"])
+
+plt.pie(mypiearray,labels = mylabel,autopct='%.0f%%')
+plt.show()
+
+#Author pie chart
+
+mypiearray = np.array([Cooijmans["Score"].size/da["Score"].size * 100, Ivec["Score"].size/da["Score"].size * 100,
+              Betts["Score"].size/da["Score"].size * 100, IQexams["Score"].size/da["Score"].size * 100,
+              Backlund["Score"].size/da["Score"].size * 100, Joshi["Score"].size/da["Score"].size * 100,
+              Dorsey["Score"].size/da["Score"].size * 100, Predavec["Score"].size/da["Score"].size * 100,
+              Jouve["Score"].size/da["Score"].size * 100, Kutle["Score"].size/da["Score"].size * 100,
+              Prousalis["Score"].size/da["Score"].size * 1S0, Scillitani["Score"].size/da["Score"].size * 100,
+              Udriste["Score"].size/da["Score"].size * 100, OtherAuthor["Score"].size/da["Score"].size * 100])
+
+mylabel = np.array(["Cooijmans", "Ivec", "Betts", "IQExams", "Backlund",
+                    "Joshi", "Dorsey", "Predavec", "Jouve", "Kutle",
+                    "Prousalis", "Scillitani", "Udriste", "Other"])
+
+plt.pie(mypiearray,labels = mylabel,autopct='%.0f%%', explode = (0.1, 0.1, 0.1, 0.1, 0.1, 0.6, 0.6, 0.6, 0.6, 0.6,
+                                                                 0.6, 0.6, 0.6, 0.1), startangle = 90)
+
+plt.show()
+</code></pre>
+      </div> <!-- /prose container -->
+    </main>
+
+    <!-- === Footer (Consistent with index.html) === -->
+    <footer class="bg-gray-100 dark:bg-gray-900 text-complementary dark:text-onComplementary py-12">
+      <div class="container mx-auto px-4 text-center">
+        <div class="flex justify-center space-x-6 mb-4">
+          <a href="mailto:andyhayles@gmail.com" class="hover:text-primary dark:hover:text-secondary">Contact</a>
+          <a href="https://github.com/andrewhayles/" target="_blank" rel="noopener noreferrer" class="hover:text-primary dark:hover:text-secondary">GitHub</a>
+        </div>
+        <!-- Copyright text from config.json -->
+        <p class="text-sm">Powered by <a href="https://www.netlify.com/" target="_blank" rel="noopener noreferrer" class="hover:text-primary dark:hover:text-secondary">Netlify</a></p>
+        <p class="text-sm">&copy; 2024 Andrew Hayles. All rights reserved.</p>
+      </div>
+    </footer>
+
+  </div><!-- /flex-col min-h-screen -->
+</body>
+</html>
