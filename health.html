@@ -3,16 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Page-specific title from the markdown file -->
     <title>Personal Health Data Analysis - Andrew Hayles</title>
     
-    <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Load custom fonts -->
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;700&display=swap" rel="stylesheet">
     
     <script>
-      // --- Custom Tailwind Config (consistent with index.html) ---
       tailwind.config = {
         darkMode: 'media', 
         theme: {
@@ -38,38 +34,66 @@
       }
     </script>
     
-	<style>
-      /* --- Master Prose Styling --- */
-      .prose { @apply text-onLight dark:text-onDark; }
-      .prose h1, .prose h2, .prose h3, .prose h4 { @apply font-mono uppercase font-normal mb-4 mt-8 text-onLight dark:text-onDark; }
-      .prose h1 { @apply text-3xl md:text-4xl; }
-      .prose h2 { @apply text-2xl md:text-3xl; }
-      .prose h3 { @apply text-xl md:text-2xl; }
-      .prose h4 { @apply text-lg md:text-xl; }
-      .prose p { @apply mb-10 leading-loose text-lg; }
-      .prose a { @apply text-primary dark:text-secondary underline hover:opacity-80; }
-      .prose img { @apply rounded-lg shadow-md my-6 max-w-full h-auto mx-auto; }
-      .prose pre { @apply bg-gray-100 dark:bg-gray-900 text-onLight dark:text-onDark p-4 rounded-lg overflow-x-auto; }
-      .prose pre.language-text { @apply bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700; }
-      .prose code { @apply font-mono text-sm; }
-      .prose blockquote { @apply border-l-4 border-primary dark:border-secondary pl-4 italic my-4; }
-      .prose ul, .prose ol { @apply list-disc list-inside mb-4 pl-4; }
-      .prose hr { @apply border-gray-200 dark:border-gray-700 my-8; }
+    <style>
+      .prose { 
+        @apply text-onLight dark:text-onDark; 
+        max-width: 75ch;
+      }
+      .prose h1, .prose h2, .prose h3, .prose h4 { 
+        @apply font-mono uppercase font-normal text-onLight dark:text-onDark; 
+      }
+      .prose h1 { 
+        @apply text-3xl md:text-4xl mb-8 mt-0; 
+      }
+      .prose h2 { 
+        @apply text-2xl md:text-3xl mb-6 mt-12; 
+      }
+      .prose h3 { 
+        @apply text-xl md:text-2xl mb-4 mt-8; 
+      }
+      .prose h4 { 
+        @apply text-lg md:text-xl mb-4 mt-6; 
+      }
+      .prose p { 
+        @apply mb-6 leading-relaxed text-lg;
+        line-height: 1.8;
+      }
+      .prose a { 
+        @apply text-primary dark:text-secondary font-semibold underline decoration-2 underline-offset-4 hover:opacity-70 transition-opacity; 
+      }
+      .prose img { 
+        @apply rounded-lg shadow-md my-8 max-w-full h-auto mx-auto; 
+      }
+      .prose pre { 
+        @apply bg-gray-100 dark:bg-gray-900 text-onLight dark:text-onDark p-4 rounded-lg overflow-x-auto my-8; 
+      }
+      .prose pre.language-text { 
+        @apply bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700; 
+      }
+      .prose code { 
+        @apply font-mono text-sm; 
+      }
+      .prose blockquote { 
+        @apply border-l-4 border-primary dark:border-secondary pl-4 italic my-6; 
+      }
+      .prose ul, .prose ol { 
+        @apply list-disc list-inside mb-6 pl-4; 
+      }
+      .prose hr { 
+        @apply border-gray-200 dark:border-gray-700 my-10; 
+      }
     </style>
 </head>
 
 <body class="bg-light dark:bg-dark font-sans text-onLight dark:text-onDark transition-colors duration-300">
   <div class="flex flex-col min-h-screen">
 
-    <!-- === Header (Consistent with index.html) === -->
     <header class="bg-light/95 dark:bg-dark/90 backdrop-blur-sm sticky top-0 z-50 border-b border-gray-200 dark:border-gray-800">
       <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
-        <!-- Site Title -->
         <a href="index.html" class="text-xl font-mono uppercase font-bold text-onLight dark:text-onDark hover:text-primary dark:hover:text-secondary">
           Home
         </a>
         
-        <!-- Nav Links -->
         <div class="flex items-center space-x-4 md:space-x-6">
           <a href="about.html" class="text-onLight dark:text-onDark hover:text-primary dark:hover:text-secondary font-mono uppercase text-sm font-medium">About</a>
           <a href="https://github.com/andrewhayles/" target="_blank" rel="noopener noreferrer" class="text-onLight dark:text-onDark hover:text-primary dark:hover:text-secondary" aria-label="GitHub">
@@ -79,61 +103,48 @@
       </nav>
     </header>
 
-    <!-- === Main Content === -->
     <main class="flex-grow">
-      <!-- Using max-w-4xl for a comfortable reading width for articles -->
       <div class="container mx-auto px-4 py-16 md:py-24 max-w-4xl prose">
         
-        <!-- Title from frontmatter -->
         <h1>Personal Health Data Analysis</h1>
         
-
-        <!-- Main content from markdown body -->
         <p>This started with the question, "Am I in good health, and how do my personal health markers vary throughout the day, week, and month?" To start answering this (in addition to seeking medical advice from a trained and licensed doctor), I purchased an affordable smart watch and I created this code to analyze my personal health data from my MorePro AIR2 Fitness Tracker watch and my body composition scale and my regular scale. It is written in Python and it uses the read_csv method to load the data into a memory location called a DataFrame in pandas and then creates several visualizations based on some statistical calculations using numpy for some of the more advanced calculations and seaborn for the visualizations.</p>
         
         <p>This is a plot of most of the variables I am tracking with histograms. Most of the variables are in healthy ranges, although weight is an area of potential improvement:</p>
         
-        <!-- Replaced local image with placeholder -->
-        <img src="/images/overall_distributions.webp" alt="These are the overall distributions of the variables measured by me and by the watch" style="max-width: 100%; height: auto; margin: 25px;">
+        <img src="/images/overall_distributions.webp" alt="These are the overall distributions of the variables measured by me and by the watch">
         
         <p>After this visual is closed, the next visual will be generated (the next line of code is executed in the Python script). The next step in solving my original problem is the following visualization. This visual is colored based on row, so each row has a highest value and a lowest value, with a color scale defined on the right which shows the highest and lowest values (yellow corresponding to high values, dark blue corresponding to low values). As can be seen, maximum heart rate (standard deviation and interquartile range) and maximum systolic blood pressure (mean and 50%) are the highest values. This makes it easy to see which variables vary the most and the least:</p>
         
-        <!-- Replaced local image with placeholder -->
-        <img src="/images/heatmap_normalized.webp" alt="The colors are normalized by row based on the value inside the box (the highest numbers are yellow, the lowest numbers are dark blue)" style="max-width: 100%; height: auto; margin: 25px;">
+        <img src="/images/heatmap_normalized.webp" alt="The colors are normalized by row based on the value inside the box (the highest numbers are yellow, the lowest numbers are dark blue)">
         
         <p>Then the following is produced. This is a correlation table. The darker the red color, the higher the positive correlation. The darker the blue color, the lower the negative correlation. As can be seen, there is a very strong positive correlation between heart rate, stress, and blood pressure. These are apparently very tightly linked physiological indicators. The colors are shown for all possible correlations in the table but the numbers are only included if they are statistically significant:</p>
         
-        <!-- Replaced local image with placeholder -->
-        <img src="/images/heatmap_correlations.webp" alt="These are the correlations of the variables with each other, the more red the higher positive, the more blue the lower negative" style="max-width: 100%; height: auto; margin: 25px;">
+        <img src="/images/heatmap_correlations.webp" alt="These are the correlations of the variables with each other, the more red the higher positive, the more blue the lower negative">
         
         <p>When the previous night's sleep data is checked for relationship to health markers, something significant happens. The effect of sleep becomes more manifest. There is a modest negative correlation between previous night's sleep and many of the health markers, including stress levels and blood pressure. This is not manifest in the previous correlation table because this table is based on <em>that night's</em> sleep, in other words, it checks to see how does the day's stress and blood pressure affect sleep that night. The following graph checks to see how does the previous night affect the following day's blood pressure and stress level, and in this there is a modest but significant correlation.</p>
         
-        <!-- Replaced local image with placeholder -->
-        <img src="/images/correlation_matrix_previous_night.webp" alt="Correlations for previous night's sleep" style="max-width: 100%; height: auto; margin: 25px;">
+        <img src="/images/correlation_matrix_previous_night.webp" alt="Correlations for previous night's sleep">
         
         <p>Lastly, a table is produced with ranges of the variables (this tells me how my health markers vary somewhat) and some other useful information. To get the variance throughout the day, actually looking at the data in the software application on my smart phone is necessary and predictable trends are manifest, stress rises when I wake up, reaches a peak, and decreases towards bed time. Blood pressure and heart rate share a similar pattern. If I get sick or have a night of poor sleep, stress, blood pressure, and heart rate tend to be higher:</p>
         
-        <!-- Replaced local image with placeholder -->
-        <img src="/images/range_calculations.png" alt="These are the ranges of each variable." style="max-width: 100%; height: auto; margin: 25px;">
+        <img src="/images/range_calculations.png" alt="These are the ranges of each variable.">
         
         <p>Here is a link to a Power BI feature: <a href="https://app.powerbi.com/view?r=eyJrIjoiYjcxOTc4NTItYzBiYi00MDk1LWE1ODQtYjBiN2JlNTJiNTQ5IiwidCI6IjE5NWQ0ZTBiLTAzM2UtNDAzNi05ZDAwLTJiOGY0MDA1OWE3YyIsImMiOjZ9" target="_blank" rel="noopener noreferrer">Please click here to view</a>. This a nicely interactive feature. Click on the dependent (Y-Axis) variable on the left and see statistical summary data and scatter chart.</p>
         
         <p>As can be seen, a simple CSV file can be read by the pandas library in Python and some statistical calculations can be made with the numpy library followed by visualizations prepared by the seaborn and matplotlib libraries. In the future I'd like to analyze the data from my body composition scale as I collect enough data (I only use it twice per month because the measurement doesn't change much day-to-day and the battery dies rapidly if regularly used). This project demonstrates the power of Python's data analysis libraries in transforming raw sensor data into actionable insights.</p>
         
         <p>The code used for this analysis is available below if you're interested in viewing it:</p>
-		
-        <!-- 
-          This section inserts the code from the 'code:' block in the frontmatter.
-        -->
+        
         <h2>Project Code</h2>
-		
+        
 <pre><code class="language-python">import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 
-df = pd.read_csv("health.csv", usecols=['WEIGHT', 'BPAVGSYS',	'BPAVGDIA',	'BPMAXSYS',	'BPMAXDIA',	'BPMINSYS',	
-                                        'BPMINDIA',	'SLEEPTOTAL','DEEPSLEEP','LIGHTSLEEP','HRAVG','HRMAX','HRMIN',
+df = pd.read_csv("health.csv", usecols=['WEIGHT', 'BPAVGSYS', 'BPAVGDIA', 'BPMAXSYS', 'BPMAXDIA', 'BPMINSYS', 
+                                        'BPMINDIA', 'SLEEPTOTAL','DEEPSLEEP','LIGHTSLEEP','HRAVG','HRMAX','HRMIN',
                                         'STRESSAVG','STRESSMAX','STRESSMIN'])
                                         
 # Basic statistics
@@ -236,22 +247,20 @@ fig.update_layout(title="Health Marker Correlations", height=800, width=800)
 fig.show()
 </code></pre>
 
-      </div> <!-- /prose container -->
+      </div>
     </main>
 
-    <!-- === Footer (Consistent with index.html) === -->
     <footer class="bg-gray-100 dark:bg-gray-900 text-complementary dark:text-onComplementary py-12">
       <div class="container mx-auto px-4 text-center">
         <div class="flex justify-center space-x-6 mb-4">
           <a href="mailto:andyhayles@gmail.com" class="hover:text-primary dark:hover:text-secondary">Contact</a>
           <a href="https://github.com/andrewhayles/" target="_blank" rel="noopener noreferrer" class="hover:text-primary dark:hover:text-secondary">GitHub</a>
         </div>
-        <!-- Copyright text from config.json -->
         <p class="text-sm">Powered by <a href="https://www.netlify.com/" target="_blank" rel="noopener noreferrer" class="hover:text-primary dark:hover:text-secondary">Netlify</a></p>
         <p class="text-sm">&copy; 2024 Andrew Hayles. All rights reserved.</p>
       </div>
     </footer>
 
-  </div><!-- /flex-col min-h-screen -->
+  </div>
 </body>
 </html>
