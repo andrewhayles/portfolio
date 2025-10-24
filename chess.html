@@ -39,23 +39,67 @@
     </script>
     
     <style>
-      /* --- Prose styling (consistent with index.html) --- */
-      .prose { @apply text-onLight dark:text-onDark; }
-      .prose h1, .prose h2, .prose h3, .prose h4 { @apply font-mono uppercase font-normal mb-9 mt-8 text-onLight dark:text-onDark; }
-      .prose h1 { @apply text-3xl md:text-4xl; }
-      .prose h2 { @apply text-2xl md:text-3xl; }
-      .prose h3 { @apply text-xl md:text-2xl; }
-      .prose h4 { @apply text-lg md:text-xl; }
-      .prose p { @apply mb-10 leading-loose text-lg; }
-      .prose a { @apply text-primary dark:text-secondary underline hover:opacity-80; }
-      .prose img { @apply rounded-lg shadow-md my-6 max-w-full h-auto mx-auto; }
-      /* Added language-text for the ACPL report box */
-      .prose pre { @apply bg-gray-100 dark:bg-gray-900 text-onLight dark:text-onDark p-4 rounded-lg overflow-x-auto; }
-      .prose pre.language-text { @apply bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700; }
-      .prose code { @apply font-mono text-sm; }
-      .prose blockquote { @apply border-l-4 border-primary dark:border-secondary pl-4 italic my-4; }
-      .prose ul, .prose ol { @apply list-disc list-inside mb-4 pl-4; }
-      .prose hr { @apply border-gray-200 dark:border-gray-700 my-8; }
+      .prose { 
+        @apply text-onLight dark:text-onDark; 
+        max-width: 75ch;
+      }
+      .prose h1, .prose h2, .prose h3, .prose h4 { 
+        @apply font-mono uppercase font-normal text-onLight dark:text-onDark; 
+      }
+      .prose h1 { 
+        @apply text-3xl md:text-4xl mb-8 mt-0; 
+      }
+      .prose h2 { 
+        @apply text-2xl md:text-3xl mb-6 mt-12; 
+      }
+      .prose h3 { 
+        @apply text-xl md:text-2xl mb-4 mt-8; 
+      }
+      .prose h4 { 
+        @apply text-lg md:text-xl mb-4 mt-6; 
+      }
+      .prose p { 
+        @apply mb-6 leading-relaxed text-lg;
+        line-height: 1.8;
+      }
+      /* CRITICAL: Make links stand out */
+      .prose a { 
+        color: #0804F6 !important;
+        font-weight: 700 !important;
+        text-decoration: underline !important;
+        text-decoration-thickness: 2px !important;
+        text-underline-offset: 4px !important;
+      }
+      @media (prefers-color-scheme: dark) {
+        .prose a {
+          color: #FE491F !important;
+        }
+      }
+      .prose a:hover { 
+        opacity: 0.7;
+        transition: opacity 0.2s;
+      }
+      .prose img { 
+        @apply rounded-lg shadow-md my-8 max-w-full h-auto mx-auto; 
+      }
+      .prose pre { 
+        @apply bg-gray-100 dark:bg-gray-900 text-onLight dark:text-onDark p-4 rounded-lg overflow-x-auto my-8; 
+      }
+      .prose pre.language-text { 
+        @apply bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700; 
+      }
+      .prose code { 
+        @apply font-mono text-sm; 
+      }
+      .prose blockquote { 
+        @apply border-l-4 border-primary dark:border-secondary pl-4 italic my-6; 
+      }
+      .prose ul, .prose ol { 
+        @apply list-disc list-inside mb-6 pl-4; 
+      }
+      .prose hr { 
+        @apply border-gray-200 dark:border-gray-700 my-10; 
+      }
     </style>
 </head>
 
