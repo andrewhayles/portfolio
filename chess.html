@@ -87,14 +87,16 @@
         
         <!-- Title from frontmatter -->
         <h1>Chess Database Analysis</h1>
-		<p></p>
+		<br>
 
 
         <!-- Main content from markdown body -->
         <h3>Brief Analysis of Personal Chess Database</h3>
+		<br>
         <p>Andrew Hayles</p>
+		<br>
         <p>A similar methodology to that which is used in this report is employed in the book titled “Chess Two New Rating Systems: The 2022 Best Players in History (English Edition)” available on Amazon.com by Hindemburg Melão Jr. He also found a strong relationship between “hit count” in the sense found in this report and chess engine ELO strength.</p>
-        
+        <br>
         <p>This is based on an analysis of 84 chess games of mine on chess.com from recent months. I analyzed all the games from move 5 onward (this produces 2,569 positions) with a very strong stockfish engine on its maximum strength setting with a large analysis depth and generous time limit to find the "perfect" move in each position of each game. Then I analyzed the hit count of each of these lesser strength engines and then applied optimized weights to the hits (1st best move gets a 1, 2nd best move gets a 1, third best move gets a 0.55). In this particular analysis I suppressed the performance of the stockfish 1950 - 2050 rated engines (three engines) by reducing the depth of their analysis of each move and I removed the highest rated stockfish engine (3644 ELO) because it wasn't performing as well as it should. This rating estimate for me based on my personal hit count (adjusted with weights) is approximately what my rating is right now on chess.com. So this suggests that my performance is reflected accurately in my rating. I am not performing at a much higher level than my rating suggests, or lower level. Extremely interesting is when I run the analysis on only moves 10-14. My rating is very low. I don't tend to make the right moves at this stage of the game. I need to work on that.</p>
         
         <!-- Replaced local image with placeholder -->
@@ -116,26 +118,34 @@
         <img src="/images/SQLoutput_chess_percentages.png" alt="Table of win percentages" style="max-width: 100%; height: auto; margin: 25px;">
         
         <p>...one can easily see that when the games are shorter, I lose much more often, and when the games are longer, I normally win. This could mean many things, like for example I am very skilled in the late middle-game to end game stages. Or perhaps I am very poor in the opening. I think what this truly reflects is that when I lose games it is normally as a result of making some foolish error in the early stages of the game which is already decisive by the 25th move, so that I normally resign or am checkmated in these games. The vast majority of the games (over 2/3) that I don't make foolish mistakes in the opening and early middle-game in, I win.</p>
-        
+        <br>
         <p>Upon analyzing my most recent chess games, I got a slightly higher estimate of my rating (consistent with my increased rating on chess.com and my efforts to improve my performance at chess). The only problem I found was that I was getting a very narrow range of performance out of the engines I was using to make the estimate, which is not ideal. It would be nice to have a wide range of performances from a wide range of engine strengths instead of a rating range of 1000 points corresponding to a hit proportion score of 0.6 to 0.7 only. I made many efforts to try to achieve this, using node limits on the engines, using specific rating limits, using time limits, using depth limits, and combinations of the previously mentioned limits. All of these efforts failed and so I decided to switch my measurement method.</p>
-        
+        <br>
         <p>I decided to use a different metric called "average centipawn loss" to estimate my performance rating. This is a widely accepted metric in the chess community and not nearly as controversial of a method to use for estimating one's performance. I utilized Google Gemini to help build a script to analyze my games using the Stockfish engine for centipawn loss (CPL) and calculate an output file with my results. This is what resulted:</p>
-        
+        <br>
         <!-- Formatted ACPL report -->
         <h4>ACPL (Average Centipawn Loss) Report for: Desjardins373</h4>
+		<br>
 		<hr>
 		<pre><code class="language-text">Calculated ACPL: 54.09
+		<br>
 		Analyzed Moves: 3683
+		<br>
 
 		Estimated Skill Level: Expert / Club Player Level</code></pre>
+		<br>
 		<hr>
 		<h4>What is ACPL?</h4>
+		<br>
 		<hr>
 		<p>Average Centipawn Loss (ACPL) is a metric used to measure the accuracy of chess moves. A "centipawn" is 1/100th of a pawn. ACPL represents the average number of centipawns you lost per move compared to the engine's best move. A lower ACPL means your moves were closer to the computer's top choices, indicating higher accuracy.</p>
+		<br>
 		<hr>
 		<h4>Practical ACPL Tiers (Perspective):</h4>
+		<br>
 		<hr>
 		<p>These ranges are approximations, particularly for games with faster time controls, but they provide a useful reference point for self-assessment.</p>
+		<br>
 		<ul>
 		  <li><strong>10-20: Super Grandmaster (2700+ Elo):</strong> World-class precision, frequently dropping into single digits in top-level matches.</li>
 		  <li><strong>20-25: Grandmaster (2500-2700 Elo):</strong> Exceptional consistency and a low frequency of significant errors.</li>
@@ -144,9 +154,10 @@
 		  <li><strong>60-120: Intermediate Player (1200-1800 Elo):</strong> A typical range for the large cohort of intermediate players. Games are often decided by more obvious tactical mistakes.</li>
 		  <li><strong>100+: Novice / Beginner (&lt;1200 Elo):</strong> Fundamental blunders are common. Scores of 150 or higher are commonplace. An ACPL over 300 suggests a player is very new to the game.</li>
 		</ul>
+		<br>
 		<p><em>Note: These ranges are approximate and can be affected by the complexity of the games, time control, and the depth of the analysis engine.</em></p>
 		<hr>
-
+		<br>
         <p>So, in contrast to many claims by friends and family that I am "...like a chess master" the true measurements don't bear this out, I fall significantly short of playing at this level of skill.</p>
         
         <!-- 
