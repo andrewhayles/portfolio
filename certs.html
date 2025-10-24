@@ -3,104 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Page-specific title -->
-    <title>Certificates - Andrew Hayles</title>
-    
-    <!-- Load Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Load custom fonts -->
+    <title>Andrew Hayles - Certificates</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"/>
+
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+</head>
     
-    <script>
-      // --- Custom Tailwind Config (consistent with index.html) ---
-      tailwind.config = {
-        darkMode: 'media', 
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ['Inter', 'sans-serif'],
-              mono: ['"DM Mono"', 'monospace'],
-            },
-            colors: {
-              light: '#ffffff',
-              onLight: '#050806',
-              dark: '#000000',
-              onDark: '#FBFFF2',
-              primary: '#0804F6',
-              onPrimary: '#FBFFF2',
-              secondary: '#FE491F',
-              onSecondary: '#050806',
-              complementary: '#565862',
-              onComplementary: '#FBFFF2',
-            }
-          }
-        }
-      }
-    </script>
-    
-    <style>
-      .prose { 
-        @apply text-onLight dark:text-onDark; 
-        max-width: 75ch;
-      }
-      .prose h1, .prose h2, .prose h3, .prose h4 { 
-        @apply font-mono uppercase font-normal text-onLight dark:text-onDark; 
-      }
-      .prose h1 { 
-        @apply text-3xl md:text-4xl mb-8 mt-0; 
-      }
-      .prose h2 { 
-        @apply text-2xl md:text-3xl mb-6 mt-12; 
-      }
-      .prose h3 { 
-        @apply text-xl md:text-2xl mb-4 mt-8; 
-      }
-      .prose h4 { 
-        @apply text-lg md:text-xl mb-4 mt-6; 
-      }
-      .prose p { 
-        @apply mb-6 leading-relaxed text-lg;
-        line-height: 1.8;
-      }
-      /* CRITICAL: Make links stand out */
-      .prose a { 
-        color: #0804F6 !important;
-        font-weight: 700 !important;
-        text-decoration: underline !important;
-        text-decoration-thickness: 2px !important;
-        text-underline-offset: 4px !important;
-      }
-      @media (prefers-color-scheme: dark) {
-        .prose a {
-          color: #FE491F !important;
-        }
-      }
-      .prose a:hover { 
-        opacity: 0.7;
-        transition: opacity 0.2s;
-      }
-      .prose img { 
-        @apply rounded-lg shadow-md my-8 max-w-full h-auto mx-auto; 
-      }
-      .prose pre { 
-        @apply bg-gray-100 dark:bg-gray-900 text-onLight dark:text-onDark p-4 rounded-lg overflow-x-auto my-8; 
-      }
-      .prose pre.language-text { 
-        @apply bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700; 
-      }
-      .prose code { 
-        @apply font-mono text-sm; 
-      }
-      .prose blockquote { 
-        @apply border-l-4 border-primary dark:border-secondary pl-4 italic my-6; 
-      }
-      .prose ul, .prose ol { 
-        @apply list-disc list-inside mb-6 pl-4; 
-      }
-      .prose hr { 
-        @apply border-gray-200 dark:border-gray-700 my-10; 
-      }
-    </style>
+<style>
+  /* --- Base Body and Font Styles --- */
+  :root {
+    /* Define your colors as CSS variables for easy reuse */
+    --light: #ffffff;
+    --onLight: #050806;
+    --dark: #000000;
+    --onDark: #FBFFF2;
+    --primary: #0804F6;
+    --secondary: #FE491F;
+    --complementary: #565862;
+    --onComplementary: #FBFFF2;
+  }
+  body {
+    background-color: var(--light);
+    color: var(--onLight);
+    font-family: 'Inter', sans-serif;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  @media (prefers-color-scheme: dark) {
+    body {
+      background-color: var(--dark);
+      color: var(--onDark);
+    }
+  }
+
+  /* --- Converted .prose Styles --- */
+  .prose {
+    color: var(--onLight);
+    max-width: 75ch;
+  }
+  .prose h1, .prose h2, .prose h3, .prose h4 {
+    font-family: "DM Mono", monospace;
+    text-transform: uppercase;
+    font-weight: 400;
+    color: var(--onLight);
+  }
+  .prose h1 { font-size: 1.875rem; margin-bottom: 2rem; margin-top: 0; }
+  .prose h2 { font-size: 1.5rem; margin-bottom: 1.5rem; margin-top: 3rem; }
+  .prose h3 { font-size: 1.25rem; margin-bottom: 1rem; margin-top: 2rem; }
+  .prose h4 { font-size: 1.125rem; margin-bottom: 1rem; margin-top: 1.5rem; }
+  .prose p {
+    margin-bottom: 1.5rem;
+    line-height: 1.8;
+    font-size: 1.125rem;
+  }
+  .prose a {
+    color: var(--primary) !important;
+    font-weight: 700 !important;
+    text-decoration: underline !important;
+    text-decoration-thickness: 2px !important;
+    text-underline-offset: 4px !important;
+  }
+  .prose a:hover {
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+  .prose img {
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    max-width: 100%;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .prose blockquote {
+    border-left: 4px solid var(--primary);
+    padding-left: 1rem;
+    font-style: italic;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  /* Dark Mode Styles */
+  @media (prefers-color-scheme: dark) {
+    .prose { color: var(--onDark); }
+    .prose h1, .prose h2, .prose h3, .prose h4 { color: var(--onDark); }
+    .prose a { color: var(--secondary) !important; }
+    .prose blockquote { border-left-color: var(--secondary); }
+  }
+  /* Responsive Styles */
+  @media (min-width: 768px) {
+    .prose h1 { font-size: 2.25rem; }
+    .prose h2 { font-size: 1.875rem; }
+    .prose h3 { font-size: 1.5rem; }
+    .prose h4 { font-size: 1.25rem; }
+  }
+</style>
 </head>
 
 <body class="bg-light dark:bg-dark font-sans text-onLight dark:text-onDark transition-colors duration-300">
