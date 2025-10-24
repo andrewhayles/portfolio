@@ -5,99 +5,102 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Andrew Hayles - I.Q. Test Data Analysis</title>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"/>
-
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;700&display=swap" rel="stylesheet">
-</head>
     
-<style>
-  /* --- Base Body and Font Styles --- */
+    <style>
+  /* --- Base Styles & Color Variables --- */
   :root {
-    /* Define your colors as CSS variables for easy reuse */
+    /* We only need the light theme colors now */
     --light: #ffffff;
-    --onLight: #050806;
-    --dark: #000000;
-    --onDark: #FBFFF2;
+    --onLight: #050806; /* Dark text */
     --primary: #0804F6;
     --secondary: #FE491F;
-    --complementary: #565862;
-    --onComplementary: #FBFFF2;
+    --complementary: #565862; /* Dark gray for footer text */
+    --textOnImage: #FBFFF2; /* White text for hero */
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-900: #111827; /* Dark background for project cards */
   }
   body {
     background-color: var(--light);
     color: var(--onLight);
     font-family: 'Inter', sans-serif;
-    transition: background-color 0.3s, color 0.3s;
-  }
-  @media (prefers-color-scheme: dark) {
-    body {
-      background-color: var(--dark);
-      color: var(--onDark);
-    }
   }
 
-  /* --- Converted .prose Styles --- */
-  .prose {
-    color: var(--onLight);
-    max-width: 75ch;
+  /* --- Styles for text on the hero background image --- */
+  /* This ensures the hero text is always white */
+  .hero-section-text {
+    color: var(--textOnImage);
   }
-  .prose h1, .prose h2, .prose h3, .prose h4 {
-    font-family: "DM Mono", monospace;
-    text-transform: uppercase;
-    font-weight: 400;
-    color: var(--onLight);
-  }
+
+  /* --- Converted .prose Styles (Light Theme Only) --- */
+  .prose { color: var(--onLight); max-width: 75ch; }
+  .prose h1, .prose h2, .prose h3, .prose h4 { font-family: "DM Mono", monospace; text-transform: uppercase; font-weight: 400; color: var(--onLight); }
   .prose h1 { font-size: 1.875rem; margin-bottom: 2rem; margin-top: 0; }
   .prose h2 { font-size: 1.5rem; margin-bottom: 1.5rem; margin-top: 3rem; }
   .prose h3 { font-size: 1.25rem; margin-bottom: 1rem; margin-top: 2rem; }
   .prose h4 { font-size: 1.125rem; margin-bottom: 1rem; margin-top: 1.5rem; }
-  .prose p {
-    margin-bottom: 1.5rem;
-    line-height: 1.8;
-    font-size: 1.125rem;
-  }
-  .prose a {
-    color: var(--primary) !important;
-    font-weight: 700 !important;
-    text-decoration: underline !important;
-    text-decoration-thickness: 2px !important;
-    text-underline-offset: 4px !important;
-  }
-  .prose a:hover {
-    opacity: 0.7;
-    transition: opacity 0.2s;
-  }
-  .prose img {
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-    max-width: 100%;
-    height: auto;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .prose blockquote {
-    border-left: 4px solid var(--primary);
-    padding-left: 1rem;
-    font-style: italic;
-    margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-  /* Dark Mode Styles */
-  @media (prefers-color-scheme: dark) {
-    .prose { color: var(--onDark); }
-    .prose h1, .prose h2, .prose h3, .prose h4 { color: var(--onDark); }
-    .prose a { color: var(--secondary) !important; }
-    .prose blockquote { border-left-color: var(--secondary); }
-  }
-  /* Responsive Styles */
+  .prose p { margin-bottom: 1.5rem; line-height: 1.8; font-size: 1.125rem; }
+  .prose a { color: var(--primary) !important; font-weight: 700 !important; text-decoration: underline !important; text-decoration-thickness: 2px !important; text-underline-offset: 4px !important; }
+  .prose a:hover { opacity: 0.7; transition: opacity 0.2s; }
+  .prose img { border-radius: 0.5rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1); margin-top: 2rem; margin-bottom: 2rem; max-width: 100%; height: auto; margin-left: auto; margin-right: auto; }
+  .prose blockquote { border-left: 4px solid var(--primary); padding-left: 1rem; font-style: italic; margin-top: 1.5rem; margin-bottom: 1.5rem; }
   @media (min-width: 768px) {
-    .prose h1 { font-size: 2.25rem; }
-    .prose h2 { font-size: 1.875rem; }
-    .prose h3 { font-size: 1.5rem; }
-    .prose h4 { font-size: 1.25rem; }
+    .prose h1 { font-size: 2.25rem; } .prose h2 { font-size: 1.875rem; }
+    .prose h3 { font-size: 1.5rem; } .prose h4 { font-size: 1.25rem; }
   }
+
+  /* --- Converted Tailwind Utility Classes (Light Theme Only) --- */
+  .container { width: 100%; margin-left: auto; margin-right: auto; padding-left: 1rem; padding-right: 1rem; }
+  @media (min-width: 640px) { .container { max-width: 640px; } }
+  @media (min-width: 768px) { .container { max-width: 768px; } }
+  @media (min-width: 1024px) { .container { max-width: 1024px; } }
+  .block { display: block; } .flex { display: flex; } .grid { display: grid; }
+  .flex-col { flex-direction: column; } .min-h-screen { min-height: 100vh; }
+  .flex-grow { flex-grow: 1; } .justify-between { justify-content: space-between; }
+  .justify-center { justify-content: center; } .items-center { align-items: center; }
+  .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+  .gap-8 { gap: 2rem; } .relative { position: relative; } .absolute { position: absolute; }
+  .sticky { position: sticky; } .inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+  .top-0 { top: 0; } .z-50 { z-index: 50; } .w-full { width: 100%; }
+  .h-64 { height: 16rem; } .w-6 { width: 1.5rem; } .h-6 { height: 1.5rem; }
+  .object-cover { object-fit: cover; } .overflow-hidden { overflow: hidden; }
+  .rounded-lg { border-radius: 0.5rem; } .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05); }
+  .border-b { border-bottom-width: 1px; } .border-gray-200 { border-color: var(--gray-200); }
+  .px-4 { padding-left: 1rem; padding-right: 1rem; } .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+  .py-12 { padding-top: 3rem; padding-bottom: 3rem; } .py-16 { padding-top: 4rem; padding-bottom: 4rem; }
+  .py-36 { padding-top: 9rem; padding-bottom: 9rem; } .p-6 { padding: 1.5rem; }
+  .mt-3 { margin-top: 0.75rem; } .mt-4 { margin-top: 1rem; } .mb-4 { margin-bottom: 1rem; }
+  .mb-12 { margin-bottom: 3rem; } .text-center { text-align: center; }
+  .space-x-4 > :not([hidden]) ~ :not([hidden]) { margin-left: 1rem; }
+  .space-x-6 > :not([hidden]) ~ :not([hidden]) { margin-left: 1.5rem; }
+  .text-sm { font-size: 0.875rem; } .text-base { font-size: 1rem; }
+  .text-xl { font-size: 1.25rem; } .text-2xl { font-size: 1.5rem; }
+  .text-3xl { font-size: 1.875rem; } .text-4xl { font-size: 2.25rem; }
+  .font-mono { font-family: "DM Mono", monospace; } .font-sans { font-family: 'Inter', sans-serif; }
+  .uppercase { text-transform: uppercase; } .font-bold { font-weight: 700; }
+  .font-medium { font-weight: 500; } .backdrop-blur-sm { backdrop-filter: blur(4px); }
+  .transition-transform { transition-property: transform; } .duration-300 { transition-duration: 300ms; }
+  .transform { transform: translate(0, 0) rotate(0) skewX(0) skewY(0) scaleX(1) scaleY(1); }
+  .hover\:-translate-y-2:hover { transform: translateY(-0.5rem); }
+  .hover\:text-primary:hover { color: var(--primary); }
+  .group:hover .group-hover\:text-primary { color: var(--primary); }
+  .group:hover .group-hover\:underline { text-decoration: underline; }
+  .inline-block { display: inline-block; }
+  .bg-white { background-color: #fff; }
+  .bg-gray-100 { background-color: var(--gray-100); }
+  .bg-light\/95 { background-color: rgba(255, 255, 255, 0.95); }
+  .bg-complementary\/75 { background-color: rgba(86, 88, 98, 0.75); }
+  .text-onLight { color: var(--onLight); }
+  .text-complementary { color: var(--complementary); }
+  @media (min-width: 768px) {
+    .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .md\:space-x-6 > :not([hidden]) ~ :not([hidden]) { margin-left: 1.5rem; }
+    .md\:text-2xl { font-size: 1.5rem; } .md\:text-4xl { font-size: 2.25rem; }
+    .md\:text-6xl { font-size: 3.75rem; } .md\:py-24 { padding-top: 6rem; padding-bottom: 6rem; }
+    .md\:py-48 { padding-top: 12rem; padding-bottom: 12rem; }
+  }
+  @media (min-width: 1024px) { .lg\:gap-12 { gap: 3rem; } }
 </style>
 </head>
 
