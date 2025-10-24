@@ -46,7 +46,7 @@
       .prose h2 { @apply text-2xl md:text-3xl; }
       .prose h3 { @apply text-xl md:text-2xl; }
       .prose h4 { @apply text-lg md:text-xl; }
-      .prose p { @apply mb-5 leading-relaxed text-lg; }
+      .prose p { @apply mb-10 leading-relaxed text-lg; }
       .prose a { @apply text-primary dark:text-secondary underline hover:opacity-80; }
       .prose img { @apply rounded-lg shadow-md my-6 max-w-full h-auto mx-auto; }
       .prose pre { @apply bg-gray-100 dark:bg-gray-900 text-onLight dark:text-onDark p-4 rounded-lg overflow-x-auto; }
@@ -86,13 +86,13 @@
         
         <!-- Title from frontmatter -->
         <h1>Personal Health Data Analysis</h1>
-        <br>
+        
 
         <!-- Main content from markdown body -->
         <p>This started with the question, "Am I in good health, and how do my personal health markers vary throughout the day, week, and month?" To start answering this (in addition to seeking medical advice from a trained and licensed doctor), I purchased an affordable smart watch and I created this code to analyze my personal health data from my MorePro AIR2 Fitness Tracker watch and my body composition scale and my regular scale. It is written in Python and it uses the read_csv method to load the data into a memory location called a DataFrame in pandas and then creates several visualizations based on some statistical calculations using numpy for some of the more advanced calculations and seaborn for the visualizations.</p>
-        <br>
+        
         <p>This is a plot of most of the variables I am tracking with histograms. Most of the variables are in healthy ranges, although weight is an area of potential improvement:</p>
-        <br>
+        
         <!-- Replaced local image with placeholder -->
         <img src="/images/overall_distributions.webp" alt="These are the overall distributions of the variables measured by me and by the watch" style="max-width: 100%; height: auto; margin: 25px;">
         
@@ -117,16 +117,16 @@
         <img src="/images/range_calculations.png" alt="These are the ranges of each variable." style="max-width: 100%; height: auto; margin: 25px;">
         
         <p>Here is a link to a Power BI feature: <a href="https://app.powerbi.com/view?r=eyJrIjoiYjcxOTc4NTItYzBiYi00MDk1LWE1ODQtYjBiN2JlNTJiNTQ5IiwidCI6IjE5NWQ0ZTBiLTAzM2UtNDAzNi05ZDAwLTJiOGY0MDA1OWE3YyIsImMiOjZ9" target="_blank" rel="noopener noreferrer">Please click here to view</a>. This a nicely interactive feature. Click on the dependent (Y-Axis) variable on the left and see statistical summary data and scatter chart.</p>
-        <br>
+        
         <p>As can be seen, a simple CSV file can be read by the pandas library in Python and some statistical calculations can be made with the numpy library followed by visualizations prepared by the seaborn and matplotlib libraries. In the future I'd like to analyze the data from my body composition scale as I collect enough data (I only use it twice per month because the measurement doesn't change much day-to-day and the battery dies rapidly if regularly used). This project demonstrates the power of Python's data analysis libraries in transforming raw sensor data into actionable insights.</p>
-        <br>
+        
         <p>The code used for this analysis is available below if you're interested in viewing it:</p>
-		<br>
+		
         <!-- 
           This section inserts the code from the 'code:' block in the frontmatter.
         -->
         <h2>Project Code</h2>
-		<br>
+		
 <pre><code class="language-python">import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
