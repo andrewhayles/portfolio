@@ -47,7 +47,7 @@
       .prose h3 { @apply text-xl md:text-2xl; }
       .prose h4 { @apply text-lg md:text-xl; }
       .prose p { @apply mb-10 leading-loose text-lg; }
-      .prose a { @apply text-primary dark:text-secondary hover:underline; }
+      .prose a { @apply text-primary dark:text-secondary underline hover:opacity-80; }
       .prose img { @apply rounded-lg shadow-md my-6 max-w-full h-auto mx-auto; }
       /* Added language-text for the ACPL report box */
       .prose pre { @apply bg-gray-100 dark:bg-gray-900 text-onLight dark:text-onDark p-4 rounded-lg overflow-x-auto; }
@@ -92,8 +92,6 @@
 
         <!-- Main content from markdown body -->
         <h3>Brief Analysis of Personal Chess Database</h3>
-		<br>
-        <p>Andrew Hayles</p>
 		<br>
         <p>A similar methodology to that which is used in this report is employed in the book titled “Chess Two New Rating Systems: The 2022 Best Players in History (English Edition)” available on Amazon.com by Hindemburg Melão Jr. He also found a strong relationship between “hit count” in the sense found in this report and chess engine ELO strength.</p>
         <br>
@@ -164,7 +162,9 @@
           This section inserts the code from the 'code:' block in the frontmatter.
           It's manually converted into HTML <p> and <pre><code> blocks for correct styling.
         -->
+		<br>
         <h2>Project Code &amp; Scripts</h2>
+		<br>
 
 <pre><code class="language-python">import chess
 import chess.pgn

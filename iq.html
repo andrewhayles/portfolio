@@ -47,7 +47,7 @@
       .prose h3 { @apply text-xl md:text-2xl; }
       .prose h4 { @apply text-lg md:text-xl; }
       .prose p { @apply mb-5 leading-relaxed text-lg; }
-      .prose a { @apply text-primary dark:text-secondary hover:underline; }
+      .prose a { @apply text-primary dark:text-secondary underline hover:opacity-80; }
       .prose img { @apply rounded-lg shadow-md my-6 max-w-full h-auto mx-auto; }
       .prose pre { @apply bg-gray-100 dark:bg-gray-900 text-onLight dark:text-onDark p-4 rounded-lg overflow-x-auto; }
       .prose pre.language-text { @apply bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700; }
@@ -86,14 +86,14 @@
         
         <!-- Title from frontmatter -->
         <h1>I.Q. Test Data Analysis</h1>
-
+		<br>
         <!-- Main content from markdown body -->
         <p>This project is based on an initial curiosity that turned into a major hobby especially during years of my life when I was having many trials and difficult times. That hobby I'm referring to is participating in experimental high-range intelligence testing. I wrote the script that is available for viewing below to process all the data I dilligently kept over the years:</p>
-        
+        <br>
         <p>This script does a lot of things and I'm not going to talk about all of them right now but above all it produces some interesting visualizations which I think tell a lot of the story. I will say that this interactive Power BI Dashboard also helps in <a href="https://app.powerbi.com/view?r=eyJrIjoiYzBjNWNjMzMtNjQ2ZS00ZTg1LWI5YWUtM2M5NzMwMTNjZjFlIiwidCI6IjE5NWQ0ZTBiLTAzM2UtNDAzNi05ZDAwLTJiOGY0MDA1OWE3YyIsImMiOjZ9" target="_blank" rel="noopener noreferrer">understanding the data</a>.</p>
-        
+        <br>
         <p>Here are some of my observations from it, for example. By clicking on the chart (like a section of the pie chart for example) and then holding the Ctrl button and clicking another element on another chart you can get different pictures of the subsets of the data (effectively filtering the data interactively).</p>
-        
+        <br>
         <p>This is what all of the tests except IQexams look like:</p>
         
         <!-- Replaced local image with placeholder -->
@@ -110,9 +110,9 @@
         <img src="/images/mixed-untimed-tests.webp" alt="Mixed + Untimed tests" style="max-width: 100%; height: auto; margin: 25px;">
         
         <p>From what I can tell (including some of my own deeper-dive analysis into date ranges, specifically, excluding the first eight date codes associated with test administrations) it seems that in the first 8 days or so I didn't really understand well the instructions and I was kind of "learning" how to take the tests during this phase. Strictly speaking I don't think this qualifies as a learning effect entirely, more of a gradual learning of the instructions and approaching a level playing field with the other test-takers on this now extinct platform IQexams.</p>
-        
+        <br>
         <p>Even when the data is filtered in such a way that the slope is significant, it is normally just a bit higher than 0.001 in magnitude and the coefficient of determination is very low also (the linear model is not predictive of anything really, other than some nonzero improvement from the beginning of my test taking).</p>
-        
+        <br>
         <p>Histogram of timed/untimed scores superimposed on each other. You can see there is a slight offset in the positive direction with the untimed tests. I perform a bit better when I am not under time pressure, but still do exceptionally well with a time limit.</p>
         
         <!-- Replaced local image with placeholder -->
@@ -164,7 +164,7 @@
         <img src="/images/piechart_testtype_12.webp" alt="Pie chart of test types" style="max-width: 100%; height: auto; margin: 25px;">
         
         <p>Pie chart of authors. Thank God for all of the wonderful authors of these tests. All of them with a different personality, all of them basically measuring the same thing with all of their varied problems and problem types.</p>
-        
+        <br>
         <!-- Replaced local image with placeholder -->
         <img src="/images/piechart_author13.webp" alt="Pie chart of authors" style="max-width: 100%; height: auto; margin: 25px;">
 
@@ -172,6 +172,7 @@
           This section inserts the code from the 'code:' block in the frontmatter.
         -->
         <h2>Project Code</h2>
+		<br>
 <pre><code class="language-python"># Import the libraries that we will be using
 import statsmodels.api as sm
 import statsmodels.stats.weightstats as smstats
