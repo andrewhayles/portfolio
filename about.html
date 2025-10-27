@@ -32,16 +32,19 @@
   .hero-section-text {
     color: var(--textOnImage);
   }
+  a.group {
+  text-decoration: none;
+}
 
   /* --- Converted .prose Styles (Light Theme Only) --- */
   .prose { color: var(--onLight); max-width: 75ch; }
-  .prose h1, .prose h2, .prose h3, .prose h4 { font-family: "DM Mono", monospace; text-transform: uppercase; font-weight: 400; color: white }
+  .prose h1, .prose h2, .prose h3, .prose h4 { font-family: "DM Mono", monospace; text-transform: uppercase; font-weight: 400; color: var(--onLight); }
   .prose h1 { font-size: 1.875rem; margin-bottom: 2rem; margin-top: 0; }
   .prose h2 { font-size: 1.5rem; margin-bottom: 1.5rem; margin-top: 3rem; }
   .prose h3 { font-size: 1.25rem; margin-bottom: 1rem; margin-top: 2rem; }
   .prose h4 { font-size: 1.125rem; margin-bottom: 1rem; margin-top: 1.5rem; }
   .prose p { margin-bottom: 1.5rem; line-height: 1.8; font-size: 1.125rem; }
-  .prose a { color: var(--primary) !important; font-weight: 700 !important; text-decoration: underline !important; text-decoration-thickness: 2px !important; text-underline-offset: 4px !important; }
+  .prose a { color: var(--primary) !important; font-weight: 700 !important; text-decoration-thickness: 2px !important; }
   .prose a:hover { opacity: 0.7; transition: opacity 0.2s; }
   .prose img { border-radius: 0.5rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1); margin-top: 2rem; margin-bottom: 2rem; max-width: 100%; height: auto; margin-left: auto; margin-right: auto; }
   .prose blockquote { border-left: 4px solid var(--primary); padding-left: 1rem; font-style: italic; margin-top: 1.5rem; margin-bottom: 1.5rem; }
@@ -104,7 +107,7 @@
 </style>
 </head>
 
-<body class="bg-light dark:bg-dark font-sans text-onLight dark:text-onDark transition-colors duration-300">
+<body class="bg-light text-onLight font-sans">
   <div class="flex flex-col min-h-screen">
 
     <!-- === Header (Consistent with index.html) === -->
@@ -117,7 +120,7 @@
         
         <!-- Nav Links -->
         <div class="flex items-center space-x-4 md:space-x-6">
-          <a href="about.html" class="text-onLight dark:text-onDark hover:text-primary dark:hover:text-secondary font-mono uppercase text-sm font-medium">About</a>
+          <a href="about.html" class="text-black font-mono uppercase text-sm font-medium">About</a>
           <a href="https://github.com/andrewhayles/" target="_blank" rel="noopener noreferrer" class="text-onLight dark:text-onDark hover:text-primary dark:hover:text-secondary" aria-label="GitHub">
             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.165 6.839 9.49.5.092.682-.217.682-.483 0-.237-.009-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.951 0-1.093.39-1.988 1.03-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.026 2.747-1.026.546 1.379.202 2.398.1 2.65.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.309.678.92.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0 0 22 12c0-5.523-4.477-10-10-10Z" clip-rule="evenodd" /></svg>
           </a>
@@ -129,12 +132,10 @@
     <main class="flex-grow">
 
       <!-- === Hero Section (from about.md frontmatter) === -->
-      <div class="relative bg-complementary dark:bg-dark text-onComplementary dark:text-onDark" 
+      <div class="relative bg-complementary text-white" 
            style="background-image: url('/images/bg1.webp'); background-size: cover; background-position: center; background-repeat: no-repeat;"
            onerror="this.style.backgroundImage='url(https://placehold.co/1600x900/565862/FBFFF2?text=About+Me)'; this.onerror=null;">
         
-        <!-- Overlay from frontmatter opacity (75%) -->
-        <div class="absolute inset-0 bg-complementary/75 dark:bg-dark/75"></div>
         
         <!-- Content from frontmatter sections -->
         <div class="relative container mx-auto px-4 py-36 md:py-48 text-left">
