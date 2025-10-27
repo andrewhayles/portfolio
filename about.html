@@ -1,188 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Andrew Hayles - About</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;700&display=swap" rel="stylesheet">
-    
-    <style>
-  /* --- Base Styles & Color Variables --- */
-  :root {
-    --light: #ffffff;
-    --onLight: #050806; /* Dark text */
-    --primary: #0804F6;
-    --secondary: #FE491F;
-    --complementary: #565862; /* Dark gray for footer text */
-    --textOnImage: #FBFFF2; /* White text for hero */
-    --gray-100: #f3f4f6;
-    --gray-200: #e5e7eb;
-    --gray-900: #111827; /* Dark background for project cards */
-  }
-  body {
-    background-color: var(--light);
-    color: var(--onLight);
-    font-family: 'Inter', sans-serif;
-  }
-
-  /* --- Styles for text on the hero background image --- */
-  /* This ensures the hero text is always white */
-  .hero-section-text {
-    color: var(--textOnImage);
-  }
-
-  /* --- Converted .prose Styles (Light Theme Only) --- */
-  .prose { color: var(--onLight); max-width: 75ch; }
-  .prose h1, .prose h2, .prose h3, .prose h4 { font-family: "DM Mono", monospace; text-transform: uppercase; font-weight: 400; color: var(--onLight); }
-  .prose h1 { font-size: 1.875rem; margin-bottom: 2rem; margin-top: 0; }
-  .prose h2 { font-size: 1.5rem; margin-bottom: 1.5rem; margin-top: 3rem; }
-  .prose h3 { font-size: 1.25rem; margin-bottom: 1rem; margin-top: 2rem; }
-  .prose h4 { font-size: 1.125rem; margin-bottom: 1rem; margin-top: 1.5rem; }
-  .prose p { margin-bottom: 1.5rem; line-height: 1.8; font-size: 1.125rem; }
-  .prose a { color: var(--primary) !important; font-weight: 700 !important; text-decoration: underline !important; text-decoration-thickness: 2px !important; text-underline-offset: 4px !important; }
-  .prose a:hover { opacity: 0.7; transition: opacity 0.2s; }
-  .prose img { border-radius: 0.5rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1); margin-top: 2rem; margin-bottom: 2rem; max-width: 100%; height: auto; margin-left: auto; margin-right: auto; }
-  .prose blockquote { border-left: 4px solid var(--primary); padding-left: 1rem; font-style: italic; margin-top: 1.5rem; margin-bottom: 1.5rem; }
-  @media (min-width: 768px) {
-    .prose h1 { font-size: 2.25rem; } .prose h2 { font-size: 1.875rem; }
-    .prose h3 { font-size: 1.5rem; } .prose h4 { font-size: 1.25rem; }
-  }
-
-  /* --- Converted Tailwind Utility Classes (Light Theme Only) --- */
-  .container { width: 100%; margin-left: auto; margin-right: auto; padding-left: 1rem; padding-right: 1rem; }
-  @media (min-width: 640px) { .container { max-width: 640px; } }
-  @media (min-width: 768px) { .container { max-width: 768px; } }
-  @media (min-width: 1024px) { .container { max-width: 1024px; } }
-  .block { display: block; } .flex { display: flex; } .grid { display: grid; }
-  .flex-col { flex-direction: column; } .min-h-screen { min-height: 100vh; }
-  .flex-grow { flex-grow: 1; } .justify-between { justify-content: space-between; }
-  .justify-center { justify-content: center; } .items-center { align-items: center; }
-  .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
-  .gap-8 { gap: 2rem; } .relative { position: relative; } .absolute { position: absolute; }
-  .sticky { position: sticky; } .inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
-  .top-0 { top: 0; } .z-50 { z-index: 50; } .w-full { width: 100%; }
-  .h-64 { height: 16rem; } .w-6 { width: 1.5rem; } .h-6 { height: 1.5rem; }
-  .object-cover { object-fit: cover; } .overflow-hidden { overflow: hidden; }
-  .rounded-lg { border-radius: 0.5rem; } .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05); }
-  .border-b { border-bottom-width: 1px; } .border-gray-200 { border-color: var(--gray-200); }
-  .px-4 { padding-left: 1rem; padding-right: 1rem; } .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
-  .py-12 { padding-top: 3rem; padding-bottom: 3rem; } .py-16 { padding-top: 4rem; padding-bottom: 4rem; }
-  .py-36 { padding-top: 9rem; padding-bottom: 9rem; } .p-6 { padding: 1.5rem; }
-  .mt-3 { margin-top: 0.75rem; } .mt-4 { margin-top: 1rem; } .mb-4 { margin-bottom: 1rem; }
-  .mb-12 { margin-bottom: 3rem; } .text-center { text-align: center; }
-  .space-x-4 > :not([hidden]) ~ :not([hidden]) { margin-left: 1rem; }
-  .space-x-6 > :not([hidden]) ~ :not([hidden]) { margin-left: 1.5rem; }
-  .text-sm { font-size: 0.875rem; } .text-base { font-size: 1rem; }
-  .text-xl { font-size: 1.25rem; } .text-2xl { font-size: 1.5rem; }
-  .text-3xl { font-size: 1.875rem; } .text-4xl { font-size: 2.25rem; }
-  .font-mono { font-family: "DM Mono", monospace; } .font-sans { font-family: 'Inter', sans-serif; }
-  .uppercase { text-transform: uppercase; } .font-bold { font-weight: 700; }
-  .font-medium { font-weight: 500; } .backdrop-blur-sm { backdrop-filter: blur(4px); }
-  .transition-transform { transition-property: transform; } .duration-300 { transition-duration: 300ms; }
-  .transform { transform: translate(0, 0) rotate(0) skewX(0) skewY(0) scaleX(1) scaleY(1); }
-s .hover\:-translate-y-2:hover { transform: translateY(-0.5rem); }
-  .hover\:text-primary:hover { color: var(--primary); }
-  .group:hover .group-hover\:text-primary { color: var(--primary); }
-  .group:hover .group-hover\:underline { text-decoration: underline; }
-  .inline-block { display: inline-block; }
-  .bg-white { background-color: #fff; }
-  .bg-gray-100 { background-color: var(--gray-100); }
-  .bg-light\/95 { background-color: rgba(255, 255, 255, 0.95); }
-  .bg-complementary\/75 { background-color: rgba(86, 88, 98, 0.75); }
-  .text-onLight { color: var(--onLight); }
-  .text-complementary { color: var(--complementary); }
-  @media (min-width: 768px) {
-    .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .md\:space-x-6 > :not([hidden]) ~ :not([hidden]) { margin-left: 1.5rem; }
-    .md\:text-2xl { font-size: 1.5rem; } .md\:text-4xl { font-size: 2.25rem; }
-    .md\:text-6xl { font-size: 3.75rem; } .md\:py-24 { padding-top: 6rem; padding-bottom: 6rem; }
-    .md\:py-48 { padding-top: 12rem; padding-bottom: 12rem; }
-  }
-  @media (min-width: 1024px) { .lg\:gap-12 { gap: 3rem; } }
-</style>
-</head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Page-specific title from the markdown file -->
+    <title>About - Andrew Hayles</title>
+    
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load custom fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script>
+      // --- Custom Tailwind Config (consistent with index.html) ---
+      tailwind.config = {
+        darkMode: 'media', 
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              mono: ['"DM Mono"', 'monospace'],
+            },
+            colors: {
+              light: '#ffffff',
+              onLight: '#050806',
+              dark: '#000000',
+              onDark: '#FBFFF2',
+              primary: '#0804F6',
+              onPrimary: '#FBFFF2',
+              secondary: '#FE491F',
+              onSecondary: '#050806',
+              complementary: '#565862',
+              onComplementary: '#FBFFF2',
+            }
+          }
+        }
+      }
+    </script>
+    
+    <style>
+      /* --- Prose styling (consistent with index.html) --- */
+      .prose { @apply text-onLight dark:text-onDark; }
+      .prose h1, .prose h2, .prose h3, .prose h4 { @apply font-mono uppercase font-normal mb-4 mt-8 text-onLight dark:text-onDark; }
+      .prose h1 { @apply text-3xl md:text-4xl; }
+      .prose h2 { @apply text-2xl md:text-3xl; }
+      .prose h3 { @apply text-xl md:text-2xl; }
+      .prose h4 { @apply text-lg md:text-xl; }
+      .prose p { @apply mb-5 leading-relaxed text-lg; }
+      .prose a { @apply text-primary dark:text-secondary underline hover:opacity-80; }
+      .prose img { @apply rounded-lg shadow-md my-6 max-w-full h-auto mx-auto; }
+      .prose pre { @apply bg-gray-100 dark:bg-gray-900 text-onLight dark:text-onDark p-4 rounded-lg overflow-x-auto; }
+      .prose pre.language-text { @apply bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700; }
+      .prose code { @apply font-mono text-sm; }
+      .prose blockquote { @apply border-l-4 border-primary dark:border-secondary pl-4 italic my-4; }
+      .prose ul, .prose ol { @apply list-disc list-inside mb-4 pl-4; }
+      .prose hr { @apply border-gray-200 dark:border-gray-700 my-8; }
+    </style>
 </head>
 
-<body class="bg-light font-sans text-onLight transition-colors duration-300">
-  <div class="flex flex-col min-h-screen">
+<body class="bg-light dark:bg-dark font-sans text-onLight dark:text-onDark transition-colors duration-300">
+  <div class="flex flex-col min-h-screen">
 
-    <!-- === Header (Consistent with index.html) === -->
-    <header class="bg-light/95 backdrop-blur-sm sticky top-0 z-50 border-b border-gray-200">
-      <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
-        <!-- Site Title -->
-        <a href="index.html" class="text-xl font-mono uppercase font-bold text-onLight hover:text-primary">
-          Home
-        </a>
-        
-        <!-- Nav Links -->
-        <div class="flex items-center space-x-4 md:space-x-6">
-          <a href="about.html" class="text-onLight hover:text-primary font-mono uppercase text-sm font-medium">About</a>
-          <a href="https://github.com/andrewhayles/" target="_blank" rel="noopener noreferrer" class="text-onLight hover:text-primary" aria-label="GitHub">
-            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.165 6.839 9.49.5.092.682-.217.682-.483 0-.237-.009-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.951 0-1.093.39-1.988 1.03-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.026 2.747-1.026.546 1.379.202 2.398.1 2.65.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.309.678.92.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0 0 22 12c0-5.523-4.477-10-10-10Z" clip-rule="evenodd" /></svg>
-          </a>
-        </div>
-      </nav>
-    </header>
+    <!-- === Header (Consistent with index.html) === -->
+    <header class="bg-light/95 dark:bg-dark/90 backdrop-blur-sm sticky top-0 z-50 border-b border-gray-200 dark:border-gray-800">
+      <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
+        <!-- Site Title -->
+        <a href="index.html" class="text-xl font-mono uppercase font-bold text-onLight dark:text-onDark hover:text-primary dark:hover:text-secondary">
+          Home
+        </a>
+        
+        <!-- Nav Links -->
+        <div class="flex items-center space-x-4 md:space-x-6">
+          <a href="about.html" class="text-onLight dark:text-onDark hover:text-primary dark:hover:text-secondary font-mono uppercase text-sm font-medium">About</a>
+          <a href="https://github.com/andrewhayles/" target="_blank" rel="noopener noreferrer" class="text-onLight dark:text-onDark hover:text-primary dark:hover:text-secondary" aria-label="GitHub">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.165 6.839 9.49.5.092.682-.217.682-.483 0-.237-.009-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.951 0-1.093.39-1.988 1.03-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.026 2.747-1.026.546 1.379.202 2.398.1 2.65.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.309.678.92.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0 0 22 12c0-5.523-4.477-10-10-10Z" clip-rule="evenodd" /></svg>
+          </a>
+        </div>
+      </nav>
+    </header>
 
-    <!-- === Main Content === -->
-    <main class="flex-grow">
+    <!-- === Main Content === -->
+    <main class="flex-grow">
 
-      <!-- === Hero Section (from about.md frontmatter) === -->
-      <div class="relative bg-complementary text-onComplementary" 
-           style="background-image: url('/images/bg1.webp'); background-size: cover; background-position: center; background-repeat: no-repeat;"
-           onerror="this.style.backgroundImage='url(https://placehold.co/1600x900/565862/FBFFF2?text=About+Me)'; this.onerror=null;">
-        
-        <!-- Overlay from frontmatter opacity (75%) -->
-        <div class="absolute inset-0 bg-complementary/75"></div>
-        
-        <!-- Content from frontmatter sections -->
-        <div class="relative container mx-auto px-4 py-36 md:py-48 text-left">
-			<h1 class="text-4xl md:text-6xl font-mono uppercase font-bold text-white">
-				About Andrew
-			</h1>
-        </div>
-      </div>
+      <!-- === Hero Section (from about.md frontmatter) === -->
+      <div class="relative bg-complementary dark:bg-dark text-onComplementary dark:text-onDark" 
+           style="background-image: url('/images/bg1.webp'); background-size: cover; background-position: center; background-repeat: no-repeat;"
+           onerror="this.style.backgroundImage='url(https://placehold.co/1600x900/565862/FBFFF2?text=About+Me)'; this.onerror=null;">
+        
+        <!-- Overlay from frontmatter opacity (75%) -->
+        <div class="absolute inset-0 bg-complementary/75 dark:bg-dark/75"></div>
+        
+        <!-- Content from frontmatter sections -->
+        <div class="relative container mx-auto px-4 py-36 md:py-48 text-left">
+          <h1 class="text-4xl md:text-6xl font-mono uppercase font-bold text-onComplementary dark:text-onDark">
+            About Andrew
+          </h1>
+        </div>
+      </div>
 
-      <!-- === Prose Content (from about.md body) === -->
-      <div class="container mx-auto px-4 py-16 md:py-24 max-w-4xl prose">
-        
-        <p>I am a 39 year old male (born September, 1986) who is a citizen of the United States and am currently residing in the country of The Philippines. I grew up spending copious amounts of time studying chess and teaching myself programming and how to use computers. I also learned to love sports and enjoy physical activities like walking, hiking, playing tennis, playing various other sports (just for fun and for exercise and perhaps a little friendly competition).</p>
-        <br>
-        <p>After graduating from the University of Washington in Seattle, WA USA in 2008 with a B.S. in chemical engineering I got a job in process engineering and worked only for a short time before there was a major economic catastrophe in the USA which shaped many people's lives, including mine. I was laid off less than 1 year after starting this first job out of college and I found myself questioning life and the purpose and meaning of it.</p>
-        <br>
-        <p>It was at this time I started attending church and I heard and believed the gospel of Jesus Christ. I was subsequently baptized in the summer of 2009 at age 23 and gave my life to God and his son Jesus Christ. I subsequently found an obliquely related field of work with Honeywell Process Solutions and worked for them for about 3 years. I was then offered an opportunity that after much deliberation I decided would be better for me in the future. It was about 1 year after I accepted this job with a military contractor called GP Strategies working on a simulator of a process control system that I was baptized by the Holy Spirit, which profoundly changed my life even more than when I initially was introduced to Jesus and his saving grace. It was at this time I received many spiritual blessings, witnessed many truly supernatural miracles and God brought me through a season "in the wilderness" where I had many trials and difficult times (including problems with mental health, homelessness, financial difficulties as a result, and tensions within my immediate family). This started around 2013 and even as all this was happening I still continued to tutor math and continued to attend church and read the Holy Bible and pray always. I didn't have it easy, but I learned a lot about God and I am very grateful for this time in my life because it taught me to prioritize and think clearly, with perspective, about my life.</p>
-  -
-      <p>In 2023 I found a lovely woman on a Christian dating site called Plenty of Fish. We got married after speaking to each other for about 9 months via video call, much praying and fasting and talking with our loved ones and trusted friends, months of pre-marital counselling offered through my church, and meeting each other in person in Cyprus where my wife happened to be working at the time (she is a citizen of the Philippines). As of October 2025 we have been married for 2 years and we are both happily serving God in his kingdom together and serving our neighbors in our local community. We attend Jesus is Lord church together on a regular basis but we ultimately worship God in the spirit and in truth and so we are not always in physical attendance at a particular church building, we believe God is everywhere and that we can worship him wherever we are.</p>
-        <br>
-        <p>I am currently making a transition between jobs. As I am located in the Philippines I am looking for remote work in data analysis, data science, or a related field. While I am pursuing that goal of a new career in data analysis I might also take a job in the short term as a math tutor online with a platform that allows for internationally located tutors.</p>
+      <!-- === Prose Content (from about.md body) === -->
+      <div class="container mx-auto px-4 py-16 md:py-24 max-w-4xl prose">
+        
+        <p>I am a 39 year old male (born September, 1986) who is a citizen of the United States and am currently residing in the country of The Philippines. I grew up spending copious amounts of time studying chess and teaching myself programming and how to use computers. I also learned to love sports and enjoy physical activities like walking, hiking, playing tennis, playing various other sports (just for fun and for exercise and perhaps a little friendly competition).</p>
+        <br>
+        <p>After graduating from the University of Washington in Seattle, WA USA in 2008 with a B.S. in chemical engineering I got a job in process engineering and worked only for a short time before there was a major economic catastrophe in the USA which shaped many people's lives, including mine. I was laid off less than 1 year after starting this first job out of college and I found myself questioning life and the purpose and meaning of it.</p>
+        <br>
+        <p>It was at this time I started attending church and I heard and believed the gospel of Jesus Christ. I was subsequently baptized in the summer of 2009 at age 23 and gave my life to God and his son Jesus Christ. I subsequently found an obliquely related field of work with Honeywell Process Solutions and worked for them for about 3 years. I was then offered an opportunity that after much deliberation I decided would be better for me in the future. It was about 1 year after I accepted this job with a military contractor called GP Strategies working on a simulator of a process control system that I was baptized by the Holy Spirit, which profoundly changed my life even more than when I initially was introduced to Jesus and his saving grace. It was at this time I received many spiritual blessings, witnessed many truly supernatural miracles and God brought me through a season "in the wilderness" where I had many trials and difficult times (including problems with mental health, homelessness, financial difficulties as a result, and tensions within my immediate family). This started around 2013 and even as all this was happening I still continued to tutor math and continued to attend church and read the Holy Bible and pray always. I didn't have it easy, but I learned a lot about God and I am very grateful for this time in my life because it taught me to prioritize and think clearly, with perspective, about my life.</p>
+        <br>
+        <p>In 2023 I found a lovely woman on a Christian dating site called Plenty of Fish. We got married after speaking to each other for about 9 months via video call, much praying and fasting and talking with our loved ones and trusted friends, months of pre-marital counselling offered through my church, and meeting each other in person in Cyprus where my wife happened to be working at the time (she is a citizen of the Philippines). As of October 2025 we have been married for 2 years and we are both happily serving God in his kingdom together and serving our neighbors in our local community. We attend Jesus is Lord church together on a regular basis but we ultimately worship God in the spirit and in truth and so we are not always in physical attendance at a particular church building, we believe God is everywhere and that we can worship him wherever we are.</p>
+        <br>
+        <p>I am currently making a transition between jobs. As I am located in the Philippines I am looking for remote work in data analysis, data science, or a related field. While I am pursuing that goal of a new career in data analysis I might also take a job in the short term as a math tutor online with a platform that allows for internationally located tutors.</p>
+        <br>
+        <p>I am also currently studying theology, SQL programming, Python programming, chess, statistics (frequentist and Bayesian approaches), and I still enjoy taking experimental high-range intelligence tests; both for the joy I get from solving the problems and for the reminder that God made me differently, motivating me to work hard and share my unique abilities with others.</p>
+        <br>
+        <p>Other things I am interested in include poetry, song-writing, gift-giving, personal health and fitness and nutrition, longevity, psychometrics in a general sense, investing, and learning other languages (although I will admit, this is not one of my strong abilities).</p>
+        <br>
+        <p><a href="certs.html">Certificates</a></p>
 
-        <br>
-        <p>I am also currently studying theology, SQL programming, Python programming, chess, statistics (frequentist and Bayesian approaches), and I still enjoy taking experimental high-range intelligence tests; both for the joy I get from solving the problems and for the reminder that God made me differently, motivating me to work hard and share my unique abilities with others.</p>
-  -
-      <p>Other things I am interested in include poetry, song-writing, gift-giving, personal health and fitness and nutrition, longevity, psychometrics in a general sense, investing, and learning other languages (although I will admit, this is not one of my strong abilities).</p>
-  
-        <br>
-        <p><a href="certs.html">Certificates</a></p>
+      </div> <!-- /prose container -->
+    </main>
 
-      </div> <!-- /prose container -->
-    </main>
+    <!-- === Footer (Consistent with index.html) === -->
+    <footer class="bg-gray-100 dark:bg-gray-900 text-complementary dark:text-onComplementary py-12">
+      <div class="container mx-auto px-4 text-center">
+        <div class="flex justify-center space-x-6 mb-4">
+          <a href="mailto:andyhayles@gmail.com" class="hover:text-primary dark:hover:text-secondary">Contact</a>
+          <a href="https://github.com/andrewhayles/" target="_blank" rel="noopener noreferrer" class="hover:text-primary dark:hover:text-secondary">GitHub</a>
+        </div>
+        <!-- Copyright text from config.json -->
+        <p class="text-sm">Powered by <a href="https://www.netlify.com/" target="_blank" rel="noopener noreferrer" class="hover:text-primary dark:hover:text-secondary">Netlify</a></p>
+        <p class="text-sm">&copy; 2024 Andrew Hayles. All rights reserved.</p>
+      </div>
+    </footer>
 
-    <!-- === Footer (Consistent with index.html) === -->
-    <footer class="bg-gray-100 text-complementary py-12">
-
-s     <div class="container mx-auto px-4 text-center">
-        <div class="flex justify-center space-x-6 mb-4">
-          <a href="mailto:andyhayles@gmail.com" class="hover:text-primary">Contact</a>
-          <a href="https://github.com/andrewhayles/" target="_blank" rel="noopener noreferrer" class="hover:text-primary">GitHub</a>
-        </div>
-        <!-- Copyright text from config.json -->
-        <p class="text-sm">Powered by <a href="https://www.netlify.com/" target="_blank" rel="noopener noreferrer" class="hover:text-primary">Netlify</a></p>
-        <p class="text-sm">&copy; 2024 Andrew Hayles. All rights reserved.</p>
-      </div>
-    </footer>
-
-  </div><!-- /flex-col min-h-screen -->
+  </div><!-- /flex-col min-h-screen -->
 </body>
 </html>
-
