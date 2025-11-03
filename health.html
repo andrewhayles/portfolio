@@ -154,13 +154,11 @@
         
         <img src="/images/heatmap_normalized.webp" alt="The colors are normalized by row based on the value inside the box (the highest numbers are yellow, the lowest numbers are dark blue)">
         
-        <p>Then the following is produced. This is a correlation table. The darker the red color, the higher the positive correlation. The darker the blue color, the lower the negative correlation. As can be seen, there is a very strong positive correlation between heart rate, stress, and blood pressure. These are apparently very tightly linked physiological indicators. The colors are shown for all possible correlations in the table but the numbers are only included if they are statistically significant:</p>
+        <p>Then the following is produced. This is a correlation table. The darker the red color, the stronger the positive correlation. The darker the blue color, the stronger the negative correlation. As can be seen, there is a very strong positive correlation between heart rate, stress, and blood pressure. These are apparently very tightly linked physiological indicators. The colors are shown for all possible correlations in the table but the numbers are only included if they are statistically significant:</p>
         
         <img src="/images/heatmap_correlations.webp" alt="These are the correlations of the variables with each other, the more red the higher positive, the more blue the lower negative">
-        
-        <p>When the previous night's sleep data is checked for relationship to health markers, something significant happens. The effect of sleep becomes more manifest. There is a modest negative correlation between previous night's sleep and many of the health markers, including stress levels and blood pressure. This is not manifest in the previous correlation table because this table is based on <em>that night's</em> sleep, in other words, it checks to see how does the day's stress and blood pressure affect sleep that night. The following graph checks to see how does the previous night affect the following day's blood pressure and stress level, and in this there is a modest but significant correlation.</p>
-        
-        <img src="/images/correlation_matrix_previous_night.webp" alt="Correlations for previous night's sleep">
+		
+		<p>There are some interesting negative correlations that have arisen since the last time I ran this script that are significant, including one with total sleep and weight, and with deep sleep and blood pressure and also heart rate</p>
         
         <p>Lastly, a table is produced with ranges of the variables (this tells me how my health markers vary somewhat) and some other useful information. To get the variance throughout the day, actually looking at the data in the software application on my smart phone is necessary and predictable trends are manifest, stress rises when I wake up, reaches a peak, and decreases towards bed time. Blood pressure and heart rate share a similar pattern. If I get sick or have a night of poor sleep, stress, blood pressure, and heart rate tend to be higher:</p>
         <br>
